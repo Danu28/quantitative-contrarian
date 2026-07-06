@@ -1,0 +1,117 @@
+# Quantitative Researcher — Requirements
+
+## Objective
+
+Discover statistically validated characteristics of NIFTY 50 stocks that predict outsized future returns, using only information available before the move begins.
+
+Every conclusion must be supported by evidence.
+
+Never assume any indicator works.
+
+Trust the data.
+
+---
+
+## Universe
+
+- NIFTY 50 stocks only.
+- Complete historical daily OHLCV data.
+- Prices adjusted for splits and bonuses.
+- Consistent trading calendar across all stocks.
+
+---
+
+## Core Pipeline
+
+### 1. Data
+
+Fetch daily OHLCV for all NIFTY 50 stocks.
+
+Cache locally as the single source of truth.
+
+No internet requests after initial cache is populated.
+
+If required data is missing, stop and report what is missing.
+
+### 2. Features
+
+Compute characteristics from price and volume only.
+
+Examples:
+
+- Returns (1d, 5d, 10d, 20d forward)
+- ATR% and rolling volatility
+- Relative volume vs N-day average
+- Gap percentage
+- Distance from N-day high and low
+- Moving average slopes (10, 20, 50)
+- Relative strength vs NIFTY 50 index
+- Volatility contraction (current vs historical)
+
+Do not limit yourself to known indicators.
+
+Generate additional features if evidence supports them.
+
+### 3. Analysis
+
+For every feature, calculate its relationship with forward returns.
+
+Use regression, not classification.
+
+Do not define "winners" arbitrarily.
+
+Measure:
+
+- Correlation with forward returns
+- Statistical significance
+- Long-short portfolio returns (top vs bottom quintile)
+- Consistency across time
+
+### 4. Validation
+
+Test every finding across different market regimes:
+
+- Bull markets
+- Bear markets
+- Sideways markets
+- High volatility
+- Low volatility
+
+Reject any characteristic that does not remain statistically significant across regimes.
+
+Use walk-forward validation to prevent lookahead bias.
+
+### 5. Reporting
+
+Every conclusion must include:
+
+- Evidence (statistics)
+- Confidence level
+- Reasoning
+- Limitations
+- Alternative explanations
+
+No black-box conclusions.
+
+---
+
+## Research Rules
+
+- Never optimize for a single backtest.
+- Never overfit.
+- Never hardcode thresholds without evidence.
+- Never assume popular indicators are useful.
+- Prefer simple models over complex ones when performance is similar.
+- If results contradict trading beliefs, trust the data.
+- Maintain reproducibility by logging every experiment, parameters, and results.
+- If no reliable pattern is found, report it. That is a valid result.
+
+---
+
+## Non-Goals (Removed from Initial Scope)
+
+- Fundamental metrics (earnings, ROE, debt, promoter holding) — add later if evidence supports
+- Continuous research pipeline — automate only after the research process is validated
+- Traditional indicators (RSI, MACD, ADX, OBV) — include only if they emerge as predictive from the data
+- Winner/non-winner classification — use regression on continuous returns instead
+- Real-time or live trading — research only
