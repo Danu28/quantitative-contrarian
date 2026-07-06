@@ -8,6 +8,7 @@ import pandas as pd
 from src.backtest import generate_signals
 from src.db import DB_PATH, load_data, load_universe
 from src.features import precompute_all_characteristics
+from src.reporting import forward_check_html
 
 
 def find_trading_dates(data, date, ahead):
@@ -52,86 +53,7 @@ def build_horizon_results(data, sig, entry_date, horizons):
 
 
 def generate_html(entry_date, sig, horizon_data, horizons, capital):
-    now = pd.Timestamp.now().strftime("%Y-%m-%d %H:%M")
-    rows_html = "".join(f"""
-        <tr><td>{r['rank']}</td><td>{r['symbol']}</td><td>{r['close']:.2f}</td><td>{r['conviction']:.4f}</td></tr>"""
-        for _, r in sig.iterrows())
-
-    horizon_sections = ""
-    for h in horizons:
-        hd = horizon_data.get(h, {})
-        df = hd.get("df", pd.DataFrame())
-        if df.empty:
-            horizon_sections += f"<h2>{h} Trading Days</h2><p class='no-data'>Insufficient data</p>"
-            continue
-        exit_date = hd.get("exit_date")
-        dates = hd.get("dates", [])
-        n_days = len(dates) - 1 if len(dates) > 1 else 0
-        cal_days = (exit_date - entry_date).days if exit_date else 0
-        winners = df[df["return_pct"] > 0] if not df.empty else pd.DataFrame()
-        wr = f"{len(winners)}/{len(df)} ({len(winners)/len(df)*100:.0f}%)" if len(df) > 0 else "N/A"
-        avg_ret = df["return_pct"].mean() if not df.empty else 0
-        best_row = df.loc[df["return_pct"].idxmax()] if not df.empty and df["return_pct"].notna().any() else None
-        worst_row = df.loc[df["return_pct"].idxmin()] if not df.empty and df["return_pct"].notna().any() else None
-        trs = ""
-        for _, r in df.iterrows():
-            cls = "win" if r["return_pct"] is not None and r["return_pct"] > 0 else "loss"
-            ret_s = f"{r['return_pct']:+.2f}%" if r["return_pct"] is not None else "N/A"
-            min_s = f"{r['min_intra_pct']:+.2f}%" if r["min_intra_pct"] is not None else "N/A"
-            trs += f"<tr class='{cls}'><td>{r['symbol']}</td><td>{entry_date.strftime('%Y-%m-%d')}</td><td>{r['entry_price']:.2f}</td><td>{r['exit_date'].strftime('%Y-%m-%d')}</td><td>{r['exit_price']:.2f}</td><td>{ret_s}</td><td>{min_s}</td></tr>"
-        best_s = f"{best_row['symbol']} ({best_row['return_pct']:+.2f}%)" if best_row is not None else "N/A"
-        worst_s = f"{worst_row['symbol']} ({worst_row['return_pct']:+.2f}%)" if worst_row is not None else "N/A"
-        horizon_sections += f"""
-        <div class="horizon-section"><h2>{h} Trading Days</h2><p>Entry: {entry_date.strftime('%Y-%m-%d')} -> Exit: {exit_date.strftime('%Y-%m-%d')} ({cal_days} cal days, {n_days} trading days)</p>
-        <table><tr><th>Symbol</th><th>Entry Date</th><th>Entry Price</th><th>Exit Date</th><th>Exit Price</th><th>Return</th><th>Min Intra</th></tr>{trs}</table>
-        <div class="summary"><p><strong>Winners:</strong> {wr} | <strong>Avg Return:</strong> {avg_ret:+.2f}% | <strong>Best:</strong> {best_s} | <strong>Worst:</strong> {worst_s}</p></div></div>"""
-
-    cross_rows = ""
-    all_rets = {}
-    for _, row in sig.iterrows():
-        sym = row["symbol"]
-        all_rets[sym] = {}
-        for h in horizons:
-            for r in horizon_data.get(h, {}).get("results", []):
-                if r["symbol"] == sym and r["return_pct"] is not None:
-                    all_rets[sym][h] = r["return_pct"]
-    for sym in all_rets:
-        rets = all_rets[sym]
-        vals = [v for v in rets.values() if v is not None]
-        avg = sum(vals) / len(vals) if vals else 0
-        cells = "".join(f"<td class='{'win' if rets.get(h,0)>0 else 'loss'}'>" + (f"{rets[h]:+.2f}%" if h in rets else "N/A") + "</td>" for h in horizons)
-        avg_cls = "win" if avg > 0 else "loss"
-        cross_rows += f"<tr><td>{sym}</td>{cells}<td class='{avg_cls}'>{avg:+.2f}%</td></tr>"
-
-    html = f"""<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><title>Forward Return Report - {entry_date.strftime('%Y-%m-%d')}</title>
-<style>
-body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 30px; background: #f5f5f5; color: #333; }}
-.container {{ max-width: 1100px; margin: auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }}
-h1 {{ margin: 0 0 5px; color: #1a1a2e; }}
-.subtitle {{ color: #666; font-size: 14px; margin-bottom: 20px; }}
-.header-grid {{ display: flex; gap: 20px; margin-bottom: 24px; flex-wrap: wrap; }}
-.header-item {{ background: #f8f9fa; padding: 12px 20px; border-radius: 6px; flex: 1; min-width: 120px; }}
-.header-item label {{ display: block; font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }}
-.header-item .value {{ font-size: 18px; font-weight: 600; color: #1a1a2e; }}
-h2 {{ color: #1a1a2e; border-bottom: 2px solid #e9ecef; padding-bottom: 8px; margin-top: 30px; }}
-table {{ width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }}
-th, td {{ padding: 10px 12px; text-align: left; border-bottom: 1px solid #e9ecef; }}
-th {{ background: #f8f9fa; font-weight: 600; color: #555; }}
-.win {{ color: #2d7d2d; font-weight: 600; }}
-.loss {{ color: #c0392b; font-weight: 600; }}
-.summary {{ background: #f8f9fa; padding: 12px 16px; border-radius: 6px; margin: 8px 0; font-size: 14px; }}
-.footer {{ margin-top: 30px; padding-top: 16px; border-top: 1px solid #e9ecef; font-size: 12px; color: #999; }}
-</style></head><body><div class="container">
-<h1>Forward Return Report</h1><div class="subtitle">Generated {now}</div>
-<div class="header-grid"><div class="header-item"><label>Entry Date</label><div class="value">{entry_date.strftime('%Y-%m-%d')}</div></div>
-<div class="header-item"><label>Signals</label><div class="value">{len(sig)}</div></div>
-<div class="header-item"><label>Capital</label><div class="value">INR {capital:,.0f}</div></div></div>
-<h2>Signals</h2><table><tr><th>Rank</th><th>Symbol</th><th>Close</th><th>Conviction</th></tr>{rows_html}</table>
-{horizon_sections}
-<h2>Cross-Horizon Summary</h2><table><tr><th>Symbol</th>{"".join(f'<th>{h}d</th>' for h in horizons)}<th>Avg</th></tr>{cross_rows}</table>
-<div class="footer">Forward Return Check</div></div></body></html>"""
-    return html
+    return forward_check_html(entry_date, sig, horizon_data, horizons, capital)
 
 
 def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20), capital=10_000_000, output=None):
