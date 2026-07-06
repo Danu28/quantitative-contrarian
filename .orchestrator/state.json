@@ -1,61 +1,36 @@
 {
   "pipeline": {
-    "current_stage": "build",
+    "current_stage": "validate",
     "stages": {
       "think": {
         "status": "completed",
         "skill": "first-principles",
-        "notes": "Reverse-engineering approach defined. Winner definition, pre-move analysis methodology, and validation gates specified. Pipeline building explicitly deferred until discovery is validated."
+        "notes": "Reverse-engineering approach defined. Winner definition, pre-move analysis methodology, and validation gates specified."
       },
       "research": {
         "status": "completed",
         "skill": "quant-research",
-        "notes": "Full research cycle complete. 8 characteristics replicated OOS. Winner profile: high volatility, wide ranges, deep drawdowns, elevated volume, price near lows. Contrarian/volatility-breakout edge."
+        "notes": "Full research cycle complete. 8 characteristics replicated OOS. Winner profile: contrarian/volatility-breakout edge."
       },
       "classify": {
         "status": "completed",
         "skill": "market-regime",
-        "notes": "Edge is regime-stable across all market conditions. 7/8 replicated characteristics survive bull/bear/sideways. Edge strongest in low-volatility regimes (stocks with high relative volatility stand out), weakest in strong bull. Activation rules, deactivation rules, and risk rules defined. Documented in FINDINGS.md."
-      },
-      "classify": {
-        "status": "in_progress",
-        "skill": "market-regime",
-        "notes": "Research complete: 8 validated characteristics. Ready to determine which market regimes the winner profile survives and define activation/deactivation rules."
+        "notes": "Edge is regime-stable. Activation/deactivation rules defined in FINDINGS.md."
       },
       "design": {
         "status": "completed",
         "skill": "strategy-design",
-        "notes": "Complete strategy specification added to FINDINGS.md. Entry rules (5 conditions), exit rules (profit target, stop loss, time stop, trailing stop, emergency exit), position sizing (equal weight with regime multipliers), risk management (daily/weekly/portfolio limits), and failure conditions defined. Ready for backtesting."
+        "notes": "Complete strategy specification in FINDINGS.md. 5 entry conditions, 6 exit rules, regime-based sizing."
       },
       "validate": {
         "status": "completed",
         "skill": "backtesting",
-        "notes": "Multi-horizon backtest completed. 20-day horizon best: CAGR 4.67%, MaxDD -9.48%, Win Rate 55%, Profit Factor 1.40, 189 trades. Edge is real but modest. User accepted as low-risk diversifier. Full validation report appended to FINDINGS.md."
-      },
-      "research": {
-        "status": "completed",
-        "skill": "quant-research",
-        "notes": "Completed original run + iteration. 8 characteristics replicated OOS. 20-day horizon selected as optimal. Research complete."
-      },
-      "classify": {
-        "status": "completed",
-        "skill": "market-regime",
-        "notes": "Edge regime-stable across all conditions. Activation/deactivation rules defined."
-      },
-      "design": {
-        "status": "completed",
-        "skill": "strategy-design",
-        "notes": "Complete strategy specification in FINDINGS.md."
-      },
-      "validate": {
-        "status": "pending",
-        "skill": "backtesting",
-        "notes": null
+        "notes": "Comprehensive backtest completed via backtest_engine.py. 5/10/21d horizons tested. Best: 10d (CAGR 4.16%, MaxDD -7.78%, Sharpe -0.30). All horizons positive CAGR, low drawdowns, but negative Sharpe vs 6.5% RFR. Recommendation: Requires Additional Research — edge exists but too modest standalone."
       },
       "build": {
         "status": "completed",
         "skill": "dev-loop",
-        "notes": "6 tasks completed. All modules built: signal_generator, portfolio, main, report, dashboard. CAGR 3.93%, MaxDD -6.49%, 219 trades on 3-year window."
+        "notes": "6 build tasks complete. signal_generator, portfolio, main, dashboard deployed."
       }
     }
   },

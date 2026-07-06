@@ -46,5 +46,13 @@
     "dependencies": ["task_4", "task_5"],
     "priority": "medium",
     "type": "verification"
+  },
+  {
+    "id": "task_7",
+    "title": "Add --output HTML report to forward_check.py",
+    "description": "Add --output flag to forward_check.py that generates a self-contained HTML report with entry/exit dates, prices, returns, color-coded win/loss, cross-horizon comparison.",
+    "dependencies": [],
+    "priority": "high",
+    "type": "implementation"
   }
 ]
