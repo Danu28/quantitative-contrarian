@@ -1,0 +1,248 @@
+{
+  "name": "NIFTY 50",
+  "slug": "nifty50",
+  "index_ticker": "^NSEI",
+  "description": "NIFTY 50 is the benchmark broad-based index representing the top 50 companies by market capitalization listed on NSE.",
+  "constituents": [
+    {
+      "symbol": "RELIANCE.NS",
+      "sector": "Energy",
+      "companyName": "Reliance Industries"
+    },
+    {
+      "symbol": "TCS.NS",
+      "sector": "Information Technology",
+      "companyName": "Tata Consultancy Services"
+    },
+    {
+      "symbol": "HDFCBANK.NS",
+      "sector": "Financial Services",
+      "companyName": "HDFC Bank"
+    },
+    {
+      "symbol": "INFY.NS",
+      "sector": "Information Technology",
+      "companyName": "Infosys"
+    },
+    {
+      "symbol": "ICICIBANK.NS",
+      "sector": "Financial Services",
+      "companyName": "ICICI Bank"
+    },
+    {
+      "symbol": "HINDUNILVR.NS",
+      "sector": "Fast Moving Consumer Goods",
+      "companyName": "Hindustan Unilever"
+    },
+    {
+      "symbol": "ITC.NS",
+      "sector": "Fast Moving Consumer Goods",
+      "companyName": "ITC"
+    },
+    {
+      "symbol": "SBIN.NS",
+      "sector": "Financial Services",
+      "companyName": "State Bank of India"
+    },
+    {
+      "symbol": "BHARTIARTL.NS",
+      "sector": "Telecommunication",
+      "companyName": "Bharti Airtel"
+    },
+    {
+      "symbol": "KOTAKBANK.NS",
+      "sector": "Financial Services",
+      "companyName": "Kotak Mahindra Bank"
+    },
+    {
+      "symbol": "LT.NS",
+      "sector": "Construction",
+      "companyName": "Larsen & Toubro"
+    },
+    {
+      "symbol": "WIPRO.NS",
+      "sector": "Information Technology",
+      "companyName": "Wipro"
+    },
+    {
+      "symbol": "AXISBANK.NS",
+      "sector": "Financial Services",
+      "companyName": "Axis Bank"
+    },
+    {
+      "symbol": "BAJFINANCE.NS",
+      "sector": "Financial Services",
+      "companyName": "Bajaj Finance"
+    },
+    {
+      "symbol": "MARUTI.NS",
+      "sector": "Automobile",
+      "companyName": "Maruti Suzuki India"
+    },
+    {
+      "symbol": "SUNPHARMA.NS",
+      "sector": "Healthcare",
+      "companyName": "Sun Pharmaceutical Industries"
+    },
+    {
+      "symbol": "TITAN.NS",
+      "sector": "Consumer Goods",
+      "companyName": "Titan Company"
+    },
+    {
+      "symbol": "ULTRACEMCO.NS",
+      "sector": "Construction Materials",
+      "companyName": "UltraTech Cement"
+    },
+    {
+      "symbol": "NTPC.NS",
+      "sector": "Power",
+      "companyName": "NTPC"
+    },
+    {
+      "symbol": "POWERGRID.NS",
+      "sector": "Power",
+      "companyName": "Power Grid Corporation"
+    },
+    {
+      "symbol": "M&M.NS",
+      "sector": "Automobile",
+      "companyName": "Mahindra & Mahindra"
+    },
+    {
+      "symbol": "ASIANPAINT.NS",
+      "sector": "Consumer Goods",
+      "companyName": "Asian Paints"
+    },
+    {
+      "symbol": "HCLTECH.NS",
+      "sector": "Information Technology",
+      "companyName": "HCL Technologies"
+    },
+    {
+      "symbol": "NESTLEIND.NS",
+      "sector": "Fast Moving Consumer Goods",
+      "companyName": "Nestlé India"
+    },
+    {
+      "symbol": "JSWSTEEL.NS",
+      "sector": "Metals & Mining",
+      "companyName": "JSW Steel"
+    },
+    {
+      "symbol": "TATASTEEL.NS",
+      "sector": "Metals & Mining",
+      "companyName": "Tata Steel"
+    },
+    {
+      "symbol": "ADANIPORTS.NS",
+      "sector": "Services",
+      "companyName": "Adani Ports & SEZ"
+    },
+    {
+      "symbol": "COALINDIA.NS",
+      "sector": "Energy",
+      "companyName": "Coal India"
+    },
+    {
+      "symbol": "GRASIM.NS",
+      "sector": "Construction Materials",
+      "companyName": "Grasim Industries"
+    },
+    {
+      "symbol": "BAJAJ-AUTO.NS",
+      "sector": "Automobile",
+      "companyName": "Bajaj Auto"
+    },
+    {
+      "symbol": "HEROMOTOCO.NS",
+      "sector": "Automobile",
+      "companyName": "Hero MotoCorp"
+    },
+    {
+      "symbol": "EICHERMOT.NS",
+      "sector": "Automobile",
+      "companyName": "Eicher Motors"
+    },
+    {
+      "symbol": "HINDALCO.NS",
+      "sector": "Metals & Mining",
+      "companyName": "Hindalco Industries"
+    },
+    {
+      "symbol": "TECHM.NS",
+      "sector": "Information Technology",
+      "companyName": "Tech Mahindra"
+    },
+    {
+      "symbol": "ONGC.NS",
+      "sector": "Energy",
+      "companyName": "Oil & Natural Gas Corporation"
+    },
+    {
+      "symbol": "BPCL.NS",
+      "sector": "Energy",
+      "companyName": "Bharat Petroleum Corporation"
+    },
+    {
+      "symbol": "BRITANNIA.NS",
+      "sector": "Fast Moving Consumer Goods",
+      "companyName": "Britannia Industries"
+    },
+    {
+      "symbol": "INDUSINDBK.NS",
+      "sector": "Financial Services",
+      "companyName": "IndusInd Bank"
+    },
+    {
+      "symbol": "SBILIFE.NS",
+      "sector": "Financial Services",
+      "companyName": "SBI Life Insurance"
+    },
+    {
+      "symbol": "BAJAJFINSV.NS",
+      "sector": "Financial Services",
+      "companyName": "Bajaj Finserv"
+    },
+    {
+      "symbol": "CIPLA.NS",
+      "sector": "Healthcare",
+      "companyName": "Cipla"
+    },
+    {
+      "symbol": "DIVISLAB.NS",
+      "sector": "Healthcare",
+      "companyName": "Divis Laboratories"
+    },
+    {
+      "symbol": "DRREDDY.NS",
+      "sector": "Healthcare",
+      "companyName": "Dr. Reddy's Laboratories"
+    },
+    {
+      "symbol": "APOLLOHOSP.NS",
+      "sector": "Healthcare Services",
+      "companyName": "Apollo Hospitals Enterprise"
+    },
+    {
+      "symbol": "ADANIENT.NS",
+      "sector": "Metals & Mining",
+      "companyName": "Adani Enterprises"
+    },
+    {
+      "symbol": "HDFCLIFE.NS",
+      "sector": "Financial Services",
+      "companyName": "HDFC Life Insurance"
+    },
+    {
+      "symbol": "BEL.NS",
+      "sector": "Industrials",
+      "companyName": "Bharat Electronics"
+    },
+    {
+      "symbol": "TRENT.NS",
+      "sector": "Retail",
+      "companyName": "Trent"
+    }
+  ]
+}

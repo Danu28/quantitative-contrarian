@@ -1,0 +1,743 @@
+{
+  "name": "NIFTY Midcap 150",
+  "slug": "niftymidcap150",
+  "index_ticker": "^NSEI",
+  "description": "NIFTY Midcap 150 represents companies ranked 101-250 by full market capitalisation from NIFTY 500.",
+  "constituents": [
+    {
+      "symbol": "ABBOTINDIA.NS",
+      "sector": "Healthcare",
+      "companyName": "Abbott"
+    },
+    {
+      "symbol": "ABCAPITAL.NS",
+      "sector": "Financial Services",
+      "companyName": "Aditya Birla Capital"
+    },
+    {
+      "symbol": "ABFRL.NS",
+      "sector": "Retail",
+      "companyName": "Aditya Birla Fashion & Retail"
+    },
+    {
+      "symbol": "ACC.NS",
+      "sector": "Construction",
+      "companyName": "ACC"
+    },
+    {
+      "symbol": "AIAENG.NS",
+      "sector": "Industrial Products",
+      "companyName": "AIA Engineering"
+    },
+    {
+      "symbol": "AJANTPHARM.NS",
+      "sector": "Healthcare",
+      "companyName": "Ajanta Pharma"
+    },
+    {
+      "symbol": "ALKEM.NS",
+      "sector": "Healthcare",
+      "companyName": "Alkem Laboratories"
+    },
+    {
+      "symbol": "APARINDS.NS",
+      "sector": "Capital Goods",
+      "companyName": "Apar Industries"
+    },
+    {
+      "symbol": "APLAPOLLO.NS",
+      "sector": "Industrial Products",
+      "companyName": "APL Apollo Tubes"
+    },
+    {
+      "symbol": "APOLLOTYRE.NS",
+      "sector": "Automobiles",
+      "companyName": "Apollo Tyres"
+    },
+    {
+      "symbol": "ASHOKLEY.NS",
+      "sector": "Automobiles",
+      "companyName": "Ashok Leyland"
+    },
+    {
+      "symbol": "ASTRAL.NS",
+      "sector": "Industrial Products",
+      "companyName": "Astral"
+    },
+    {
+      "symbol": "ATGL.NS",
+      "sector": "Oil & Gas",
+      "companyName": "Adani Total Gas"
+    },
+    {
+      "symbol": "AUBANK.NS",
+      "sector": "Banks",
+      "companyName": "AU Small Finance Bank"
+    },
+    {
+      "symbol": "AUROPHARMA.NS",
+      "sector": "Healthcare",
+      "companyName": "Aurobindo Pharma"
+    },
+    {
+      "symbol": "AWL.NS",
+      "sector": "FMCG",
+      "companyName": "AWL Agri Business"
+    },
+    {
+      "symbol": "BALKRISIND.NS",
+      "sector": "Automobiles",
+      "companyName": "Balkrishna Industries"
+    },
+    {
+      "symbol": "BANDHANBNK.NS",
+      "sector": "Banks",
+      "companyName": "Bandhan Bank"
+    },
+    {
+      "symbol": "BANKINDIA.NS",
+      "sector": "Banks",
+      "companyName": "Bank of India"
+    },
+    {
+      "symbol": "BDL.NS",
+      "sector": "Aerospace & Defense",
+      "companyName": "Bharat Dynamics"
+    },
+    {
+      "symbol": "BERGEPAINT.NS",
+      "sector": "Consumer Goods",
+      "companyName": "Berger Paints"
+    },
+    {
+      "symbol": "BHARATFORG.NS",
+      "sector": "Automobiles",
+      "companyName": "Bharat Forge"
+    },
+    {
+      "symbol": "BHARTIHEXA.NS",
+      "sector": "Telecom",
+      "companyName": "Bharti Hexacom"
+    },
+    {
+      "symbol": "BHEL.NS",
+      "sector": "Capital Goods",
+      "companyName": "Bharat Heavy Electricals"
+    },
+    {
+      "symbol": "BIOCON.NS",
+      "sector": "Healthcare",
+      "companyName": "Biocon"
+    },
+    {
+      "symbol": "BLUESTARCO.NS",
+      "sector": "Consumer Goods",
+      "companyName": "Blue Star"
+    },
+    {
+      "symbol": "COCHINSHIP.NS",
+      "sector": "Capital Goods",
+      "companyName": "Cochin Shipyard"
+    },
+    {
+      "symbol": "COFORGE.NS",
+      "sector": "Information Technology",
+      "companyName": "Coforge"
+    },
+    {
+      "symbol": "COLPAL.NS",
+      "sector": "Consumer Goods",
+      "companyName": "Colgate Palmolive"
+    },
+    {
+      "symbol": "CONCOR.NS",
+      "sector": "Logistics & Cargo",
+      "companyName": "Container Corporation of India"
+    },
+    {
+      "symbol": "COROMANDEL.NS",
+      "sector": "Chemicals",
+      "companyName": "Coromandel International"
+    },
+    {
+      "symbol": "CRISIL.NS",
+      "sector": "Financial Services",
+      "companyName": "CRISIL"
+    },
+    {
+      "symbol": "CUMMINSIND.NS",
+      "sector": "Industrial Products",
+      "companyName": "Cummins"
+    },
+    {
+      "symbol": "DALBHARAT.NS",
+      "sector": "Construction",
+      "companyName": "Dalmia Bharat"
+    },
+    {
+      "symbol": "DEEPAKNTR.NS",
+      "sector": "Chemicals",
+      "companyName": "Deepak Nitrite"
+    },
+    {
+      "symbol": "DIXON.NS",
+      "sector": "Consumer Goods",
+      "companyName": "Dixon Technologies"
+    },
+    {
+      "symbol": "EMAMILTD.NS",
+      "sector": "Consumer Goods",
+      "companyName": "Emami"
+    },
+    {
+      "symbol": "ENDURANCE.NS",
+      "sector": "Automobiles",
+      "companyName": "Endurance Technologies"
+    },
+    {
+      "symbol": "ESCORTS.NS",
+      "sector": "Automobiles",
+      "companyName": "Escorts Kubota"
+    },
+    {
+      "symbol": "EXIDEIND.NS",
+      "sector": "Automobiles",
+      "companyName": "Exide Industries"
+    },
+    {
+      "symbol": "FEDERALBNK.NS",
+      "sector": "Banks",
+      "companyName": "Federal Bank"
+    },
+    {
+      "symbol": "FLUOROCHEM.NS",
+      "sector": "Chemicals",
+      "companyName": "Gujarat Fluorochemicals"
+    },
+    {
+      "symbol": "FORTIS.NS",
+      "sector": "Healthcare Services",
+      "companyName": "Fortis Healthcare"
+    },
+    {
+      "symbol": "GICRE.NS",
+      "sector": "Insurance",
+      "companyName": "GIC of India"
+    },
+    {
+      "symbol": "GLAND.NS",
+      "sector": "Healthcare",
+      "companyName": "Gland Pharma"
+    },
+    {
+      "symbol": "GLAXO.NS",
+      "sector": "Healthcare",
+      "companyName": "GlaxoSmithKline Pharmaceuticals"
+    },
+    {
+      "symbol": "GLENMARK.NS",
+      "sector": "Healthcare",
+      "companyName": "Glenmark Pharmaceuticals"
+    },
+    {
+      "symbol": "GMRAIRPORT.NS",
+      "sector": "Transport",
+      "companyName": "GMR Airports"
+    },
+    {
+      "symbol": "GODREJIND.NS",
+      "sector": "Diversified",
+      "companyName": "Godrej Industries"
+    },
+    {
+      "symbol": "GODREJPROP.NS",
+      "sector": "Realty",
+      "companyName": "Godrej Properties"
+    },
+    {
+      "symbol": "GUJENERGY.NS",
+      "sector": "Oil & Gas",
+      "companyName": "Gujarat Energy"
+    },
+    {
+      "symbol": "GVT&D.NS",
+      "sector": "Capital Goods",
+      "companyName": "GE Vernova T&D"
+    },
+    {
+      "symbol": "HDFCAMC.NS",
+      "sector": "Capital Markets",
+      "companyName": "HDFC AMC"
+    },
+    {
+      "symbol": "HINDPETRO.NS",
+      "sector": "Petroleum Products",
+      "companyName": "Hindustan Petroleum"
+    },
+    {
+      "symbol": "HINDZINC.NS",
+      "sector": "Metals & Mining",
+      "companyName": "Hindustan Zinc"
+    },
+    {
+      "symbol": "HONAUT.NS",
+      "sector": "Capital Goods",
+      "companyName": "Honeywell Automation"
+    },
+    {
+      "symbol": "HUDCO.NS",
+      "sector": "Financial Services",
+      "companyName": "HUDCO"
+    },
+    {
+      "symbol": "IDEA.NS",
+      "sector": "Telecom",
+      "companyName": "Vodafone Idea"
+    },
+    {
+      "symbol": "IDFCFIRSTB.NS",
+      "sector": "Banks",
+      "companyName": "IDFC First Bank"
+    },
+    {
+      "symbol": "IGL.NS",
+      "sector": "Oil & Gas",
+      "companyName": "Indraprastha Gas"
+    },
+    {
+      "symbol": "INDIANB.NS",
+      "sector": "Banks",
+      "companyName": "Indian Bank"
+    },
+    {
+      "symbol": "INDUSTOWER.NS",
+      "sector": "Telecom",
+      "companyName": "Indus Towers"
+    },
+    {
+      "symbol": "IPCALAB.NS",
+      "sector": "Healthcare",
+      "companyName": "IPCA Laboratories"
+    },
+    {
+      "symbol": "IRB.NS",
+      "sector": "Construction",
+      "companyName": "IRB Infrastructure Developers"
+    },
+    {
+      "symbol": "IRCTC.NS",
+      "sector": "Leisure Services",
+      "companyName": "IRCTC"
+    },
+    {
+      "symbol": "IREDA.NS",
+      "sector": "Financial Services",
+      "companyName": "IREDA"
+    },
+    {
+      "symbol": "JKCEMENT.NS",
+      "sector": "Construction",
+      "companyName": "JK Cement"
+    },
+    {
+      "symbol": "JSL.NS",
+      "sector": "Metals & Mining",
+      "companyName": "Jindal Stainless"
+    },
+    {
+      "symbol": "JSWINFRA.NS",
+      "sector": "Transport",
+      "companyName": "JSW Infrastructure"
+    },
+    {
+      "symbol": "JUBLFOOD.NS",
+      "sector": "Leisure Services",
+      "companyName": "Jubilant FoodWorks"
+    },
+    {
+      "symbol": "KALYANKJIL.NS",
+      "sector": "Consumer Goods",
+      "companyName": "Kalyan Jewellers"
+    },
+    {
+      "symbol": "KEI.NS",
+      "sector": "Industrial Products",
+      "companyName": "KEI Industries"
+    },
+    {
+      "symbol": "KPITTECH.NS",
+      "sector": "Information Technology",
+      "companyName": "KPIT Technologies"
+    },
+    {
+      "symbol": "KPRMILL.NS",
+      "sector": "Textiles",
+      "companyName": "KPR Mill"
+    },
+    {
+      "symbol": "LICHSGFIN.NS",
+      "sector": "Financial Services",
+      "companyName": "LIC Housing Finance"
+    },
+    {
+      "symbol": "LINDEINDIA.NS",
+      "sector": "Chemicals",
+      "companyName": "Linde"
+    },
+    {
+      "symbol": "LLOYDSME.NS",
+      "sector": "Metals & Mining",
+      "companyName": "Lloyds Metals & Energy"
+    },
+    {
+      "symbol": "LTF.NS",
+      "sector": "Financial Services",
+      "companyName": "L&T Finance"
+    },
+    {
+      "symbol": "LTTS.NS",
+      "sector": "Information Technology",
+      "companyName": "L&T Technology Services"
+    },
+    {
+      "symbol": "LUPIN.NS",
+      "sector": "Healthcare",
+      "companyName": "Lupin"
+    },
+    {
+      "symbol": "M&MFIN.NS",
+      "sector": "Financial Services",
+      "companyName": "M&M Financial Services"
+    },
+    {
+      "symbol": "MAHABANK.NS",
+      "sector": "Banks",
+      "companyName": "Bank of Maharashtra"
+    },
+    {
+      "symbol": "MANKIND.NS",
+      "sector": "Healthcare",
+      "companyName": "Mankind Pharma"
+    },
+    {
+      "symbol": "MARICO.NS",
+      "sector": "FMCG",
+      "companyName": "Marico"
+    },
+    {
+      "symbol": "MAXHEALTH.NS",
+      "sector": "Healthcare Services",
+      "companyName": "Max Healthcare Institute"
+    },
+    {
+      "symbol": "MAZDOCK.NS",
+      "sector": "Aerospace & Defense",
+      "companyName": "Mazagon Dock Shipbuilders"
+    },
+    {
+      "symbol": "MEDANTA.NS",
+      "sector": "Healthcare Services",
+      "companyName": "Global Health"
+    },
+    {
+      "symbol": "MFSL.NS",
+      "sector": "Insurance",
+      "companyName": "Max Financial Services"
+    },
+    {
+      "symbol": "MOTILALOFS.NS",
+      "sector": "Capital Markets",
+      "companyName": "Motilal Oswal Financial Services"
+    },
+    {
+      "symbol": "MPHASIS.NS",
+      "sector": "Information Technology",
+      "companyName": "Mphasis"
+    },
+    {
+      "symbol": "MRF.NS",
+      "sector": "Automobiles",
+      "companyName": "MRF"
+    },
+    {
+      "symbol": "MRPL.NS",
+      "sector": "Petroleum Products",
+      "companyName": "Mangalore Refinery & Petroleum"
+    },
+    {
+      "symbol": "MSUMI.NS",
+      "sector": "Automobiles",
+      "companyName": "Motherson Sumi Wiring"
+    },
+    {
+      "symbol": "MUTHOOTFIN.NS",
+      "sector": "Financial Services",
+      "companyName": "Muthoot Finance"
+    },
+    {
+      "symbol": "NAM-INDIA.NS",
+      "sector": "Capital Markets",
+      "companyName": "Nippon Life India AMC"
+    },
+    {
+      "symbol": "NATIONALUM.NS",
+      "sector": "Metals & Mining",
+      "companyName": "National Aluminium Company"
+    },
+    {
+      "symbol": "NHPC.NS",
+      "sector": "Power",
+      "companyName": "NHPC"
+    },
+    {
+      "symbol": "NIACL.NS",
+      "sector": "Insurance",
+      "companyName": "The New India Assurance Company"
+    },
+    {
+      "symbol": "NLCINDIA.NS",
+      "sector": "Power",
+      "companyName": "NLC India"
+    },
+    {
+      "symbol": "NMDC.NS",
+      "sector": "Metals & Mining",
+      "companyName": "NMDC"
+    },
+    {
+      "symbol": "NTPCGREEN.NS",
+      "sector": "Power",
+      "companyName": "NTPC Green Energy"
+    },
+    {
+      "symbol": "NYKAA.NS",
+      "sector": "Retail",
+      "companyName": "Nykaa"
+    },
+    {
+      "symbol": "OBEROIRLTY.NS",
+      "sector": "Realty",
+      "companyName": "Oberoi Realty"
+    },
+    {
+      "symbol": "OFSS.NS",
+      "sector": "Information Technology",
+      "companyName": "Oracle Financial Services Software"
+    },
+    {
+      "symbol": "OIL.NS",
+      "sector": "Oil & Gas",
+      "companyName": "Oil India"
+    },
+    {
+      "symbol": "OLAELEC.NS",
+      "sector": "Automobiles",
+      "companyName": "Ola Electric Mobility"
+    },
+    {
+      "symbol": "PAGEIND.NS",
+      "sector": "Textiles",
+      "companyName": "Page Industries"
+    },
+    {
+      "symbol": "PATANJALI.NS",
+      "sector": "FMCG",
+      "companyName": "Patanjali Foods"
+    },
+    {
+      "symbol": "PAYTM.NS",
+      "sector": "Financial Services",
+      "companyName": "One 97 Communications"
+    },
+    {
+      "symbol": "PERSISTENT.NS",
+      "sector": "Information Technology",
+      "companyName": "Persistent Systems"
+    },
+    {
+      "symbol": "PETRONET.NS",
+      "sector": "Oil & Gas",
+      "companyName": "Petronet LNG"
+    },
+    {
+      "symbol": "PHOENIXLTD.NS",
+      "sector": "Realty",
+      "companyName": "Phoenix Mills"
+    },
+    {
+      "symbol": "PIIND.NS",
+      "sector": "Chemicals",
+      "companyName": "PI Industries"
+    },
+    {
+      "symbol": "POLICYBZR.NS",
+      "sector": "Financial Services",
+      "companyName": "PB FinTech"
+    },
+    {
+      "symbol": "POLYCAB.NS",
+      "sector": "Industrial Products",
+      "companyName": "Polycab"
+    },
+    {
+      "symbol": "POWERINDIA.NS",
+      "sector": "Capital Goods",
+      "companyName": "Hitachi Energy"
+    },
+    {
+      "symbol": "PREMIERENE.NS",
+      "sector": "Capital Goods",
+      "companyName": "Premier Energies"
+    },
+    {
+      "symbol": "PRESTIGE.NS",
+      "sector": "Realty",
+      "companyName": "Prestige Estates Projects"
+    },
+    {
+      "symbol": "RVNL.NS",
+      "sector": "Construction",
+      "companyName": "Rail Vikas Nigam"
+    },
+    {
+      "symbol": "SAIL.NS",
+      "sector": "Metals & Mining",
+      "companyName": "Steel Authority of India"
+    },
+    {
+      "symbol": "SBICARD.NS",
+      "sector": "Financial Services",
+      "companyName": "SBI Cards"
+    },
+    {
+      "symbol": "SCHAEFFLER.NS",
+      "sector": "Automobiles",
+      "companyName": "Schaeffler India"
+    },
+    {
+      "symbol": "SJVN.NS",
+      "sector": "Power",
+      "companyName": "SJVN"
+    },
+    {
+      "symbol": "SOLARINDS.NS",
+      "sector": "Aerospace & Defense",
+      "companyName": "Solar Industries"
+    },
+    {
+      "symbol": "SONACOMS.NS",
+      "sector": "Automobiles",
+      "companyName": "Sona BLW Precision Forgings"
+    },
+    {
+      "symbol": "SRF.NS",
+      "sector": "Chemicals",
+      "companyName": "SRF"
+    },
+    {
+      "symbol": "STARHEALTH.NS",
+      "sector": "Insurance",
+      "companyName": "Star Health Insurance"
+    },
+    {
+      "symbol": "SUNDARMFIN.NS",
+      "sector": "Financial Services",
+      "companyName": "Sundaram Finance"
+    },
+    {
+      "symbol": "SUNTV.NS",
+      "sector": "Media",
+      "companyName": "Sun TV Network"
+    },
+    {
+      "symbol": "SUPREMEIND.NS",
+      "sector": "Industrial Products",
+      "companyName": "Supreme Industries"
+    },
+    {
+      "symbol": "SUZLON.NS",
+      "sector": "Capital Goods",
+      "companyName": "Suzlon Energy"
+    },
+    {
+      "symbol": "SYNGENE.NS",
+      "sector": "Healthcare",
+      "companyName": "Syngene International"
+    },
+    {
+      "symbol": "TATACOMM.NS",
+      "sector": "Telecom",
+      "companyName": "Tata Communications"
+    },
+    {
+      "symbol": "TATAELXSI.NS",
+      "sector": "Information Technology",
+      "companyName": "Tata Elxsi"
+    },
+    {
+      "symbol": "TATAINVEST.NS",
+      "sector": "Financial Services",
+      "companyName": "Tata Investment Corporation"
+    },
+    {
+      "symbol": "TATATECH.NS",
+      "sector": "Information Technology",
+      "companyName": "Tata Technologies"
+    },
+    {
+      "symbol": "THERMAX.NS",
+      "sector": "Capital Goods",
+      "companyName": "Thermax"
+    },
+    {
+      "symbol": "TIINDIA.NS",
+      "sector": "Automobiles",
+      "companyName": "Tube Investment"
+    },
+    {
+      "symbol": "TORNTPOWER.NS",
+      "sector": "Power",
+      "companyName": "Torrent Power"
+    },
+    {
+      "symbol": "UBL.NS",
+      "sector": "Beverages",
+      "companyName": "United Breweries"
+    },
+    {
+      "symbol": "UNIONBANK.NS",
+      "sector": "Banks",
+      "companyName": "Union Bank of India"
+    },
+    {
+      "symbol": "UNOMINDA.NS",
+      "sector": "Automobiles",
+      "companyName": "UNO Minda"
+    },
+    {
+      "symbol": "UPL.NS",
+      "sector": "Chemicals",
+      "companyName": "UPL"
+    },
+    {
+      "symbol": "VMM.NS",
+      "sector": "Retail",
+      "companyName": "Vishal Mega Mart"
+    },
+    {
+      "symbol": "VOLTAS.NS",
+      "sector": "Consumer Goods",
+      "companyName": "Voltas"
+    },
+    {
+      "symbol": "WAAREEENER.NS",
+      "sector": "Capital Goods",
+      "companyName": "Waaree Energies"
+    },
+    {
+      "symbol": "YESBANK.NS",
+      "sector": "Banks",
+      "companyName": "Yes Bank"
+    }
+  ]
+}

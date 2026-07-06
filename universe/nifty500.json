@@ -1,0 +1,2483 @@
+{
+  "name": "NIFTY 500",
+  "slug": "nifty500",
+  "index_ticker": "^NSEI",
+  "description": "NIFTY 500 represents the top 500 companies by market capitalization listed on NSE (495 available on Yahoo Finance).",
+  "constituents": [
+    {
+      "symbol": "360ONE.NS",
+      "sector": "Unknown",
+      "companyName": "360ONE"
+    },
+    {
+      "symbol": "3MINDIA.NS",
+      "sector": "Unknown",
+      "companyName": "3MINDIA"
+    },
+    {
+      "symbol": "AADHARHFC.NS",
+      "sector": "Unknown",
+      "companyName": "AADHARHFC"
+    },
+    {
+      "symbol": "AARTIIND.NS",
+      "sector": "Unknown",
+      "companyName": "AARTIIND"
+    },
+    {
+      "symbol": "AAVAS.NS",
+      "sector": "Unknown",
+      "companyName": "AAVAS"
+    },
+    {
+      "symbol": "ABB.NS",
+      "sector": "Unknown",
+      "companyName": "ABB"
+    },
+    {
+      "symbol": "ABBOTINDIA.NS",
+      "sector": "Unknown",
+      "companyName": "ABBOTINDIA"
+    },
+    {
+      "symbol": "ABCAPITAL.NS",
+      "sector": "Unknown",
+      "companyName": "ABCAPITAL"
+    },
+    {
+      "symbol": "ABFRL.NS",
+      "sector": "Unknown",
+      "companyName": "ABFRL"
+    },
+    {
+      "symbol": "ABREL.NS",
+      "sector": "Unknown",
+      "companyName": "ABREL"
+    },
+    {
+      "symbol": "ABSLAMC.NS",
+      "sector": "Unknown",
+      "companyName": "ABSLAMC"
+    },
+    {
+      "symbol": "ACC.NS",
+      "sector": "Unknown",
+      "companyName": "ACC"
+    },
+    {
+      "symbol": "ACE.NS",
+      "sector": "Unknown",
+      "companyName": "ACE"
+    },
+    {
+      "symbol": "ACMESOLAR.NS",
+      "sector": "Unknown",
+      "companyName": "ACMESOLAR"
+    },
+    {
+      "symbol": "ADANIENSOL.NS",
+      "sector": "Unknown",
+      "companyName": "ADANIENSOL"
+    },
+    {
+      "symbol": "ADANIENT.NS",
+      "sector": "Unknown",
+      "companyName": "ADANIENT"
+    },
+    {
+      "symbol": "ADANIGREEN.NS",
+      "sector": "Unknown",
+      "companyName": "ADANIGREEN"
+    },
+    {
+      "symbol": "ADANIPORTS.NS",
+      "sector": "Unknown",
+      "companyName": "ADANIPORTS"
+    },
+    {
+      "symbol": "ADANIPOWER.NS",
+      "sector": "Unknown",
+      "companyName": "ADANIPOWER"
+    },
+    {
+      "symbol": "AEGISLOG.NS",
+      "sector": "Unknown",
+      "companyName": "AEGISLOG"
+    },
+    {
+      "symbol": "AFCONS.NS",
+      "sector": "Unknown",
+      "companyName": "AFCONS"
+    },
+    {
+      "symbol": "AFFLE.NS",
+      "sector": "Unknown",
+      "companyName": "AFFLE"
+    },
+    {
+      "symbol": "AIAENG.NS",
+      "sector": "Unknown",
+      "companyName": "AIAENG"
+    },
+    {
+      "symbol": "AIIL.NS",
+      "sector": "Unknown",
+      "companyName": "AIIL"
+    },
+    {
+      "symbol": "AJANTPHARM.NS",
+      "sector": "Unknown",
+      "companyName": "AJANTPHARM"
+    },
+    {
+      "symbol": "AKUMS.NS",
+      "sector": "Unknown",
+      "companyName": "AKUMS"
+    },
+    {
+      "symbol": "ALIVUS.NS",
+      "sector": "Unknown",
+      "companyName": "ALIVUS"
+    },
+    {
+      "symbol": "ALKEM.NS",
+      "sector": "Unknown",
+      "companyName": "ALKEM"
+    },
+    {
+      "symbol": "ALKYLAMINE.NS",
+      "sector": "Unknown",
+      "companyName": "ALKYLAMINE"
+    },
+    {
+      "symbol": "ALOKINDS.NS",
+      "sector": "Unknown",
+      "companyName": "ALOKINDS"
+    },
+    {
+      "symbol": "AMBER.NS",
+      "sector": "Unknown",
+      "companyName": "AMBER"
+    },
+    {
+      "symbol": "AMBUJACEM.NS",
+      "sector": "Unknown",
+      "companyName": "AMBUJACEM"
+    },
+    {
+      "symbol": "ANANDRATHI.NS",
+      "sector": "Unknown",
+      "companyName": "ANANDRATHI"
+    },
+    {
+      "symbol": "ANANTRAJ.NS",
+      "sector": "Unknown",
+      "companyName": "ANANTRAJ"
+    },
+    {
+      "symbol": "ANGELONE.NS",
+      "sector": "Unknown",
+      "companyName": "ANGELONE"
+    },
+    {
+      "symbol": "APARINDS.NS",
+      "sector": "Unknown",
+      "companyName": "APARINDS"
+    },
+    {
+      "symbol": "APLAPOLLO.NS",
+      "sector": "Unknown",
+      "companyName": "APLAPOLLO"
+    },
+    {
+      "symbol": "APLLTD.NS",
+      "sector": "Unknown",
+      "companyName": "APLLTD"
+    },
+    {
+      "symbol": "APOLLOHOSP.NS",
+      "sector": "Unknown",
+      "companyName": "APOLLOHOSP"
+    },
+    {
+      "symbol": "APOLLOTYRE.NS",
+      "sector": "Unknown",
+      "companyName": "APOLLOTYRE"
+    },
+    {
+      "symbol": "APTUS.NS",
+      "sector": "Unknown",
+      "companyName": "APTUS"
+    },
+    {
+      "symbol": "ARE&M.NS",
+      "sector": "Unknown",
+      "companyName": "ARE&M"
+    },
+    {
+      "symbol": "ASAHIINDIA.NS",
+      "sector": "Unknown",
+      "companyName": "ASAHIINDIA"
+    },
+    {
+      "symbol": "ASHOKLEY.NS",
+      "sector": "Unknown",
+      "companyName": "ASHOKLEY"
+    },
+    {
+      "symbol": "ASIANPAINT.NS",
+      "sector": "Unknown",
+      "companyName": "ASIANPAINT"
+    },
+    {
+      "symbol": "ASTERDM.NS",
+      "sector": "Unknown",
+      "companyName": "ASTERDM"
+    },
+    {
+      "symbol": "ASTRAL.NS",
+      "sector": "Unknown",
+      "companyName": "ASTRAL"
+    },
+    {
+      "symbol": "ASTRAZEN.NS",
+      "sector": "Unknown",
+      "companyName": "ASTRAZEN"
+    },
+    {
+      "symbol": "ATGL.NS",
+      "sector": "Unknown",
+      "companyName": "ATGL"
+    },
+    {
+      "symbol": "ATUL.NS",
+      "sector": "Unknown",
+      "companyName": "ATUL"
+    },
+    {
+      "symbol": "AUBANK.NS",
+      "sector": "Unknown",
+      "companyName": "AUBANK"
+    },
+    {
+      "symbol": "AUROPHARMA.NS",
+      "sector": "Unknown",
+      "companyName": "AUROPHARMA"
+    },
+    {
+      "symbol": "AWL.NS",
+      "sector": "Unknown",
+      "companyName": "AWL"
+    },
+    {
+      "symbol": "AXISBANK.NS",
+      "sector": "Unknown",
+      "companyName": "AXISBANK"
+    },
+    {
+      "symbol": "BAJAJ-AUTO.NS",
+      "sector": "Unknown",
+      "companyName": "BAJAJ-AUTO"
+    },
+    {
+      "symbol": "BAJAJFINSV.NS",
+      "sector": "Unknown",
+      "companyName": "BAJAJFINSV"
+    },
+    {
+      "symbol": "BAJAJHFL.NS",
+      "sector": "Unknown",
+      "companyName": "BAJAJHFL"
+    },
+    {
+      "symbol": "BAJAJHLDNG.NS",
+      "sector": "Unknown",
+      "companyName": "BAJAJHLDNG"
+    },
+    {
+      "symbol": "BAJFINANCE.NS",
+      "sector": "Unknown",
+      "companyName": "BAJFINANCE"
+    },
+    {
+      "symbol": "BALKRISIND.NS",
+      "sector": "Unknown",
+      "companyName": "BALKRISIND"
+    },
+    {
+      "symbol": "BALRAMCHIN.NS",
+      "sector": "Unknown",
+      "companyName": "BALRAMCHIN"
+    },
+    {
+      "symbol": "BANDHANBNK.NS",
+      "sector": "Unknown",
+      "companyName": "BANDHANBNK"
+    },
+    {
+      "symbol": "BANKBARODA.NS",
+      "sector": "Unknown",
+      "companyName": "BANKBARODA"
+    },
+    {
+      "symbol": "BANKINDIA.NS",
+      "sector": "Unknown",
+      "companyName": "BANKINDIA"
+    },
+    {
+      "symbol": "BASF.NS",
+      "sector": "Unknown",
+      "companyName": "BASF"
+    },
+    {
+      "symbol": "BATAINDIA.NS",
+      "sector": "Unknown",
+      "companyName": "BATAINDIA"
+    },
+    {
+      "symbol": "BAYERCROP.NS",
+      "sector": "Unknown",
+      "companyName": "BAYERCROP"
+    },
+    {
+      "symbol": "BBTC.NS",
+      "sector": "Unknown",
+      "companyName": "BBTC"
+    },
+    {
+      "symbol": "BDL.NS",
+      "sector": "Unknown",
+      "companyName": "BDL"
+    },
+    {
+      "symbol": "BEL.NS",
+      "sector": "Unknown",
+      "companyName": "BEL"
+    },
+    {
+      "symbol": "BEML.NS",
+      "sector": "Unknown",
+      "companyName": "BEML"
+    },
+    {
+      "symbol": "BERGEPAINT.NS",
+      "sector": "Unknown",
+      "companyName": "BERGEPAINT"
+    },
+    {
+      "symbol": "BHARATFORG.NS",
+      "sector": "Unknown",
+      "companyName": "BHARATFORG"
+    },
+    {
+      "symbol": "BHARTIARTL.NS",
+      "sector": "Unknown",
+      "companyName": "BHARTIARTL"
+    },
+    {
+      "symbol": "BHARTIHEXA.NS",
+      "sector": "Unknown",
+      "companyName": "BHARTIHEXA"
+    },
+    {
+      "symbol": "BHEL.NS",
+      "sector": "Unknown",
+      "companyName": "BHEL"
+    },
+    {
+      "symbol": "BIKAJI.NS",
+      "sector": "Unknown",
+      "companyName": "BIKAJI"
+    },
+    {
+      "symbol": "BIOCON.NS",
+      "sector": "Unknown",
+      "companyName": "BIOCON"
+    },
+    {
+      "symbol": "BLS.NS",
+      "sector": "Unknown",
+      "companyName": "BLS"
+    },
+    {
+      "symbol": "BLUEDART.NS",
+      "sector": "Unknown",
+      "companyName": "BLUEDART"
+    },
+    {
+      "symbol": "BLUESTARCO.NS",
+      "sector": "Unknown",
+      "companyName": "BLUESTARCO"
+    },
+    {
+      "symbol": "BOSCHLTD.NS",
+      "sector": "Unknown",
+      "companyName": "BOSCHLTD"
+    },
+    {
+      "symbol": "BPCL.NS",
+      "sector": "Unknown",
+      "companyName": "BPCL"
+    },
+    {
+      "symbol": "BRIGADE.NS",
+      "sector": "Unknown",
+      "companyName": "BRIGADE"
+    },
+    {
+      "symbol": "BRITANNIA.NS",
+      "sector": "Unknown",
+      "companyName": "BRITANNIA"
+    },
+    {
+      "symbol": "BSE.NS",
+      "sector": "Unknown",
+      "companyName": "BSE"
+    },
+    {
+      "symbol": "BSOFT.NS",
+      "sector": "Unknown",
+      "companyName": "BSOFT"
+    },
+    {
+      "symbol": "CAMPUS.NS",
+      "sector": "Unknown",
+      "companyName": "CAMPUS"
+    },
+    {
+      "symbol": "CAMS.NS",
+      "sector": "Unknown",
+      "companyName": "CAMS"
+    },
+    {
+      "symbol": "CANBK.NS",
+      "sector": "Unknown",
+      "companyName": "CANBK"
+    },
+    {
+      "symbol": "CANFINHOME.NS",
+      "sector": "Unknown",
+      "companyName": "CANFINHOME"
+    },
+    {
+      "symbol": "CAPLIPOINT.NS",
+      "sector": "Unknown",
+      "companyName": "CAPLIPOINT"
+    },
+    {
+      "symbol": "CARBORUNIV.NS",
+      "sector": "Unknown",
+      "companyName": "CARBORUNIV"
+    },
+    {
+      "symbol": "CASTROLIND.NS",
+      "sector": "Unknown",
+      "companyName": "CASTROLIND"
+    },
+    {
+      "symbol": "CCL.NS",
+      "sector": "Unknown",
+      "companyName": "CCL"
+    },
+    {
+      "symbol": "CDSL.NS",
+      "sector": "Unknown",
+      "companyName": "CDSL"
+    },
+    {
+      "symbol": "CEATLTD.NS",
+      "sector": "Unknown",
+      "companyName": "CEATLTD"
+    },
+    {
+      "symbol": "CENTRALBK.NS",
+      "sector": "Unknown",
+      "companyName": "CENTRALBK"
+    },
+    {
+      "symbol": "CENTURYPLY.NS",
+      "sector": "Unknown",
+      "companyName": "CENTURYPLY"
+    },
+    {
+      "symbol": "CERA.NS",
+      "sector": "Unknown",
+      "companyName": "CERA"
+    },
+    {
+      "symbol": "CESC.NS",
+      "sector": "Unknown",
+      "companyName": "CESC"
+    },
+    {
+      "symbol": "CGCL.NS",
+      "sector": "Unknown",
+      "companyName": "CGCL"
+    },
+    {
+      "symbol": "CGPOWER.NS",
+      "sector": "Unknown",
+      "companyName": "CGPOWER"
+    },
+    {
+      "symbol": "CHALET.NS",
+      "sector": "Unknown",
+      "companyName": "CHALET"
+    },
+    {
+      "symbol": "CHAMBLFERT.NS",
+      "sector": "Unknown",
+      "companyName": "CHAMBLFERT"
+    },
+    {
+      "symbol": "CHENNPETRO.NS",
+      "sector": "Unknown",
+      "companyName": "CHENNPETRO"
+    },
+    {
+      "symbol": "CHOLAFIN.NS",
+      "sector": "Unknown",
+      "companyName": "CHOLAFIN"
+    },
+    {
+      "symbol": "CHOLAHLDNG.NS",
+      "sector": "Unknown",
+      "companyName": "CHOLAHLDNG"
+    },
+    {
+      "symbol": "CIPLA.NS",
+      "sector": "Unknown",
+      "companyName": "CIPLA"
+    },
+    {
+      "symbol": "CLEAN.NS",
+      "sector": "Unknown",
+      "companyName": "CLEAN"
+    },
+    {
+      "symbol": "COALINDIA.NS",
+      "sector": "Unknown",
+      "companyName": "COALINDIA"
+    },
+    {
+      "symbol": "COCHINSHIP.NS",
+      "sector": "Unknown",
+      "companyName": "COCHINSHIP"
+    },
+    {
+      "symbol": "COFORGE.NS",
+      "sector": "Unknown",
+      "companyName": "COFORGE"
+    },
+    {
+      "symbol": "COHANCE.NS",
+      "sector": "Unknown",
+      "companyName": "COHANCE"
+    },
+    {
+      "symbol": "COLPAL.NS",
+      "sector": "Unknown",
+      "companyName": "COLPAL"
+    },
+    {
+      "symbol": "CONCOR.NS",
+      "sector": "Unknown",
+      "companyName": "CONCOR"
+    },
+    {
+      "symbol": "CONCORDBIO.NS",
+      "sector": "Unknown",
+      "companyName": "CONCORDBIO"
+    },
+    {
+      "symbol": "COROMANDEL.NS",
+      "sector": "Unknown",
+      "companyName": "COROMANDEL"
+    },
+    {
+      "symbol": "CRAFTSMAN.NS",
+      "sector": "Unknown",
+      "companyName": "CRAFTSMAN"
+    },
+    {
+      "symbol": "CREDITACC.NS",
+      "sector": "Unknown",
+      "companyName": "CREDITACC"
+    },
+    {
+      "symbol": "CRISIL.NS",
+      "sector": "Unknown",
+      "companyName": "CRISIL"
+    },
+    {
+      "symbol": "CROMPTON.NS",
+      "sector": "Unknown",
+      "companyName": "CROMPTON"
+    },
+    {
+      "symbol": "CUB.NS",
+      "sector": "Unknown",
+      "companyName": "CUB"
+    },
+    {
+      "symbol": "CUMMINSIND.NS",
+      "sector": "Unknown",
+      "companyName": "CUMMINSIND"
+    },
+    {
+      "symbol": "CYIENT.NS",
+      "sector": "Unknown",
+      "companyName": "CYIENT"
+    },
+    {
+      "symbol": "DABUR.NS",
+      "sector": "Unknown",
+      "companyName": "DABUR"
+    },
+    {
+      "symbol": "DALBHARAT.NS",
+      "sector": "Unknown",
+      "companyName": "DALBHARAT"
+    },
+    {
+      "symbol": "DATAPATTNS.NS",
+      "sector": "Unknown",
+      "companyName": "DATAPATTNS"
+    },
+    {
+      "symbol": "DBREALTY.NS",
+      "sector": "Unknown",
+      "companyName": "DBREALTY"
+    },
+    {
+      "symbol": "DCMSHRIRAM.NS",
+      "sector": "Unknown",
+      "companyName": "DCMSHRIRAM"
+    },
+    {
+      "symbol": "DEEPAKFERT.NS",
+      "sector": "Unknown",
+      "companyName": "DEEPAKFERT"
+    },
+    {
+      "symbol": "DEEPAKNTR.NS",
+      "sector": "Unknown",
+      "companyName": "DEEPAKNTR"
+    },
+    {
+      "symbol": "DELHIVERY.NS",
+      "sector": "Unknown",
+      "companyName": "DELHIVERY"
+    },
+    {
+      "symbol": "DEVYANI.NS",
+      "sector": "Unknown",
+      "companyName": "DEVYANI"
+    },
+    {
+      "symbol": "DIVISLAB.NS",
+      "sector": "Unknown",
+      "companyName": "DIVISLAB"
+    },
+    {
+      "symbol": "DIXON.NS",
+      "sector": "Unknown",
+      "companyName": "DIXON"
+    },
+    {
+      "symbol": "DLF.NS",
+      "sector": "Unknown",
+      "companyName": "DLF"
+    },
+    {
+      "symbol": "DMART.NS",
+      "sector": "Unknown",
+      "companyName": "DMART"
+    },
+    {
+      "symbol": "DOMS.NS",
+      "sector": "Unknown",
+      "companyName": "DOMS"
+    },
+    {
+      "symbol": "DRREDDY.NS",
+      "sector": "Unknown",
+      "companyName": "DRREDDY"
+    },
+    {
+      "symbol": "ECLERX.NS",
+      "sector": "Unknown",
+      "companyName": "ECLERX"
+    },
+    {
+      "symbol": "EICHERMOT.NS",
+      "sector": "Unknown",
+      "companyName": "EICHERMOT"
+    },
+    {
+      "symbol": "EIDPARRY.NS",
+      "sector": "Unknown",
+      "companyName": "EIDPARRY"
+    },
+    {
+      "symbol": "EIHOTEL.NS",
+      "sector": "Unknown",
+      "companyName": "EIHOTEL"
+    },
+    {
+      "symbol": "ELECON.NS",
+      "sector": "Unknown",
+      "companyName": "ELECON"
+    },
+    {
+      "symbol": "ELGIEQUIP.NS",
+      "sector": "Unknown",
+      "companyName": "ELGIEQUIP"
+    },
+    {
+      "symbol": "EMAMILTD.NS",
+      "sector": "Unknown",
+      "companyName": "EMAMILTD"
+    },
+    {
+      "symbol": "EMCURE.NS",
+      "sector": "Unknown",
+      "companyName": "EMCURE"
+    },
+    {
+      "symbol": "ENDURANCE.NS",
+      "sector": "Unknown",
+      "companyName": "ENDURANCE"
+    },
+    {
+      "symbol": "ENGINERSIN.NS",
+      "sector": "Unknown",
+      "companyName": "ENGINERSIN"
+    },
+    {
+      "symbol": "ERIS.NS",
+      "sector": "Unknown",
+      "companyName": "ERIS"
+    },
+    {
+      "symbol": "ESCORTS.NS",
+      "sector": "Unknown",
+      "companyName": "ESCORTS"
+    },
+    {
+      "symbol": "ETERNAL.NS",
+      "sector": "Unknown",
+      "companyName": "ETERNAL"
+    },
+    {
+      "symbol": "EXIDEIND.NS",
+      "sector": "Unknown",
+      "companyName": "EXIDEIND"
+    },
+    {
+      "symbol": "FACT.NS",
+      "sector": "Unknown",
+      "companyName": "FACT"
+    },
+    {
+      "symbol": "FEDERALBNK.NS",
+      "sector": "Unknown",
+      "companyName": "FEDERALBNK"
+    },
+    {
+      "symbol": "FINCABLES.NS",
+      "sector": "Unknown",
+      "companyName": "FINCABLES"
+    },
+    {
+      "symbol": "FINPIPE.NS",
+      "sector": "Unknown",
+      "companyName": "FINPIPE"
+    },
+    {
+      "symbol": "FIRSTCRY.NS",
+      "sector": "Unknown",
+      "companyName": "FIRSTCRY"
+    },
+    {
+      "symbol": "FIVESTAR.NS",
+      "sector": "Unknown",
+      "companyName": "FIVESTAR"
+    },
+    {
+      "symbol": "FLUOROCHEM.NS",
+      "sector": "Unknown",
+      "companyName": "FLUOROCHEM"
+    },
+    {
+      "symbol": "FORTIS.NS",
+      "sector": "Unknown",
+      "companyName": "FORTIS"
+    },
+    {
+      "symbol": "FSL.NS",
+      "sector": "Unknown",
+      "companyName": "FSL"
+    },
+    {
+      "symbol": "GAIL.NS",
+      "sector": "Unknown",
+      "companyName": "GAIL"
+    },
+    {
+      "symbol": "GESHIP.NS",
+      "sector": "Unknown",
+      "companyName": "GESHIP"
+    },
+    {
+      "symbol": "GICRE.NS",
+      "sector": "Unknown",
+      "companyName": "GICRE"
+    },
+    {
+      "symbol": "GILLETTE.NS",
+      "sector": "Unknown",
+      "companyName": "GILLETTE"
+    },
+    {
+      "symbol": "GLAND.NS",
+      "sector": "Unknown",
+      "companyName": "GLAND"
+    },
+    {
+      "symbol": "GLAXO.NS",
+      "sector": "Unknown",
+      "companyName": "GLAXO"
+    },
+    {
+      "symbol": "GLENMARK.NS",
+      "sector": "Unknown",
+      "companyName": "GLENMARK"
+    },
+    {
+      "symbol": "GMDCLTD.NS",
+      "sector": "Unknown",
+      "companyName": "GMDCLTD"
+    },
+    {
+      "symbol": "GMRAIRPORT.NS",
+      "sector": "Unknown",
+      "companyName": "GMRAIRPORT"
+    },
+    {
+      "symbol": "GNFC.NS",
+      "sector": "Unknown",
+      "companyName": "GNFC"
+    },
+    {
+      "symbol": "GODFRYPHLP.NS",
+      "sector": "Unknown",
+      "companyName": "GODFRYPHLP"
+    },
+    {
+      "symbol": "GODIGIT.NS",
+      "sector": "Unknown",
+      "companyName": "GODIGIT"
+    },
+    {
+      "symbol": "GODREJAGRO.NS",
+      "sector": "Unknown",
+      "companyName": "GODREJAGRO"
+    },
+    {
+      "symbol": "GODREJCP.NS",
+      "sector": "Unknown",
+      "companyName": "GODREJCP"
+    },
+    {
+      "symbol": "GODREJIND.NS",
+      "sector": "Unknown",
+      "companyName": "GODREJIND"
+    },
+    {
+      "symbol": "GODREJPROP.NS",
+      "sector": "Unknown",
+      "companyName": "GODREJPROP"
+    },
+    {
+      "symbol": "GPIL.NS",
+      "sector": "Unknown",
+      "companyName": "GPIL"
+    },
+    {
+      "symbol": "GPPL.NS",
+      "sector": "Unknown",
+      "companyName": "GPPL"
+    },
+    {
+      "symbol": "GRANULES.NS",
+      "sector": "Unknown",
+      "companyName": "GRANULES"
+    },
+    {
+      "symbol": "GRAPHITE.NS",
+      "sector": "Unknown",
+      "companyName": "GRAPHITE"
+    },
+    {
+      "symbol": "GRASIM.NS",
+      "sector": "Unknown",
+      "companyName": "GRASIM"
+    },
+    {
+      "symbol": "GRAVITA.NS",
+      "sector": "Unknown",
+      "companyName": "GRAVITA"
+    },
+    {
+      "symbol": "GRSE.NS",
+      "sector": "Unknown",
+      "companyName": "GRSE"
+    },
+    {
+      "symbol": "GUJENERGY.NS",
+      "sector": "Unknown",
+      "companyName": "GUJENERGY"
+    },
+    {
+      "symbol": "GVT&D.NS",
+      "sector": "Unknown",
+      "companyName": "GVT&D"
+    },
+    {
+      "symbol": "HAL.NS",
+      "sector": "Unknown",
+      "companyName": "HAL"
+    },
+    {
+      "symbol": "HAPPSTMNDS.NS",
+      "sector": "Unknown",
+      "companyName": "HAPPSTMNDS"
+    },
+    {
+      "symbol": "HAVELLS.NS",
+      "sector": "Unknown",
+      "companyName": "HAVELLS"
+    },
+    {
+      "symbol": "HBLENGINE.NS",
+      "sector": "Unknown",
+      "companyName": "HBLENGINE"
+    },
+    {
+      "symbol": "HCLTECH.NS",
+      "sector": "Unknown",
+      "companyName": "HCLTECH"
+    },
+    {
+      "symbol": "HDFCAMC.NS",
+      "sector": "Unknown",
+      "companyName": "HDFCAMC"
+    },
+    {
+      "symbol": "HDFCBANK.NS",
+      "sector": "Unknown",
+      "companyName": "HDFCBANK"
+    },
+    {
+      "symbol": "HDFCLIFE.NS",
+      "sector": "Unknown",
+      "companyName": "HDFCLIFE"
+    },
+    {
+      "symbol": "HEG.NS",
+      "sector": "Unknown",
+      "companyName": "HEG"
+    },
+    {
+      "symbol": "HEROMOTOCO.NS",
+      "sector": "Unknown",
+      "companyName": "HEROMOTOCO"
+    },
+    {
+      "symbol": "HFCL.NS",
+      "sector": "Unknown",
+      "companyName": "HFCL"
+    },
+    {
+      "symbol": "HINDALCO.NS",
+      "sector": "Unknown",
+      "companyName": "HINDALCO"
+    },
+    {
+      "symbol": "HINDCOPPER.NS",
+      "sector": "Unknown",
+      "companyName": "HINDCOPPER"
+    },
+    {
+      "symbol": "HINDPETRO.NS",
+      "sector": "Unknown",
+      "companyName": "HINDPETRO"
+    },
+    {
+      "symbol": "HINDUNILVR.NS",
+      "sector": "Unknown",
+      "companyName": "HINDUNILVR"
+    },
+    {
+      "symbol": "HINDZINC.NS",
+      "sector": "Unknown",
+      "companyName": "HINDZINC"
+    },
+    {
+      "symbol": "HOMEFIRST.NS",
+      "sector": "Unknown",
+      "companyName": "HOMEFIRST"
+    },
+    {
+      "symbol": "HONASA.NS",
+      "sector": "Unknown",
+      "companyName": "HONASA"
+    },
+    {
+      "symbol": "HONAUT.NS",
+      "sector": "Unknown",
+      "companyName": "HONAUT"
+    },
+    {
+      "symbol": "HSCL.NS",
+      "sector": "Unknown",
+      "companyName": "HSCL"
+    },
+    {
+      "symbol": "HUDCO.NS",
+      "sector": "Unknown",
+      "companyName": "HUDCO"
+    },
+    {
+      "symbol": "HYUNDAI.NS",
+      "sector": "Unknown",
+      "companyName": "HYUNDAI"
+    },
+    {
+      "symbol": "ICICIBANK.NS",
+      "sector": "Unknown",
+      "companyName": "ICICIBANK"
+    },
+    {
+      "symbol": "ICICIGI.NS",
+      "sector": "Unknown",
+      "companyName": "ICICIGI"
+    },
+    {
+      "symbol": "ICICIPRULI.NS",
+      "sector": "Unknown",
+      "companyName": "ICICIPRULI"
+    },
+    {
+      "symbol": "IDBI.NS",
+      "sector": "Unknown",
+      "companyName": "IDBI"
+    },
+    {
+      "symbol": "IDEA.NS",
+      "sector": "Unknown",
+      "companyName": "IDEA"
+    },
+    {
+      "symbol": "IDFCFIRSTB.NS",
+      "sector": "Unknown",
+      "companyName": "IDFCFIRSTB"
+    },
+    {
+      "symbol": "IEX.NS",
+      "sector": "Unknown",
+      "companyName": "IEX"
+    },
+    {
+      "symbol": "IFCI.NS",
+      "sector": "Unknown",
+      "companyName": "IFCI"
+    },
+    {
+      "symbol": "IGIL.NS",
+      "sector": "Unknown",
+      "companyName": "IGIL"
+    },
+    {
+      "symbol": "IGL.NS",
+      "sector": "Unknown",
+      "companyName": "IGL"
+    },
+    {
+      "symbol": "IIFL.NS",
+      "sector": "Unknown",
+      "companyName": "IIFL"
+    },
+    {
+      "symbol": "IKS.NS",
+      "sector": "Unknown",
+      "companyName": "IKS"
+    },
+    {
+      "symbol": "INDGN.NS",
+      "sector": "Unknown",
+      "companyName": "INDGN"
+    },
+    {
+      "symbol": "INDHOTEL.NS",
+      "sector": "Unknown",
+      "companyName": "INDHOTEL"
+    },
+    {
+      "symbol": "INDIACEM.NS",
+      "sector": "Unknown",
+      "companyName": "INDIACEM"
+    },
+    {
+      "symbol": "INDIAMART.NS",
+      "sector": "Unknown",
+      "companyName": "INDIAMART"
+    },
+    {
+      "symbol": "INDIANB.NS",
+      "sector": "Unknown",
+      "companyName": "INDIANB"
+    },
+    {
+      "symbol": "INDIGO.NS",
+      "sector": "Unknown",
+      "companyName": "INDIGO"
+    },
+    {
+      "symbol": "INDUSINDBK.NS",
+      "sector": "Unknown",
+      "companyName": "INDUSINDBK"
+    },
+    {
+      "symbol": "INDUSTOWER.NS",
+      "sector": "Unknown",
+      "companyName": "INDUSTOWER"
+    },
+    {
+      "symbol": "INFY.NS",
+      "sector": "Unknown",
+      "companyName": "INFY"
+    },
+    {
+      "symbol": "INOXINDIA.NS",
+      "sector": "Unknown",
+      "companyName": "INOXINDIA"
+    },
+    {
+      "symbol": "INOXWIND.NS",
+      "sector": "Unknown",
+      "companyName": "INOXWIND"
+    },
+    {
+      "symbol": "INTELLECT.NS",
+      "sector": "Unknown",
+      "companyName": "INTELLECT"
+    },
+    {
+      "symbol": "IOB.NS",
+      "sector": "Unknown",
+      "companyName": "IOB"
+    },
+    {
+      "symbol": "IOC.NS",
+      "sector": "Unknown",
+      "companyName": "IOC"
+    },
+    {
+      "symbol": "IPCALAB.NS",
+      "sector": "Unknown",
+      "companyName": "IPCALAB"
+    },
+    {
+      "symbol": "IRB.NS",
+      "sector": "Unknown",
+      "companyName": "IRB"
+    },
+    {
+      "symbol": "IRCON.NS",
+      "sector": "Unknown",
+      "companyName": "IRCON"
+    },
+    {
+      "symbol": "IRCTC.NS",
+      "sector": "Unknown",
+      "companyName": "IRCTC"
+    },
+    {
+      "symbol": "IREDA.NS",
+      "sector": "Unknown",
+      "companyName": "IREDA"
+    },
+    {
+      "symbol": "IRFC.NS",
+      "sector": "Unknown",
+      "companyName": "IRFC"
+    },
+    {
+      "symbol": "ITC.NS",
+      "sector": "Unknown",
+      "companyName": "ITC"
+    },
+    {
+      "symbol": "ITI.NS",
+      "sector": "Unknown",
+      "companyName": "ITI"
+    },
+    {
+      "symbol": "J&KBANK.NS",
+      "sector": "Unknown",
+      "companyName": "J&KBANK"
+    },
+    {
+      "symbol": "JBCHEPHARM.NS",
+      "sector": "Unknown",
+      "companyName": "JBCHEPHARM"
+    },
+    {
+      "symbol": "JBMA.NS",
+      "sector": "Unknown",
+      "companyName": "JBMA"
+    },
+    {
+      "symbol": "JINDALSAW.NS",
+      "sector": "Unknown",
+      "companyName": "JINDALSAW"
+    },
+    {
+      "symbol": "JINDALSTEL.NS",
+      "sector": "Unknown",
+      "companyName": "JINDALSTEL"
+    },
+    {
+      "symbol": "JIOFIN.NS",
+      "sector": "Unknown",
+      "companyName": "JIOFIN"
+    },
+    {
+      "symbol": "JKCEMENT.NS",
+      "sector": "Unknown",
+      "companyName": "JKCEMENT"
+    },
+    {
+      "symbol": "JKTYRE.NS",
+      "sector": "Unknown",
+      "companyName": "JKTYRE"
+    },
+    {
+      "symbol": "JMFINANCIL.NS",
+      "sector": "Unknown",
+      "companyName": "JMFINANCIL"
+    },
+    {
+      "symbol": "JPPOWER.NS",
+      "sector": "Unknown",
+      "companyName": "JPPOWER"
+    },
+    {
+      "symbol": "JSL.NS",
+      "sector": "Unknown",
+      "companyName": "JSL"
+    },
+    {
+      "symbol": "JSWENERGY.NS",
+      "sector": "Unknown",
+      "companyName": "JSWENERGY"
+    },
+    {
+      "symbol": "JSWHL.NS",
+      "sector": "Unknown",
+      "companyName": "JSWHL"
+    },
+    {
+      "symbol": "JSWINFRA.NS",
+      "sector": "Unknown",
+      "companyName": "JSWINFRA"
+    },
+    {
+      "symbol": "JSWSTEEL.NS",
+      "sector": "Unknown",
+      "companyName": "JSWSTEEL"
+    },
+    {
+      "symbol": "JUBLFOOD.NS",
+      "sector": "Unknown",
+      "companyName": "JUBLFOOD"
+    },
+    {
+      "symbol": "JUBLINGREA.NS",
+      "sector": "Unknown",
+      "companyName": "JUBLINGREA"
+    },
+    {
+      "symbol": "JUBLPHARMA.NS",
+      "sector": "Unknown",
+      "companyName": "JUBLPHARMA"
+    },
+    {
+      "symbol": "JUSTDIAL.NS",
+      "sector": "Unknown",
+      "companyName": "JUSTDIAL"
+    },
+    {
+      "symbol": "JWL.NS",
+      "sector": "Unknown",
+      "companyName": "JWL"
+    },
+    {
+      "symbol": "JYOTHYLAB.NS",
+      "sector": "Unknown",
+      "companyName": "JYOTHYLAB"
+    },
+    {
+      "symbol": "JYOTICNC.NS",
+      "sector": "Unknown",
+      "companyName": "JYOTICNC"
+    },
+    {
+      "symbol": "KAJARIACER.NS",
+      "sector": "Unknown",
+      "companyName": "KAJARIACER"
+    },
+    {
+      "symbol": "KALYANKJIL.NS",
+      "sector": "Unknown",
+      "companyName": "KALYANKJIL"
+    },
+    {
+      "symbol": "KANSAINER.NS",
+      "sector": "Unknown",
+      "companyName": "KANSAINER"
+    },
+    {
+      "symbol": "KARURVYSYA.NS",
+      "sector": "Unknown",
+      "companyName": "KARURVYSYA"
+    },
+    {
+      "symbol": "KAYNES.NS",
+      "sector": "Unknown",
+      "companyName": "KAYNES"
+    },
+    {
+      "symbol": "KEC.NS",
+      "sector": "Unknown",
+      "companyName": "KEC"
+    },
+    {
+      "symbol": "KEI.NS",
+      "sector": "Unknown",
+      "companyName": "KEI"
+    },
+    {
+      "symbol": "KFINTECH.NS",
+      "sector": "Unknown",
+      "companyName": "KFINTECH"
+    },
+    {
+      "symbol": "KIMS.NS",
+      "sector": "Unknown",
+      "companyName": "KIMS"
+    },
+    {
+      "symbol": "KIRLOSBROS.NS",
+      "sector": "Unknown",
+      "companyName": "KIRLOSBROS"
+    },
+    {
+      "symbol": "KIRLOSENG.NS",
+      "sector": "Unknown",
+      "companyName": "KIRLOSENG"
+    },
+    {
+      "symbol": "KNRCON.NS",
+      "sector": "Unknown",
+      "companyName": "KNRCON"
+    },
+    {
+      "symbol": "KOTAKBANK.NS",
+      "sector": "Unknown",
+      "companyName": "KOTAKBANK"
+    },
+    {
+      "symbol": "KPIL.NS",
+      "sector": "Unknown",
+      "companyName": "KPIL"
+    },
+    {
+      "symbol": "KPITTECH.NS",
+      "sector": "Unknown",
+      "companyName": "KPITTECH"
+    },
+    {
+      "symbol": "KPRMILL.NS",
+      "sector": "Unknown",
+      "companyName": "KPRMILL"
+    },
+    {
+      "symbol": "LALPATHLAB.NS",
+      "sector": "Unknown",
+      "companyName": "LALPATHLAB"
+    },
+    {
+      "symbol": "LATENTVIEW.NS",
+      "sector": "Unknown",
+      "companyName": "LATENTVIEW"
+    },
+    {
+      "symbol": "LAURUSLABS.NS",
+      "sector": "Unknown",
+      "companyName": "LAURUSLABS"
+    },
+    {
+      "symbol": "LEMONTREE.NS",
+      "sector": "Unknown",
+      "companyName": "LEMONTREE"
+    },
+    {
+      "symbol": "LICHSGFIN.NS",
+      "sector": "Unknown",
+      "companyName": "LICHSGFIN"
+    },
+    {
+      "symbol": "LICI.NS",
+      "sector": "Unknown",
+      "companyName": "LICI"
+    },
+    {
+      "symbol": "LINDEINDIA.NS",
+      "sector": "Unknown",
+      "companyName": "LINDEINDIA"
+    },
+    {
+      "symbol": "LLOYDSME.NS",
+      "sector": "Unknown",
+      "companyName": "LLOYDSME"
+    },
+    {
+      "symbol": "LODHA.NS",
+      "sector": "Unknown",
+      "companyName": "LODHA"
+    },
+    {
+      "symbol": "LT.NS",
+      "sector": "Unknown",
+      "companyName": "LT"
+    },
+    {
+      "symbol": "LTF.NS",
+      "sector": "Unknown",
+      "companyName": "LTF"
+    },
+    {
+      "symbol": "LTFOODS.NS",
+      "sector": "Unknown",
+      "companyName": "LTFOODS"
+    },
+    {
+      "symbol": "LTTS.NS",
+      "sector": "Unknown",
+      "companyName": "LTTS"
+    },
+    {
+      "symbol": "LUPIN.NS",
+      "sector": "Unknown",
+      "companyName": "LUPIN"
+    },
+    {
+      "symbol": "M&M.NS",
+      "sector": "Unknown",
+      "companyName": "M&M"
+    },
+    {
+      "symbol": "M&MFIN.NS",
+      "sector": "Unknown",
+      "companyName": "M&MFIN"
+    },
+    {
+      "symbol": "MAHABANK.NS",
+      "sector": "Unknown",
+      "companyName": "MAHABANK"
+    },
+    {
+      "symbol": "MAHSEAMLES.NS",
+      "sector": "Unknown",
+      "companyName": "MAHSEAMLES"
+    },
+    {
+      "symbol": "MANAPPURAM.NS",
+      "sector": "Unknown",
+      "companyName": "MANAPPURAM"
+    },
+    {
+      "symbol": "MANKIND.NS",
+      "sector": "Unknown",
+      "companyName": "MANKIND"
+    },
+    {
+      "symbol": "MANYAVAR.NS",
+      "sector": "Unknown",
+      "companyName": "MANYAVAR"
+    },
+    {
+      "symbol": "MAPMYINDIA.NS",
+      "sector": "Unknown",
+      "companyName": "MAPMYINDIA"
+    },
+    {
+      "symbol": "MARICO.NS",
+      "sector": "Unknown",
+      "companyName": "MARICO"
+    },
+    {
+      "symbol": "MARUTI.NS",
+      "sector": "Unknown",
+      "companyName": "MARUTI"
+    },
+    {
+      "symbol": "MASTEK.NS",
+      "sector": "Unknown",
+      "companyName": "MASTEK"
+    },
+    {
+      "symbol": "MAXHEALTH.NS",
+      "sector": "Unknown",
+      "companyName": "MAXHEALTH"
+    },
+    {
+      "symbol": "MAZDOCK.NS",
+      "sector": "Unknown",
+      "companyName": "MAZDOCK"
+    },
+    {
+      "symbol": "MCX.NS",
+      "sector": "Unknown",
+      "companyName": "MCX"
+    },
+    {
+      "symbol": "MEDANTA.NS",
+      "sector": "Unknown",
+      "companyName": "MEDANTA"
+    },
+    {
+      "symbol": "METROPOLIS.NS",
+      "sector": "Unknown",
+      "companyName": "METROPOLIS"
+    },
+    {
+      "symbol": "MFSL.NS",
+      "sector": "Unknown",
+      "companyName": "MFSL"
+    },
+    {
+      "symbol": "MGL.NS",
+      "sector": "Unknown",
+      "companyName": "MGL"
+    },
+    {
+      "symbol": "MINDACORP.NS",
+      "sector": "Unknown",
+      "companyName": "MINDACORP"
+    },
+    {
+      "symbol": "MMTC.NS",
+      "sector": "Unknown",
+      "companyName": "MMTC"
+    },
+    {
+      "symbol": "MOTHERSON.NS",
+      "sector": "Unknown",
+      "companyName": "MOTHERSON"
+    },
+    {
+      "symbol": "MOTILALOFS.NS",
+      "sector": "Unknown",
+      "companyName": "MOTILALOFS"
+    },
+    {
+      "symbol": "MPHASIS.NS",
+      "sector": "Unknown",
+      "companyName": "MPHASIS"
+    },
+    {
+      "symbol": "MRF.NS",
+      "sector": "Unknown",
+      "companyName": "MRF"
+    },
+    {
+      "symbol": "MRPL.NS",
+      "sector": "Unknown",
+      "companyName": "MRPL"
+    },
+    {
+      "symbol": "MSUMI.NS",
+      "sector": "Unknown",
+      "companyName": "MSUMI"
+    },
+    {
+      "symbol": "MUTHOOTFIN.NS",
+      "sector": "Unknown",
+      "companyName": "MUTHOOTFIN"
+    },
+    {
+      "symbol": "NAM-INDIA.NS",
+      "sector": "Unknown",
+      "companyName": "NAM-INDIA"
+    },
+    {
+      "symbol": "NATCOPHARM.NS",
+      "sector": "Unknown",
+      "companyName": "NATCOPHARM"
+    },
+    {
+      "symbol": "NATIONALUM.NS",
+      "sector": "Unknown",
+      "companyName": "NATIONALUM"
+    },
+    {
+      "symbol": "NAUKRI.NS",
+      "sector": "Unknown",
+      "companyName": "NAUKRI"
+    },
+    {
+      "symbol": "NAVA.NS",
+      "sector": "Unknown",
+      "companyName": "NAVA"
+    },
+    {
+      "symbol": "NAVINFLUOR.NS",
+      "sector": "Unknown",
+      "companyName": "NAVINFLUOR"
+    },
+    {
+      "symbol": "NBCC.NS",
+      "sector": "Unknown",
+      "companyName": "NBCC"
+    },
+    {
+      "symbol": "NCC.NS",
+      "sector": "Unknown",
+      "companyName": "NCC"
+    },
+    {
+      "symbol": "NESTLEIND.NS",
+      "sector": "Unknown",
+      "companyName": "NESTLEIND"
+    },
+    {
+      "symbol": "NETWEB.NS",
+      "sector": "Unknown",
+      "companyName": "NETWEB"
+    },
+    {
+      "symbol": "NETWORK18.NS",
+      "sector": "Unknown",
+      "companyName": "NETWORK18"
+    },
+    {
+      "symbol": "NEULANDLAB.NS",
+      "sector": "Unknown",
+      "companyName": "NEULANDLAB"
+    },
+    {
+      "symbol": "NEWGEN.NS",
+      "sector": "Unknown",
+      "companyName": "NEWGEN"
+    },
+    {
+      "symbol": "NH.NS",
+      "sector": "Unknown",
+      "companyName": "NH"
+    },
+    {
+      "symbol": "NHPC.NS",
+      "sector": "Unknown",
+      "companyName": "NHPC"
+    },
+    {
+      "symbol": "NIACL.NS",
+      "sector": "Unknown",
+      "companyName": "NIACL"
+    },
+    {
+      "symbol": "NIVABUPA.NS",
+      "sector": "Unknown",
+      "companyName": "NIVABUPA"
+    },
+    {
+      "symbol": "NLCINDIA.NS",
+      "sector": "Unknown",
+      "companyName": "NLCINDIA"
+    },
+    {
+      "symbol": "NMDC.NS",
+      "sector": "Unknown",
+      "companyName": "NMDC"
+    },
+    {
+      "symbol": "NSLNISP.NS",
+      "sector": "Unknown",
+      "companyName": "NSLNISP"
+    },
+    {
+      "symbol": "NTPC.NS",
+      "sector": "Unknown",
+      "companyName": "NTPC"
+    },
+    {
+      "symbol": "NTPCGREEN.NS",
+      "sector": "Unknown",
+      "companyName": "NTPCGREEN"
+    },
+    {
+      "symbol": "NUVAMA.NS",
+      "sector": "Unknown",
+      "companyName": "NUVAMA"
+    },
+    {
+      "symbol": "NYKAA.NS",
+      "sector": "Unknown",
+      "companyName": "NYKAA"
+    },
+    {
+      "symbol": "OBEROIRLTY.NS",
+      "sector": "Unknown",
+      "companyName": "OBEROIRLTY"
+    },
+    {
+      "symbol": "OFSS.NS",
+      "sector": "Unknown",
+      "companyName": "OFSS"
+    },
+    {
+      "symbol": "OIL.NS",
+      "sector": "Unknown",
+      "companyName": "OIL"
+    },
+    {
+      "symbol": "OLAELEC.NS",
+      "sector": "Unknown",
+      "companyName": "OLAELEC"
+    },
+    {
+      "symbol": "OLECTRA.NS",
+      "sector": "Unknown",
+      "companyName": "OLECTRA"
+    },
+    {
+      "symbol": "ONGC.NS",
+      "sector": "Unknown",
+      "companyName": "ONGC"
+    },
+    {
+      "symbol": "PAGEIND.NS",
+      "sector": "Unknown",
+      "companyName": "PAGEIND"
+    },
+    {
+      "symbol": "PATANJALI.NS",
+      "sector": "Unknown",
+      "companyName": "PATANJALI"
+    },
+    {
+      "symbol": "PAYTM.NS",
+      "sector": "Unknown",
+      "companyName": "PAYTM"
+    },
+    {
+      "symbol": "PCBL.NS",
+      "sector": "Unknown",
+      "companyName": "PCBL"
+    },
+    {
+      "symbol": "PERSISTENT.NS",
+      "sector": "Unknown",
+      "companyName": "PERSISTENT"
+    },
+    {
+      "symbol": "PETRONET.NS",
+      "sector": "Unknown",
+      "companyName": "PETRONET"
+    },
+    {
+      "symbol": "PFC.NS",
+      "sector": "Unknown",
+      "companyName": "PFC"
+    },
+    {
+      "symbol": "PFIZER.NS",
+      "sector": "Unknown",
+      "companyName": "PFIZER"
+    },
+    {
+      "symbol": "PGEL.NS",
+      "sector": "Unknown",
+      "companyName": "PGEL"
+    },
+    {
+      "symbol": "PHOENIXLTD.NS",
+      "sector": "Unknown",
+      "companyName": "PHOENIXLTD"
+    },
+    {
+      "symbol": "PIDILITIND.NS",
+      "sector": "Unknown",
+      "companyName": "PIDILITIND"
+    },
+    {
+      "symbol": "PIIND.NS",
+      "sector": "Unknown",
+      "companyName": "PIIND"
+    },
+    {
+      "symbol": "PNB.NS",
+      "sector": "Unknown",
+      "companyName": "PNB"
+    },
+    {
+      "symbol": "PNBHOUSING.NS",
+      "sector": "Unknown",
+      "companyName": "PNBHOUSING"
+    },
+    {
+      "symbol": "PNCINFRA.NS",
+      "sector": "Unknown",
+      "companyName": "PNCINFRA"
+    },
+    {
+      "symbol": "POLICYBZR.NS",
+      "sector": "Unknown",
+      "companyName": "POLICYBZR"
+    },
+    {
+      "symbol": "POLYCAB.NS",
+      "sector": "Unknown",
+      "companyName": "POLYCAB"
+    },
+    {
+      "symbol": "POLYMED.NS",
+      "sector": "Unknown",
+      "companyName": "POLYMED"
+    },
+    {
+      "symbol": "POONAWALLA.NS",
+      "sector": "Unknown",
+      "companyName": "POONAWALLA"
+    },
+    {
+      "symbol": "POWERGRID.NS",
+      "sector": "Unknown",
+      "companyName": "POWERGRID"
+    },
+    {
+      "symbol": "POWERINDIA.NS",
+      "sector": "Unknown",
+      "companyName": "POWERINDIA"
+    },
+    {
+      "symbol": "PPLPHARMA.NS",
+      "sector": "Unknown",
+      "companyName": "PPLPHARMA"
+    },
+    {
+      "symbol": "PRAJIND.NS",
+      "sector": "Unknown",
+      "companyName": "PRAJIND"
+    },
+    {
+      "symbol": "PREMIERENE.NS",
+      "sector": "Unknown",
+      "companyName": "PREMIERENE"
+    },
+    {
+      "symbol": "PRESTIGE.NS",
+      "sector": "Unknown",
+      "companyName": "PRESTIGE"
+    },
+    {
+      "symbol": "PTCIL.NS",
+      "sector": "Unknown",
+      "companyName": "PTCIL"
+    },
+    {
+      "symbol": "PVRINOX.NS",
+      "sector": "Unknown",
+      "companyName": "PVRINOX"
+    },
+    {
+      "symbol": "RADICO.NS",
+      "sector": "Unknown",
+      "companyName": "RADICO"
+    },
+    {
+      "symbol": "RAILTEL.NS",
+      "sector": "Unknown",
+      "companyName": "RAILTEL"
+    },
+    {
+      "symbol": "RAINBOW.NS",
+      "sector": "Unknown",
+      "companyName": "RAINBOW"
+    },
+    {
+      "symbol": "RAMCOCEM.NS",
+      "sector": "Unknown",
+      "companyName": "RAMCOCEM"
+    },
+    {
+      "symbol": "RAYMOND.NS",
+      "sector": "Unknown",
+      "companyName": "RAYMOND"
+    },
+    {
+      "symbol": "RAYMONDLSL.NS",
+      "sector": "Unknown",
+      "companyName": "RAYMONDLSL"
+    },
+    {
+      "symbol": "RBLBANK.NS",
+      "sector": "Unknown",
+      "companyName": "RBLBANK"
+    },
+    {
+      "symbol": "RCF.NS",
+      "sector": "Unknown",
+      "companyName": "RCF"
+    },
+    {
+      "symbol": "RECLTD.NS",
+      "sector": "Unknown",
+      "companyName": "RECLTD"
+    },
+    {
+      "symbol": "REDINGTON.NS",
+      "sector": "Unknown",
+      "companyName": "REDINGTON"
+    },
+    {
+      "symbol": "RELIANCE.NS",
+      "sector": "Unknown",
+      "companyName": "RELIANCE"
+    },
+    {
+      "symbol": "RENUKA.NS",
+      "sector": "Unknown",
+      "companyName": "RENUKA"
+    },
+    {
+      "symbol": "RHIM.NS",
+      "sector": "Unknown",
+      "companyName": "RHIM"
+    },
+    {
+      "symbol": "RITES.NS",
+      "sector": "Unknown",
+      "companyName": "RITES"
+    },
+    {
+      "symbol": "RKFORGE.NS",
+      "sector": "Unknown",
+      "companyName": "RKFORGE"
+    },
+    {
+      "symbol": "ROUTE.NS",
+      "sector": "Unknown",
+      "companyName": "ROUTE"
+    },
+    {
+      "symbol": "RPOWER.NS",
+      "sector": "Unknown",
+      "companyName": "RPOWER"
+    },
+    {
+      "symbol": "RRKABEL.NS",
+      "sector": "Unknown",
+      "companyName": "RRKABEL"
+    },
+    {
+      "symbol": "RTNINDIA.NS",
+      "sector": "Unknown",
+      "companyName": "RTNINDIA"
+    },
+    {
+      "symbol": "RVNL.NS",
+      "sector": "Unknown",
+      "companyName": "RVNL"
+    },
+    {
+      "symbol": "SAGILITY.NS",
+      "sector": "Unknown",
+      "companyName": "SAGILITY"
+    },
+    {
+      "symbol": "SAIL.NS",
+      "sector": "Unknown",
+      "companyName": "SAIL"
+    },
+    {
+      "symbol": "SAILIFE.NS",
+      "sector": "Unknown",
+      "companyName": "SAILIFE"
+    },
+    {
+      "symbol": "SAMMAANCAP.NS",
+      "sector": "Unknown",
+      "companyName": "SAMMAANCAP"
+    },
+    {
+      "symbol": "SAPPHIRE.NS",
+      "sector": "Unknown",
+      "companyName": "SAPPHIRE"
+    },
+    {
+      "symbol": "SARDAEN.NS",
+      "sector": "Unknown",
+      "companyName": "SARDAEN"
+    },
+    {
+      "symbol": "SAREGAMA.NS",
+      "sector": "Unknown",
+      "companyName": "SAREGAMA"
+    },
+    {
+      "symbol": "SBFC.NS",
+      "sector": "Unknown",
+      "companyName": "SBFC"
+    },
+    {
+      "symbol": "SBICARD.NS",
+      "sector": "Unknown",
+      "companyName": "SBICARD"
+    },
+    {
+      "symbol": "SBILIFE.NS",
+      "sector": "Unknown",
+      "companyName": "SBILIFE"
+    },
+    {
+      "symbol": "SBIN.NS",
+      "sector": "Unknown",
+      "companyName": "SBIN"
+    },
+    {
+      "symbol": "SCHAEFFLER.NS",
+      "sector": "Unknown",
+      "companyName": "SCHAEFFLER"
+    },
+    {
+      "symbol": "SCHNEIDER.NS",
+      "sector": "Unknown",
+      "companyName": "SCHNEIDER"
+    },
+    {
+      "symbol": "SCI.NS",
+      "sector": "Unknown",
+      "companyName": "SCI"
+    },
+    {
+      "symbol": "SHREECEM.NS",
+      "sector": "Unknown",
+      "companyName": "SHREECEM"
+    },
+    {
+      "symbol": "SHRIRAMFIN.NS",
+      "sector": "Unknown",
+      "companyName": "SHRIRAMFIN"
+    },
+    {
+      "symbol": "SHYAMMETL.NS",
+      "sector": "Unknown",
+      "companyName": "SHYAMMETL"
+    },
+    {
+      "symbol": "SIEMENS.NS",
+      "sector": "Unknown",
+      "companyName": "SIEMENS"
+    },
+    {
+      "symbol": "SIGNATURE.NS",
+      "sector": "Unknown",
+      "companyName": "SIGNATURE"
+    },
+    {
+      "symbol": "SJVN.NS",
+      "sector": "Unknown",
+      "companyName": "SJVN"
+    },
+    {
+      "symbol": "SKFINDIA.NS",
+      "sector": "Unknown",
+      "companyName": "SKFINDIA"
+    },
+    {
+      "symbol": "SOBHA.NS",
+      "sector": "Unknown",
+      "companyName": "SOBHA"
+    },
+    {
+      "symbol": "SOLARINDS.NS",
+      "sector": "Unknown",
+      "companyName": "SOLARINDS"
+    },
+    {
+      "symbol": "SONACOMS.NS",
+      "sector": "Unknown",
+      "companyName": "SONACOMS"
+    },
+    {
+      "symbol": "SONATSOFTW.NS",
+      "sector": "Unknown",
+      "companyName": "SONATSOFTW"
+    },
+    {
+      "symbol": "SRF.NS",
+      "sector": "Unknown",
+      "companyName": "SRF"
+    },
+    {
+      "symbol": "STARHEALTH.NS",
+      "sector": "Unknown",
+      "companyName": "STARHEALTH"
+    },
+    {
+      "symbol": "SUMICHEM.NS",
+      "sector": "Unknown",
+      "companyName": "SUMICHEM"
+    },
+    {
+      "symbol": "SUNDARMFIN.NS",
+      "sector": "Unknown",
+      "companyName": "SUNDARMFIN"
+    },
+    {
+      "symbol": "SUNDRMFAST.NS",
+      "sector": "Unknown",
+      "companyName": "SUNDRMFAST"
+    },
+    {
+      "symbol": "SUNPHARMA.NS",
+      "sector": "Unknown",
+      "companyName": "SUNPHARMA"
+    },
+    {
+      "symbol": "SUNTV.NS",
+      "sector": "Unknown",
+      "companyName": "SUNTV"
+    },
+    {
+      "symbol": "SUPREMEIND.NS",
+      "sector": "Unknown",
+      "companyName": "SUPREMEIND"
+    },
+    {
+      "symbol": "SUZLON.NS",
+      "sector": "Unknown",
+      "companyName": "SUZLON"
+    },
+    {
+      "symbol": "SWIGGY.NS",
+      "sector": "Unknown",
+      "companyName": "SWIGGY"
+    },
+    {
+      "symbol": "SWSOLAR.NS",
+      "sector": "Unknown",
+      "companyName": "SWSOLAR"
+    },
+    {
+      "symbol": "SYNGENE.NS",
+      "sector": "Unknown",
+      "companyName": "SYNGENE"
+    },
+    {
+      "symbol": "SYRMA.NS",
+      "sector": "Unknown",
+      "companyName": "SYRMA"
+    },
+    {
+      "symbol": "TANLA.NS",
+      "sector": "Unknown",
+      "companyName": "TANLA"
+    },
+    {
+      "symbol": "TARIL.NS",
+      "sector": "Unknown",
+      "companyName": "TARIL"
+    },
+    {
+      "symbol": "TATACHEM.NS",
+      "sector": "Unknown",
+      "companyName": "TATACHEM"
+    },
+    {
+      "symbol": "TATACOMM.NS",
+      "sector": "Unknown",
+      "companyName": "TATACOMM"
+    },
+    {
+      "symbol": "TATACONSUM.NS",
+      "sector": "Unknown",
+      "companyName": "TATACONSUM"
+    },
+    {
+      "symbol": "TATAELXSI.NS",
+      "sector": "Unknown",
+      "companyName": "TATAELXSI"
+    },
+    {
+      "symbol": "TATAINVEST.NS",
+      "sector": "Unknown",
+      "companyName": "TATAINVEST"
+    },
+    {
+      "symbol": "TATAPOWER.NS",
+      "sector": "Unknown",
+      "companyName": "TATAPOWER"
+    },
+    {
+      "symbol": "TATASTEEL.NS",
+      "sector": "Unknown",
+      "companyName": "TATASTEEL"
+    },
+    {
+      "symbol": "TATATECH.NS",
+      "sector": "Unknown",
+      "companyName": "TATATECH"
+    },
+    {
+      "symbol": "TBOTEK.NS",
+      "sector": "Unknown",
+      "companyName": "TBOTEK"
+    },
+    {
+      "symbol": "TCS.NS",
+      "sector": "Unknown",
+      "companyName": "TCS"
+    },
+    {
+      "symbol": "TECHM.NS",
+      "sector": "Unknown",
+      "companyName": "TECHM"
+    },
+    {
+      "symbol": "TECHNOE.NS",
+      "sector": "Unknown",
+      "companyName": "TECHNOE"
+    },
+    {
+      "symbol": "TEJASNET.NS",
+      "sector": "Unknown",
+      "companyName": "TEJASNET"
+    },
+    {
+      "symbol": "THERMAX.NS",
+      "sector": "Unknown",
+      "companyName": "THERMAX"
+    },
+    {
+      "symbol": "TIINDIA.NS",
+      "sector": "Unknown",
+      "companyName": "TIINDIA"
+    },
+    {
+      "symbol": "TIMKEN.NS",
+      "sector": "Unknown",
+      "companyName": "TIMKEN"
+    },
+    {
+      "symbol": "TITAGARH.NS",
+      "sector": "Unknown",
+      "companyName": "TITAGARH"
+    },
+    {
+      "symbol": "TITAN.NS",
+      "sector": "Unknown",
+      "companyName": "TITAN"
+    },
+    {
+      "symbol": "TORNTPHARM.NS",
+      "sector": "Unknown",
+      "companyName": "TORNTPHARM"
+    },
+    {
+      "symbol": "TORNTPOWER.NS",
+      "sector": "Unknown",
+      "companyName": "TORNTPOWER"
+    },
+    {
+      "symbol": "TRENT.NS",
+      "sector": "Unknown",
+      "companyName": "TRENT"
+    },
+    {
+      "symbol": "TRIDENT.NS",
+      "sector": "Unknown",
+      "companyName": "TRIDENT"
+    },
+    {
+      "symbol": "TRITURBINE.NS",
+      "sector": "Unknown",
+      "companyName": "TRITURBINE"
+    },
+    {
+      "symbol": "TRIVENI.NS",
+      "sector": "Unknown",
+      "companyName": "TRIVENI"
+    },
+    {
+      "symbol": "TTML.NS",
+      "sector": "Unknown",
+      "companyName": "TTML"
+    },
+    {
+      "symbol": "TVSMOTOR.NS",
+      "sector": "Unknown",
+      "companyName": "TVSMOTOR"
+    },
+    {
+      "symbol": "UBL.NS",
+      "sector": "Unknown",
+      "companyName": "UBL"
+    },
+    {
+      "symbol": "UCOBANK.NS",
+      "sector": "Unknown",
+      "companyName": "UCOBANK"
+    },
+    {
+      "symbol": "ULTRACEMCO.NS",
+      "sector": "Unknown",
+      "companyName": "ULTRACEMCO"
+    },
+    {
+      "symbol": "UNIONBANK.NS",
+      "sector": "Unknown",
+      "companyName": "UNIONBANK"
+    },
+    {
+      "symbol": "UNITDSPR.NS",
+      "sector": "Unknown",
+      "companyName": "UNITDSPR"
+    },
+    {
+      "symbol": "UNOMINDA.NS",
+      "sector": "Unknown",
+      "companyName": "UNOMINDA"
+    },
+    {
+      "symbol": "UPL.NS",
+      "sector": "Unknown",
+      "companyName": "UPL"
+    },
+    {
+      "symbol": "USHAMART.NS",
+      "sector": "Unknown",
+      "companyName": "USHAMART"
+    },
+    {
+      "symbol": "UTIAMC.NS",
+      "sector": "Unknown",
+      "companyName": "UTIAMC"
+    },
+    {
+      "symbol": "VBL.NS",
+      "sector": "Unknown",
+      "companyName": "VBL"
+    },
+    {
+      "symbol": "VEDL.NS",
+      "sector": "Unknown",
+      "companyName": "VEDL"
+    },
+    {
+      "symbol": "VGUARD.NS",
+      "sector": "Unknown",
+      "companyName": "VGUARD"
+    },
+    {
+      "symbol": "VIJAYA.NS",
+      "sector": "Unknown",
+      "companyName": "VIJAYA"
+    },
+    {
+      "symbol": "VMM.NS",
+      "sector": "Unknown",
+      "companyName": "VMM"
+    },
+    {
+      "symbol": "VOLTAS.NS",
+      "sector": "Unknown",
+      "companyName": "VOLTAS"
+    },
+    {
+      "symbol": "VTL.NS",
+      "sector": "Unknown",
+      "companyName": "VTL"
+    },
+    {
+      "symbol": "WAAREEENER.NS",
+      "sector": "Unknown",
+      "companyName": "WAAREEENER"
+    },
+    {
+      "symbol": "WELCORP.NS",
+      "sector": "Unknown",
+      "companyName": "WELCORP"
+    },
+    {
+      "symbol": "WELSPUNLIV.NS",
+      "sector": "Unknown",
+      "companyName": "WELSPUNLIV"
+    },
+    {
+      "symbol": "WESTLIFE.NS",
+      "sector": "Unknown",
+      "companyName": "WESTLIFE"
+    },
+    {
+      "symbol": "WHIRLPOOL.NS",
+      "sector": "Unknown",
+      "companyName": "WHIRLPOOL"
+    },
+    {
+      "symbol": "WIPRO.NS",
+      "sector": "Unknown",
+      "companyName": "WIPRO"
+    },
+    {
+      "symbol": "WOCKPHARMA.NS",
+      "sector": "Unknown",
+      "companyName": "WOCKPHARMA"
+    },
+    {
+      "symbol": "YESBANK.NS",
+      "sector": "Unknown",
+      "companyName": "YESBANK"
+    },
+    {
+      "symbol": "ZEEL.NS",
+      "sector": "Unknown",
+      "companyName": "ZEEL"
+    },
+    {
+      "symbol": "ZENSARTECH.NS",
+      "sector": "Unknown",
+      "companyName": "ZENSARTECH"
+    },
+    {
+      "symbol": "ZENTEC.NS",
+      "sector": "Unknown",
+      "companyName": "ZENTEC"
+    },
+    {
+      "symbol": "ZFCVINDIA.NS",
+      "sector": "Unknown",
+      "companyName": "ZFCVINDIA"
+    },
+    {
+      "symbol": "ZYDUSLIFE.NS",
+      "sector": "Unknown",
+      "companyName": "ZYDUSLIFE"
+    }
+  ]
+}
