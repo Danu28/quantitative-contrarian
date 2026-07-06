@@ -1,57 +1,10 @@
 [
   {
     "id": "task_1",
-    "title": "Create signal_generator.py",
-    "description": "Implement daily signal evaluation using the 5 validated entry conditions. Read pre-computed characteristics, apply entry rules, rank candidates, output signal list.",
+    "title": "Create daily_scan.py",
+    "description": "CLI tool that scans any universe for actionable signals today. Reuses generate_signals() from src/backtest.py. Outputs terminal report with entry price, target1 (+12%), target2 (+18%), hard stop (-8%), trailing trigger (+10%), conviction. Optional --output HTML. Includes index regime context header.",
     "dependencies": [],
-    "priority": "high",
-    "type": "implementation"
-  },
-  {
-    "id": "task_2",
-    "title": "Create portfolio.py",
-    "description": "Position tracking: entry, exit (profit target, hard stop, time stop, trailing stop), position sizing (equal weight with regime multiplier), risk limits (daily/weekly loss, max drawdown), P&L tracking.",
-    "dependencies": ["task_1"],
-    "priority": "high",
-    "type": "implementation"
-  },
-  {
-    "id": "task_3",
-    "title": "Create main.py daily run loop",
-    "description": "Orchestrate daily execution: fetch data → compute characteristics → evaluate signals → update portfolio → generate report. Weekly rebalance on Friday.",
-    "dependencies": ["task_1", "task_2"],
-    "priority": "high",
-    "type": "implementation"
-  },
-  {
-    "id": "task_4",
-    "title": "Create dashboard.py Streamlit UI",
-    "description": "Web dashboard showing: current signals ranked, open positions with P&L, performance metrics (equity curve, drawdown), regime indicator, last updated timestamp.",
-    "dependencies": ["task_3"],
-    "priority": "medium",
-    "type": "implementation"
-  },
-  {
-    "id": "task_5",
-    "title": "Integration test",
-    "description": "Run full daily cycle: fetch data, generate signals, simulate 1 week of trading. Verify output matches expected format. Check error handling.",
-    "dependencies": ["task_3"],
-    "priority": "high",
-    "type": "testing"
-  },
-  {
-    "id": "task_6",
-    "title": "Lint and finalize",
-    "description": "Run Python linting, verify all modules import correctly, check for hardcoded paths, ensure all parameters are configurable.",
-    "dependencies": ["task_4", "task_5"],
-    "priority": "medium",
-    "type": "verification"
-  },
-  {
-    "id": "task_7",
-    "title": "Add --output HTML report to forward_check.py",
-    "description": "Add --output flag to forward_check.py that generates a self-contained HTML report with entry/exit dates, prices, returns, color-coded win/loss, cross-horizon comparison.",
-    "dependencies": [],
+    "status": "done",
     "priority": "high",
     "type": "implementation"
   }

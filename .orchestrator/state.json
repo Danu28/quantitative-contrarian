@@ -1,37 +1,13 @@
 {
   "pipeline": {
-    "current_stage": "validate",
+    "current_stage": "build",
     "stages": {
-      "think": {
-        "status": "completed",
-        "skill": "first-principles",
-        "notes": "Reverse-engineering approach defined. Winner definition, pre-move analysis methodology, and validation gates specified."
-      },
-      "research": {
-        "status": "completed",
-        "skill": "quant-research",
-        "notes": "Full research cycle complete. 8 characteristics replicated OOS. Winner profile: contrarian/volatility-breakout edge."
-      },
-      "classify": {
-        "status": "completed",
-        "skill": "market-regime",
-        "notes": "Edge is regime-stable. Activation/deactivation rules defined in FINDINGS.md."
-      },
-      "design": {
-        "status": "completed",
-        "skill": "strategy-design",
-        "notes": "Complete strategy specification in FINDINGS.md. 5 entry conditions, 6 exit rules, regime-based sizing."
-      },
-      "validate": {
-        "status": "completed",
-        "skill": "backtesting",
-        "notes": "Comprehensive backtest completed via backtest_engine.py. 5/10/21d horizons tested. Best: 10d (CAGR 4.16%, MaxDD -7.78%, Sharpe -0.30). All horizons positive CAGR, low drawdowns, but negative Sharpe vs 6.5% RFR. Recommendation: Requires Additional Research — edge exists but too modest standalone."
-      },
-      "build": {
-        "status": "completed",
-        "skill": "dev-loop",
-        "notes": "6 build tasks complete. signal_generator, portfolio, main, dashboard deployed."
-      }
+      "think":     { "status": "completed", "notes": "Daily scan = forward_check + exit levels + auto today. Separate tool reuses generate_signals()." },
+      "research":  { "status": "completed", "notes": "Entry conditions validated. Need: regime context + targets/stops per signal." },
+      "classify":  { "status": "completed", "notes": "Report header will show: index trend (20d MA slope), volatility regime (ATR percentile), simple label." },
+      "design":    { "status": "completed", "notes": "daily_scan.py: 4 inputs, 6 processing steps, terminal + HTML output." },
+      "validate":  { "status": "completed", "notes": "Report layer on validated signals. Spot-check math correct." },
+      "build":     { "status": "completed", "skill": "dev-loop" }
     }
   },
   "project": "ai-quantitative-researcher"

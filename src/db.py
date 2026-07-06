@@ -1,13 +1,5 @@
-"""Fetch daily OHLCV data for any universe and cache in SQLite.
-
-Usage:
-    python fetch_universe_data.py --universe nifty50
-    python fetch_universe_data.py --universe niftymidcap150 --years 5
-    python fetch_universe_data.py --universe universe/nifty500.json --db data/market_data.db
-"""
 from __future__ import annotations
 
-import argparse
 import json
 import sqlite3
 import sys
@@ -18,9 +10,12 @@ from pathlib import Path
 import pandas as pd
 import yfinance as yf
 
-from reverse_engineer.universe_loader import _resolve_json_path, UNIVERSE_DIR
-
-DB_PATH = Path(__file__).resolve().parent / "data" / "market_data.db"
+UNIVERSE_DIR = Path(__file__).resolve().parent.parent / "universe"
+DB_PATH = Path(__file__).resolve().parent.parent / "data" / "market_data.db"
+KNOWN_SLUGS: dict[str, str] = {
+    "nifty50": "nifty50.json",
+    "nifty500": "nifty500.json",
+}
 
 
 def get_db(path: Path = DB_PATH) -> sqlite3.Connection:
@@ -59,12 +54,63 @@ def get_db(path: Path = DB_PATH) -> sqlite3.Connection:
     return conn
 
 
+def _resolve_json_path(name_or_path: str) -> Path:
+    p = Path(name_or_path)
+    if p.exists() and p.suffix == ".json":
+        return p.resolve()
+    slug = name_or_path.strip().lower().replace(" ", "").replace("-", "").replace("_", "")
+    fname = KNOWN_SLUGS.get(slug)
+    if fname is not None:
+        return (UNIVERSE_DIR / fname).resolve()
+    alt = UNIVERSE_DIR / f"{slug}.json"
+    if alt.exists():
+        return alt.resolve()
+    raise FileNotFoundError(
+        f"Universe '{name_or_path}' not found. "
+        f"Known slugs: {list(KNOWN_SLUGS.keys())}. "
+        f"Or provide path to a JSON file."
+    )
+
+
+def load_universe(universe_slug_or_path: str) -> dict:
+    json_path = _resolve_json_path(universe_slug_or_path)
+    with open(json_path, encoding="utf-8") as f:
+        config = json.load(f)
+    config["symbols"] = [c["symbol"] for c in config["constituents"]]
+    return config
+
+
+def get_symbols(universe_slug_or_path: str) -> list[str]:
+    return load_universe(universe_slug_or_path)["symbols"]
+
+
+def get_sector_map(universe_slug_or_path: str) -> dict[str, str]:
+    config = load_universe(universe_slug_or_path)
+    return {c["symbol"]: c.get("sector", "Unknown") for c in config["constituents"]}
+
+
+def list_available_detailed() -> list[dict]:
+    results = []
+    for p in sorted(UNIVERSE_DIR.glob("*.json")):
+        try:
+            with open(p) as f:
+                c = json.load(f)
+            results.append({
+                "slug": c.get("slug", p.stem),
+                "name": c.get("name", p.stem),
+                "n_constituents": len(c.get("constituents", [])),
+                "file": str(p),
+            })
+        except Exception:
+            results.append({"slug": p.stem, "name": p.stem, "n_constituents": 0, "file": str(p), "error": True})
+    return results
+
+
 def get_cached_dates(conn: sqlite3.Connection, symbol: str) -> set[str]:
     rows = conn.execute(
         "SELECT date FROM daily_ohlcv WHERE symbol = ?", (symbol,)
     ).fetchall()
     return {r[0] for r in rows}
-
 
 
 def store_stock(conn: sqlite3.Connection, symbol: str, company_name: str, sector: str, universe_slug: str):
@@ -106,18 +152,18 @@ def fetch_symbol_data(
     years: int = 10,
     force: bool = False,
 ) -> pd.DataFrame:
-    cached_dates = get_cached_dates(conn, symbol)
-    if cached_dates:
-        latest = max(cached_dates)
-        today = datetime.now().strftime("%Y-%m-%d")
-        if latest >= today:
-            print(f"  {symbol}: up to date ({latest})")
-            df = pd.read_sql_query(
-                "SELECT date, open, high, low, close, volume, adj_close "
-                "FROM daily_ohlcv WHERE symbol = ? ORDER BY date",
-                conn, params=(symbol,), index_col="date", parse_dates=["date"],
-            )
-            return df
+    if not force:
+        cached_dates = get_cached_dates(conn, symbol)
+        if cached_dates:
+            latest = max(cached_dates)
+            today = datetime.now().strftime("%Y-%m-%d")
+            if latest >= today:
+                print(f"  {symbol}: up to date ({latest})")
+                return pd.read_sql_query(
+                    "SELECT date, open, high, low, close, volume, adj_close "
+                    "FROM daily_ohlcv WHERE symbol = ? ORDER BY date",
+                    conn, params=(symbol,), index_col="date", parse_dates=["date"],
+                )
 
     print(f"  {symbol}: fetching...")
     start = datetime.now() - timedelta(days=365 * years)
@@ -137,16 +183,7 @@ def fetch_symbol_data(
     return df
 
 
-def load_universe(universe_slug_or_path: str) -> dict:
-    json_path = _resolve_json_path(universe_slug_or_path)
-    with open(json_path, encoding="utf-8") as f:
-        config = json.load(f)
-    config["symbols"] = [c["symbol"] for c in config["constituents"]]
-    return config
-
-
 def validate_symbols(symbols: list[str]) -> list[str]:
-    """Quick pre-flight check via yfinance info. Returns list of invalid symbols."""
     bad: list[str] = []
     for sym in symbols:
         print(f"  {sym}...", end=" ")
@@ -200,7 +237,6 @@ def fetch_universe(
         print(f"\nERROR: {len(bad)} invalid symbol(s) found:")
         for s in bad:
             print(f"  {s}")
-        print("\nFix the universe JSON or use --continue-on-error to skip bad symbols.")
         sys.exit(1)
 
     if validate_only:
@@ -232,7 +268,7 @@ def fetch_universe(
             errors += 1
             if not continue_on_error:
                 conn.close()
-                print(f"\nFATAL: {sym} returned no data. Aborting. Use --continue-on-error to skip bad symbols.")
+                print(f"\nFATAL: {sym} returned no data. Aborting.")
                 sys.exit(1)
         if i < len(constituents):
             time.sleep(delay)
@@ -245,7 +281,7 @@ def fetch_universe(
     return all_dfs
 
 
-def query(
+def load_data(
     universe_slug_or_path: str,
     db_path: str | Path = DB_PATH,
     since: str | None = None,
@@ -269,57 +305,3 @@ def query(
     df["date"] = pd.to_datetime(df["date"])
     conn.close()
     return df
-
-
-def available_universes() -> list[dict]:
-    from reverse_engineer.universe_loader import list_available_detailed
-    return list_available_detailed()
-
-
-def main():
-    parser = argparse.ArgumentParser(description="Fetch market data for any stock universe")
-    parser.add_argument("--universe", "-u", default="nifty50",
-                        help="Universe slug (nifty50, nifty500, niftymidcap150) or path to JSON")
-    parser.add_argument("--db", default=str(DB_PATH),
-                        help=f"SQLite DB path (default: {DB_PATH})")
-    parser.add_argument("--years", type=int, default=10,
-                        help="Years of history to fetch (default: 10)")
-    parser.add_argument("--force", action="store_true",
-                        help="Force re-fetch even if cached")
-    parser.add_argument("--delay", type=float, default=0.5,
-                        help="Delay between API requests in seconds (default: 0.5)")
-    parser.add_argument("--query", "-q", nargs="?", const="1900-01-01",
-                        help="Query cached data (optionally since YYYY-MM-DD)")
-    parser.add_argument("--list", "-l", action="store_true",
-                        help="List available universes")
-    parser.add_argument("--validate-only", action="store_true",
-                        help="Only validate symbols, don't fetch data")
-    parser.add_argument("--continue-on-error", action="store_true",
-                        help="Skip bad symbols instead of aborting")
-
-    args = parser.parse_args()
-
-    if args.list:
-        for u in available_universes():
-            flag = " ERROR" if u.get("error") else ""
-            print(f"  {u['slug']:20s}  {u['name']:30s}  {u['n_constituents']:4d} stocks{flag}")
-        return
-
-    if args.query:
-        since = None if args.query == "1900-01-01" else args.query
-        df = query(args.universe, args.db, since=since)
-        if df.empty:
-            print("No cached data found. Run without --query to fetch first.")
-        else:
-            print(f"{len(df)} rows")
-            print(df.to_string(index=False))
-        return
-
-    fetch_universe(args.universe, years=args.years, db_path=args.db,
-                   force=args.force, delay=args.delay,
-                   continue_on_error=args.continue_on_error,
-                   validate_only=args.validate_only)
-
-
-if __name__ == "__main__":
-    main()
