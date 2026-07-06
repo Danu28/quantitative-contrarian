@@ -1,13 +1,13 @@
 {
   "pipeline": {
-    "current_stage": "build",
+    "current_stage": null,
     "stages": {
-      "think":     { "status": "completed", "notes": "Daily scan = forward_check + exit levels + auto today. Separate tool reuses generate_signals()." },
-      "research":  { "status": "completed", "notes": "Entry conditions validated. Need: regime context + targets/stops per signal." },
-      "classify":  { "status": "completed", "notes": "Report header will show: index trend (20d MA slope), volatility regime (ATR percentile), simple label." },
-      "design":    { "status": "completed", "notes": "daily_scan.py: 4 inputs, 6 processing steps, terminal + HTML output." },
-      "validate":  { "status": "completed", "notes": "Report layer on validated signals. Spot-check math correct." },
-      "build":     { "status": "completed", "skill": "dev-loop" }
+      "think":     { "status": "completed", "notes": "Questioned all 7 conditions from research evidence. gap_freq p=0.25 (removed). ATR/vol 56% correlated but kept as separate AND (strictness > redundancy). Conviction replaced with equal-weight rank." },
+      "research":  { "status": "completed", "notes": "Condition decomposition: 7 individual MW tests, AND combo monotonicity, alternative conviction scores, redundancy analysis." },
+      "classify":  { "status": "completed", "notes": "No regime changes needed. Same exits/stops applicable." },
+      "design":    { "status": "completed", "notes": "6 entry conditions (removed gap_freq). Equal-weight conviction: 5-feature percentile rank average." },
+      "validate":  { "status": "completed", "notes": "21d CAGR +3.12% (+0.38% vs old). MaxDD -6.49% (-35% vs old). Trades +103. All metrics improved. Not deployment-ready (Sharpe negative at 6.5% RFR, 87% exits not_in_universe)." },
+      "build":     { "status": "completed", "notes": "Changes in src/backtest.py: -ENTRY_GAP_FREQ, -ENTRY_ATR_MULT, -ENTRY_VOL_MULT, -compute_conviction(). +equal_weight_conviction(). 5 conditions +2 kept as AND. git diff confirms clean 26-line change." }
     }
   },
   "project": "ai-quantitative-researcher"
