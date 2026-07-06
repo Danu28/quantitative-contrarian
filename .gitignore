@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+data/*.parquet
+reverse_engineer/state/*.parquet
+reverse_engineer/__pycache__/
+.env
