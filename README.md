@@ -23,6 +23,7 @@ Statistical contrarian system for Indian equities. Scans any universe (NIFTY 50,
 ```bash
 python backtest.py --universe nifty50 --years 3
 python daily_scan.py --universe niftymidcap150 --output report.html
+python forward_check.py --universe nifty50 --horizons 5 10 21 --output fwd.html
 python fetch.py --universe nifty500 --validate-only
 ```
 
@@ -39,6 +40,16 @@ src/backtest.py    Signal generation, portfolio, backtest engine
 src/research.py    Statistical validation pipeline
 src/reporting.py   Beautiful Reports design system
 ```
+
+## CLI Tools
+
+| Tool | Purpose |
+|------|---------|
+| `backtest.py` | Historical simulation with costs, multiple horizons |
+| `daily_scan.py` | Today's actionable signals with exit levels, regime context |
+| `forward_check.py` | Forward return check for any date/universe with HTML report |
+| `fetch.py` | Download/cache/validate data for any universe |
+| `research.py` | Statistical research scan (Mann-Whitney, permutation tests) |
 
 ## Status
 
