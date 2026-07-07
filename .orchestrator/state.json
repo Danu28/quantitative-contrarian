@@ -1,6 +1,6 @@
 {
   "pipeline": {
-    "current_stage": "think",
+    "current_stage": null,
     "stages": {
       "think":     { "status": "completed", "notes": "Reframed from signal engine to trader system. Core gap: no execution playbook exists. Trader needs: (1) explicit entry workflow, (2) position sizing for any capital, (3) exit monitoring system, (4) risk controls, (5) performance tracking. daily_scan.py is a dev tool, not a trader cockpit. Key risk: Friday gap risk (signal close vs actual fill). Recommended: proceed to Research stage to build execution model.", "skill": "first-principles" },
       "research":  { "status": "completed", "notes": "Daily vs weekly rebalancing tested. Weekly: CAGR +5.21%, MaxDD -4.75%, 64 trades. Daily(3): CAGR -2.58%, MaxDD -11.35%, 100 trades. Daily(1): CAGR -3.08%, MaxDD -10.13%, 92 trades. Flags: (1) CAGR destroyed with daily, (2) MaxDD 2.4x deeper, (3) trade quality negative, (4) TRENT.NS entered 12x (whipsaw), (5) 62% signal overlap with existing positions, (6) turnover +64%. Verdict: Weekly is optimal. Daily is a trap - more work, worse returns.", "skill": "quant-research" },

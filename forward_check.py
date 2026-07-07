@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -91,14 +92,14 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
         closest = [d for d in available if d >= entry_date]
         if not closest:
             print(f"  No trading data found on or after {entry_date.date()}")
-            return
+            sys.exit(1)
         entry_date = closest[0]
         print(f"  Adjusted to nearest trading day: {entry_date.date()}")
 
     sig = generate_signals(data, char_data, entry_date)
     if sig.empty:
         print(f"\n  No signals generated on {entry_date.date()}.")
-        return
+        sys.exit(1)
 
     # Compute regime at entry date
     all_dates_fwd = sorted(set(d for s in char_data for d in char_data[s].index))

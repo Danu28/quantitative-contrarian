@@ -4,26 +4,25 @@
 AI Quantitative Researcher — contrarian system for Indian equities (NIFTY 50)
 
 ## Current Cycle
-Complete trader playbook: Add regime-based position sizing recommendations to daily_scan.py and HTML report.
+Create master interactive batch file (`run.bat`) that wraps all CLI tools.
 
 ## Key Files
 - `daily_scan.py` — CLI tool for daily signal scan
-- `src/reporting.py` — HTML report generation
-- `TRADER_PLAYBOOK.md` — Complete trader documentation (already written)
+- `forward_check.py` — CLI tool for forward return check
+- `src/backtest.py` — backtest engine (run via `backtest.py` or direct)
+- `run.bat` — master launcher (TO BE CREATED)
 
-## What's Being Built
-1. `compute_regime()` in daily_scan.py already computes NIFTY 20d trend.
-   Change: add `max_positions` and `action` recommendation to the returned dict.
-2. Console output: show regime action (Full/Reduce/Skip) with max position count.
-3. HTML report: add regime recommendation section with clear action banner.
-4. The regime multiplier logic:
-   - Bull (> +3%): 1 position max (Skip or minimal)
-   - Sideways (-3% to +3%): 3 positions (Full deploy)
-   - Bear/Crash (< -3%): 3 positions (Full deploy — best regime)
+## Requirements
+- Windows batch file (.bat)
+- Interactive menu with numbered options
+- Prompts for all parameters with sensible defaults
+- Options: Daily Scan, Forward Check, Backtest, Run All
+- Color-coded menu (optional)
+- Clear error handling
+- Opens HTML reports when generated
 
 ## Stack
-Python 3.14, pandas, numpy, scipy, yfinance, SQLite
+Windows batch (.bat), Python 3.14
 
 ## Validation
-python daily_scan.py --output report.html
-Verify: regime label, recommended action, max positions displayed correctly.
+Run `run.bat`, select each option, verify it works.

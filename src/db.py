@@ -152,6 +152,7 @@ def fetch_symbol_data(
     years: int = 10,
     force: bool = False,
 ) -> pd.DataFrame:
+    cached_dates: set[str] = set()
     if not force:
         cached_dates = get_cached_dates(conn, symbol)
         if cached_dates:
@@ -166,7 +167,10 @@ def fetch_symbol_data(
                 )
 
     print(f"  {symbol}: fetching...")
-    start = datetime.now() - timedelta(days=365 * years)
+    if cached_dates:
+        start = datetime.strptime(latest, "%Y-%m-%d") - timedelta(days=5)
+    else:
+        start = datetime.now() - timedelta(days=365 * years)
     df = yf.download(symbol, start=start, progress=False, auto_adjust=True)
     if df.empty:
         print(f"  {symbol}: WARNING - no data returned")
@@ -281,13 +285,44 @@ def fetch_universe(
     return all_dfs
 
 
+def fetch_missing_data(
+    universe_slug_or_path: str,
+    db_path: str | Path = DB_PATH,
+    years: int = 10,
+):
+    config = load_universe(universe_slug_or_path)
+    symbols = config["symbols"]
+    conn = get_db(Path(db_path))
+
+    latest = conn.execute(
+        f"SELECT MAX(date) FROM daily_ohlcv WHERE symbol IN ({','.join('?' * len(symbols))})",
+        symbols,
+    ).fetchone()[0]
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    if latest and latest >= today:
+        conn.close()
+        return
+
+    print(f"  Latest data: {latest}. Fetching updates from yfinance...")
+    for i, sym in enumerate(symbols, 1):
+        print(f"  [{i}/{len(symbols)}]", end=" ")
+        fetch_symbol_data(conn, sym, years=years)
+    conn.close()
+
+
 def load_data(
     universe_slug_or_path: str,
     db_path: str | Path = DB_PATH,
     since: str | None = None,
+    auto_fetch: bool = True,
 ) -> pd.DataFrame:
     config = load_universe(universe_slug_or_path)
     symbols = config["symbols"]
+
+    if auto_fetch:
+        fetch_missing_data(universe_slug_or_path, db_path)
+
     conn = get_db(Path(db_path))
 
     if since:

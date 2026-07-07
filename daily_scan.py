@@ -8,6 +8,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -135,14 +136,14 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
         closest = [d for d in available if d >= scan_date]
         if not closest:
             print(f"  No trading data on or after {scan_date.date()}")
-            return
+            sys.exit(1)
         scan_date = closest[0]
         print(f"  Adjusted to nearest trading day: {scan_date.date()}")
 
     sig = generate_signals(data, char_data, scan_date)
     if sig.empty:
         print(f"\n  No signals on {scan_date.date()}.")
-        return
+        sys.exit(1)
 
     targets = {}
     rebalance_day = "Friday" if pd.Timestamp.now().weekday() < 4 else "next Friday"

@@ -1,29 +1,11 @@
 [
   {
-    "id": "task_4",
-    "title": "Add regime action to daily_scan.py compute_regime()",
-    "description": "Update compute_regime() to return max_positions and action recommendation. Show in console output.",
+    "id": "task_7",
+    "title": "Create master interactive run.bat",
+    "description": "Single Windows batch file with: (1) interactive menu, (2) Daily Scan with universe/date/output prompts, (3) Forward Check with universe/date/horizons prompts, (4) Backtest with universe/years/horizons prompts, (5) Run All option, (6) HTML report auto-open, (7) error handling.",
     "dependencies": [],
     "status": "done",
     "priority": "high",
     "type": "implementation"
-  },
-  {
-    "id": "task_5",
-    "title": "Update HTML report with regime recommendation",
-    "description": "Add regime action banner to daily_scan_html() in src/reporting.py. Show max positions, action (Full/Reduce/Skip), and reasoning.",
-    "dependencies": ["task_4"],
-    "status": "done",
-    "priority": "high",
-    "type": "implementation"
-  },
-  {
-    "id": "task_6",
-    "title": "Verify: run daily_scan.py, check output",
-    "description": "Run `python daily_scan.py --output report.html`. Verify regime label, action, max positions all display correctly in both console and HTML.",
-    "dependencies": ["task_5"],
-    "status": "done",
-    "priority": "high",
-    "type": "testing"
   }
 ]
