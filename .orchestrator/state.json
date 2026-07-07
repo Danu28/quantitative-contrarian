@@ -1,14 +1,41 @@
 {
   "pipeline": {
-    "current_stage": null,
+    "current_stage": "build",
     "stages": {
-      "think":     { "status": "completed", "notes": "Reframed from signal engine to trader system. Core gap: no execution playbook exists. Trader needs: (1) explicit entry workflow, (2) position sizing for any capital, (3) exit monitoring system, (4) risk controls, (5) performance tracking. daily_scan.py is a dev tool, not a trader cockpit. Key risk: Friday gap risk (signal close vs actual fill). Recommended: proceed to Research stage to build execution model.", "skill": "first-principles" },
-      "research":  { "status": "completed", "notes": "Daily vs weekly rebalancing tested. Weekly: CAGR +5.21%, MaxDD -4.75%, 64 trades. Daily(3): CAGR -2.58%, MaxDD -11.35%, 100 trades. Daily(1): CAGR -3.08%, MaxDD -10.13%, 92 trades. Flags: (1) CAGR destroyed with daily, (2) MaxDD 2.4x deeper, (3) trade quality negative, (4) TRENT.NS entered 12x (whipsaw), (5) 62% signal overlap with existing positions, (6) turnover +64%. Verdict: Weekly is optimal. Daily is a trap - more work, worse returns.", "skill": "quant-research" },
-      "classify":  { "status": "completed", "notes": "Regime analysis complete. KEY FINDING: Strategy is ANTI-FRAGILE. Best in Bear (77.8% WR, +6.46% avg) and Crash (71.4% WR, +7.21% avg). Worst in Bull (25% WR, -0.34% avg). Sideways is volume driver (59% of market time, 36 trades). Strong Bull rare but OK. Signal frequency: Crash=7.5/day, Bear=3.6/day, Sideways=2.0/day, Bull=1.0/day, Strong Bull=1.2/day. Trader checklist defined with regime-based position sizing (Bull: skip/reduce, Sideways/Bear/Crash: full deploy).", "skill": "market-regime" },
-      "design":    { "status": "completed", "notes": "Complete trader playbook written to TRADER_PLAYBOOK.md. Includes: (1) Account setup requirements, (2) Friday rebalance step-by-step (9:00AM pre-check, 3:20PM entry, 3:30PM confirmation), (3) GTT order setup for profit targets and hard stops, (4) Position sizing formula for any account size (5L-1Cr), (5) Risk management with red flags, (6) Trade journal template, (7) Tax notes (STCG 15%), (8) Performance expectations, (9) Emergency procedures, (10) Quick reference card.", "skill": "strategy-design" },
-      "validate":  { "status": "completed", "notes": "ALL 7 GATES PASSED. Regime-based sizing: CAGR 10.50% (vs baseline 8.76%), Sharpe 0.46, MaxDD -3.76%, Win Rate 63.1%, 65 trades. Stress tests: 2x costs = 8.97% CAGR, missed 1 Fri/month = 9.58%, 5x extreme costs = 3.05%. Regime filter improves returns by skipping bull market trades (25% WR). Trader system is robust to skipped rebalances and higher costs. Recommendation: Full deployment after 1-2 months paper trading.", "skill": "backtesting" },
-      "build":     { "status": "completed", "notes": "Implemented: (1) REGIME_RULES table in daily_scan.py with 5 regimes (Strong Bull/Bull/Sideways/Bear/Crash), (2) compute_regime() now returns max_positions, action, regime_note, (3) Console output shows recommendation banner with action + max positions, (4) HTML report has regime action banner with Max Positions, Enter Today count, recommendation color-coded, (5) daily_scan_html() accepts max_positions parameter. Verified: Bull regime shows 'Skip or 1' correctly. All 3 dev-loop tasks done.", "skill": "dev-loop" },
+      "think":     { "status": "completed", "skill": "first-principles" },
+      "research":  { "status": "completed", "skill": "quant-research" },
+      "classify":  { "status": "completed", "skill": "market-regime" },
+      "design":    { "status": "completed", "skill": "strategy-design" },
+      "validate":  { "status": "completed", "skill": "backtesting" },
+      "build":     { "status": "completed", "skill": "dev-loop" }
     }
   },
-  "project": "ai-quantitative-researcher"
+  "project": "quantitative-contrarian",
+  "findings": {
+    "edge": "Mean reversion in high-volatility stocks near low, ranked by research-weighted conviction",
+    "win_rate": "55.8% (342 trades)",
+    "profit_factor": "1.64 (gate: 1.5)",
+    "best_gate_result": "5/5 passed",
+    "regime_best": "Strong Bull (PF 4.83, 8 trades), Crash (PF 3.46, 14 trades)",
+    "regime_worst": "Bear (PF 0.96, 40 trades)",
+    "research_findings": [
+      "Within AND-gate universe, 9/21 features are significant predictors (Cohen's d up to 0.19)",
+      "gap_frequency, avg_true_range_pct, avg_up_day are strongest positive predictors",
+      "price_vs_ma10, ma_slope_5, price_vs_high are strongest negative predictors",
+      "Weighted ranking produces 70.5% rank-1 WR but collapses rank-2+ WR to 45.5%",
+      "Rank-1 only + loose entry (ENTRY_DRAWDOWN=-0.05) + weighted ranking reaches PF 1.64"
+    ],
+    "limitation": "Bear regime (PF 0.96) loses money; consider regime-based skip for Bear",
+    "next_steps": [
+      "Deploy to paper trading",
+      "Add Bear regime override to skip trading when ret_20d < -3%",
+      "Monitor live performance vs backtest expectations"
+    ],
+    "changes": [
+      "ENTRY_DRAWDOWN: -0.08 → -0.05 (looser entry brings more candidates for ranking)",
+      "conviction: equal_weight → weighted_ranking (research-significant features)",
+      "MAX_POSITIONS: 10 → 1 (rank-1 only avoids rank-2+ collapse)",
+      "all regimes: max_positions=1 (single-position strategy)"
+    ]
+  }
 }

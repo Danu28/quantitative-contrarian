@@ -343,11 +343,11 @@ Time Stop = 20 trading days
 
 
 REGIME_RULES_HTML = [
-    (8,    float("inf"), "Strong Bull", 2, "Reduce", "Rare regime. Trades infrequent."),
-    (3,    8,             "Bull",        1, "Skip or 1", "25% win rate. Avoid."),
-    (-3,   3,             "Sideways",    3, "Full deploy", "Core regime. 59% of market."),
-    (-8,   -3,            "Bear",        3, "Full deploy", "Best regime. 78% win rate."),
-    (float("-inf"), -8,   "Crash",       3, "Full deploy", "Best regime. 71% win rate."),
+    (8,    float("inf"), "Strong Bull", 1, "Single position", "Single highest-conviction position."),
+    (3,    8,             "Bull",        1, "Single position", "Single highest-conviction position."),
+    (-3,   3,             "Sideways",    1, "Single position", "Single highest-conviction position."),
+    (-8,   -3,            "Bear",        1, "Single position", "Single highest-conviction position."),
+    (float("-inf"), -8,   "Crash",       1, "Single position", "Single highest-conviction position."),
 ]
 
 

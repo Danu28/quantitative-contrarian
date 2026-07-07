@@ -14,6 +14,9 @@ def compute_stock_characteristics(df: pd.DataFrame, window: int = 20) -> pd.Data
 
     mp = min(5, window)
     result["return_over_window"] = close / close.shift(window) - 1
+    result["ret_1d"] = close / close.shift(1) - 1
+    result["ret_3d"] = close / close.shift(3) - 1
+    result["ret_5d"] = close / close.shift(5) - 1
     result["max_return"] = close.rolling(window).max() / close.shift(window) - 1
     roll_max = close.rolling(window, min_periods=mp).max()
     roll_max_dd = close / roll_max - 1
@@ -77,7 +80,8 @@ def compute_stock_characteristics(df: pd.DataFrame, window: int = 20) -> pd.Data
 
 def get_characteristic_names() -> list[str]:
     return [
-        "return_over_window", "max_return", "max_drawdown", "volatility",
+        "return_over_window", "ret_1d", "ret_3d", "ret_5d",
+        "max_return", "max_drawdown", "volatility",
         "avg_true_range_pct", "price_vs_high", "price_vs_low",
         "price_vs_ma10", "price_vs_ma20", "ma_slope_5", "ma_slope_10",
         "skewness", "kurtosis", "up_day_ratio", "avg_up_day", "avg_down_day",

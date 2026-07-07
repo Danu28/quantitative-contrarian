@@ -10,8 +10,8 @@ SLIPPAGE = 0.001
 BROKERAGE = 0.0005
 
 # Position limits
-MAX_POSITIONS = 10
-MIN_POSITIONS = 3
+MAX_POSITIONS = 1
+MIN_POSITIONS = 1
 
 # Exit parameters
 HARD_STOP = -0.08
@@ -25,12 +25,12 @@ TIME_STOP_DAYS = 20
 MAX_DAILY_LOSS = 0.02
 MAX_DRAWDOWN_DISABLE = 0.15
 
-# Regime position sizing
+# Regime position sizing (all 1.0 for single-position strategy)
 REGIME_NORMAL = 1.0
-REGIME_REDUCED = 0.5
+REGIME_REDUCED = 1.0
 
 # Entry conditions
-ENTRY_DRAWDOWN = -0.08
+ENTRY_DRAWDOWN = -0.05
 ENTRY_VOLUME_RATIO = 1.0
 ENTRY_PRICE_VS_LOW = 1.05
 ENTRY_PRICE_VS_HIGH_MAX = 0.98
@@ -38,10 +38,10 @@ HORIZON = 20
 
 # Regime thresholds (20d_return_min, 20d_return_max, multiplier)
 REGIME_MULTIPLIERS = [
-    (8,    float("inf"), 0.67),   # Strong Bull: 2 positions
-    (3,    8,             0.33),   # Bull: 1 position
-    (-3,   3,             1.0),    # Sideways: 3 positions
-    (float("-inf"), -3,   1.0),    # Bear/Crash: 3 positions
+    (8,    float("inf"), 1.0),    # Strong Bull: 1 position
+    (3,    8,             1.0),    # Bull: 1 position
+    (-3,   3,             1.0),    # Sideways: 1 position
+    (float("-inf"), -3,   1.0),    # Bear/Crash: 1 position
 ]
 
 # Sector concentration

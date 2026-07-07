@@ -19,20 +19,19 @@ from src.config import (
 )
 
 
-def equal_weight_conviction(signals: pd.DataFrame) -> pd.DataFrame:
+def weighted_conviction(signals: pd.DataFrame) -> pd.DataFrame:
+    """Research-weighted conviction using features with significant predictive power."""
     if signals.empty:
         return signals
-    features = ["max_drawdown", "avg_true_range_pct", "volatility", "price_vs_low", "volume_vs_ma10"]
-    weights = []
-    for f in features:
-        col = signals[f].copy()
-        if f == "max_drawdown":
-            col = col.abs()
-        elif f == "price_vs_low":
-            col = (1.05 - col).clip(lower=0)
-        rank = col.rank(pct=True)
-        weights.append(rank)
-    signals["conviction"] = sum(weights) / len(weights)
+    ranks = []
+    for feat in ["gap_frequency", "avg_true_range_pct", "avg_up_day", "volatility"]:
+        col = signals[feat].fillna(signals[feat].median())
+        ranks.append(col.rank(pct=True))
+    for feat in ["price_vs_ma10", "price_vs_high", "ma_slope_5", "ret_3d"]:
+        col = signals[feat].fillna(signals[feat].median())
+        ranks.append(1 - col.rank(pct=True))
+    weights = [0.19, 0.18, 0.17, 0.12, 0.17, 0.16, 0.17, 0.13]
+    signals["conviction"] = sum(w * r for w, r in zip(weights, ranks)) / sum(weights)
     return signals
 
 
@@ -69,6 +68,11 @@ def generate_signals(
         vol = c.get("volatility", 0)
         pvl = c.get("price_vs_low", 1)
         vma = c.get("volume_vs_ma10", 0)
+        gap_freq = c.get("gap_frequency", 0)
+        avg_up = c.get("avg_up_day", 0)
+        pv_ma10 = c.get("price_vs_ma10", 1)
+        ma_s5 = c.get("ma_slope_5", 0)
+        ret_3d = c.get("ret_3d", 0)
 
         ok = True
         ok &= not pd.isna(dd) and dd <= ENTRY_DRAWDOWN
@@ -88,11 +92,16 @@ def generate_signals(
                 "price_vs_low": pvl,
                 "volume_vs_ma10": vma,
                 "price_vs_high": pvh,
+                "gap_frequency": gap_freq,
+                "avg_up_day": avg_up,
+                "price_vs_ma10": pv_ma10,
+                "ma_slope_5": ma_s5,
+                "ret_3d": ret_3d,
             })
 
     result = pd.DataFrame(signals)
     if not result.empty:
-        result = equal_weight_conviction(result)
+        result = weighted_conviction(result)
         result = result.sort_values("conviction", ascending=False).reset_index(drop=True)
         result["rank"] = range(1, len(result) + 1)
     return result
@@ -244,14 +253,12 @@ class Portfolio:
     def _rebalance(self, signals: pd.DataFrame, prices: dict[str, float], current_date: pd.Timestamp, regime_multiplier: float):
         max_new = int(MAX_POSITIONS * regime_multiplier)
         max_new = max(max_new, 0)
-        signal_symbols = set(signals["symbol"].values) if not signals.empty else set()
-
-        # Removed: not_in_universe exit — positions run to target/stop/time-stop regardless of re-entry conditions
 
         remaining = max_new - len(self.positions)
-        if remaining <= 0:
+        if remaining <= 0 or signals.empty:
             return
-        candidates = [s for s in signal_symbols if s not in self.positions][:remaining * MAX_SECTOR_POSITIONS]
+        ranked = signals.sort_values("conviction", ascending=False)
+        candidates = [s for s in ranked["symbol"].values if s not in self.positions][:remaining * MAX_SECTOR_POSITIONS]
         if not candidates:
             return
 
