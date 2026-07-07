@@ -46,11 +46,11 @@ cls
 echo %BOLD%%WHITE%DAILY SCAN%RESET%
 echo %DIV%
 echo.
-set /p ds_universe="Universe [nifty50]: "
-if "%ds_universe%"=="" set ds_universe=nifty50
+set /p ds_universe="Universe [niftymidcap150]: "
+if "%ds_universe%"=="" set ds_universe=niftymidcap150
 set /p ds_date="Date (YYYY-MM-DD) [today]: "
-set /p ds_output="HTML output file [daily_report.html]: "
-if "%ds_output%"=="" set ds_output=daily_report.html
+set /p ds_output="HTML output file [reports\daily_report.html]: "
+if "%ds_output%"=="" set ds_output=reports\daily_report.html
 
 echo.
 echo %YELLOW%Running daily scan...%RESET%
@@ -79,15 +79,15 @@ cls
 echo %BOLD%%WHITE%FORWARD CHECK%RESET%
 echo %DIV%
 echo.
-set /p fc_universe="Universe [nifty50]: "
-if "%fc_universe%"=="" set fc_universe=nifty50
+set /p fc_universe="Universe [niftymidcap150]: "
+if "%fc_universe%"=="" set fc_universe=niftymidcap150
 set /p fc_date="Date (YYYY-MM-DD) [REQUIRED]: "
 set /p fc_horizons="Horizons in trading days [5 10 20]: "
 if "%fc_horizons%"=="" set fc_horizons=5 10 20
 set /p fc_capital="Capital [10000000]: "
 if "%fc_capital%"=="" set fc_capital=10000000
-set /p fc_output="HTML output file [fwd_report.html]: "
-if "%fc_output%"=="" set fc_output=fwd_report.html
+set /p fc_output="HTML output file [reports\fwd_report.html]: "
+if "%fc_output%"=="" set fc_output=reports\fwd_report.html
 
 echo.
 :forward_check_run
@@ -120,8 +120,8 @@ cls
 echo %BOLD%%WHITE%BACKTEST%RESET%
 echo %DIV%
 echo.
-set /p bt_universe="Universe [nifty50]: "
-if "%bt_universe%"=="" set bt_universe=nifty50
+set /p bt_universe="Universe [niftymidcap150]: "
+if "%bt_universe%"=="" set bt_universe=niftymidcap150
 set /p bt_years="Years of history [3]: "
 if "%bt_years%"=="" set bt_years=3
 set /p bt_horizons="Horizons in trading days [5 10 21]: "
@@ -147,8 +147,8 @@ cls
 echo %BOLD%%WHITE%RUN ALL - FULL PIPELINE%RESET%
 echo %DIV%
 echo.
-set /p ra_universe="Universe [nifty50]: "
-if "%ra_universe%"=="" set ra_universe=nifty50
+set /p ra_universe="Universe [niftymidcap150]: "
+if "%ra_universe%"=="" set ra_universe=niftymidcap150
 set /p ra_date="Date (YYYY-MM-DD) [today]: "
 set /p ra_years="Backtest years [3]: "
 if "%ra_years%"=="" set ra_years=3
@@ -156,9 +156,9 @@ if "%ra_years%"=="" set ra_years=3
 echo.
 echo %BOLD%%YELLOW%Phase 1/3: Daily Scan%RESET%
 if "%ra_date%"=="" (
-    python daily_scan.py --universe "%ra_universe%" --output daily_report.html
+    python daily_scan.py --universe "%ra_universe%" --output reports\daily_report.html
 ) else (
-    python daily_scan.py --universe "%ra_universe%" --date "%ra_date%" --output daily_report.html
+    python daily_scan.py --universe "%ra_universe%" --date "%ra_date%" --output reports\daily_report.html
 )
 if %ERRORLEVEL% neq 0 (
     echo %RED%Daily scan failed. Aborting.%RESET%
@@ -173,7 +173,7 @@ if "%ra_date%"=="" (
 ) else (
     set "today=%ra_date%"
 )
-python forward_check.py --universe "%ra_universe%" --date "%today%" --output fwd_report.html
+python forward_check.py --universe "%ra_universe%" --date "%today%" --output reports\fwd_report.html
 if %ERRORLEVEL% neq 0 (
     echo %RED%Forward check failed. Aborting.%RESET%
     pause
@@ -203,28 +203,28 @@ echo %BOLD%%WHITE%OPEN HTML REPORT%RESET%
 echo %DIV%
 echo.
 echo Select report to open:
-echo  %CYAN%[1]%RESET%  daily_report.html
-echo  %CYAN%[2]%RESET%  fwd_report.html
-echo  %CYAN%[3]%RESET%  validation_report.html
-echo  %CYAN%[4]%RESET%  report_signal_scarcity.html
-echo  %CYAN%[5]%RESET%  report_signal_timing.html
+echo  %CYAN%[1]%RESET%  reports\daily_report.html
+echo  %CYAN%[2]%RESET%  reports\fwd_report.html
+echo  %CYAN%[3]%RESET%  reports\validation_report.html
+echo  %CYAN%[4]%RESET%  reports\report_signal_scarcity.html
+echo  %CYAN%[5]%RESET%  reports\report_signal_timing.html
 echo  %CYAN%[0]%RESET%  Back
 echo.
 set /p rp_choice="%BOLD%%YELLOW%Choice [0-5]: %RESET%"
 if "%rp_choice%"=="1" (
-    if exist "daily_report.html" ( start "" "daily_report.html" ) else echo %RED%File not found: daily_report.html%RESET%
+    if exist "reports\daily_report.html" ( start "" "reports\daily_report.html" ) else echo %RED%File not found: reports\daily_report.html%RESET%
 )
 if "%rp_choice%"=="2" (
-    if exist "fwd_report.html" ( start "" "fwd_report.html" ) else echo %RED%File not found: fwd_report.html%RESET%
+    if exist "reports\fwd_report.html" ( start "" "reports\fwd_report.html" ) else echo %RED%File not found: reports\fwd_report.html%RESET%
 )
 if "%rp_choice%"=="3" (
-    if exist "validation_report.html" ( start "" "validation_report.html" ) else echo %RED%File not found: validation_report.html%RESET%
+    if exist "reports\validation_report.html" ( start "" "reports\validation_report.html" ) else echo %RED%File not found: reports\validation_report.html%RESET%
 )
 if "%rp_choice%"=="4" (
-    if exist "report_signal_scarcity.html" ( start "" "report_signal_scarcity.html" ) else echo %RED%File not found: report_signal_scarcity.html%RESET%
+    if exist "reports\report_signal_scarcity.html" ( start "" "reports\report_signal_scarcity.html" ) else echo %RED%File not found: reports\report_signal_scarcity.html%RESET%
 )
 if "%rp_choice%"=="5" (
-    if exist "report_signal_timing.html" ( start "" "report_signal_timing.html" ) else echo %RED%File not found: report_signal_timing.html%RESET%
+    if exist "reports\report_signal_timing.html" ( start "" "reports\report_signal_timing.html" ) else echo %RED%File not found: reports\report_signal_timing.html%RESET%
 )
 if not "%rp_choice%"=="0" pause
 goto menu
@@ -238,8 +238,8 @@ echo.
 echo Runs walk-forward validation across sampled historical dates.
 echo Measures win rate, expectancy, profit factor by regime.
 echo.
-set /p vf_universe="Universe [nifty50]: "
-if "%vf_universe%"=="" set vf_universe=nifty50
+set /p vf_universe="Universe [niftymidcap150]: "
+if "%vf_universe%"=="" set vf_universe=niftymidcap150
 set /p vf_horizon="Horizon in trading days [21]: "
 if "%vf_horizon%"=="" set vf_horizon=21
 set /p vf_years="Years of history [3]: "
@@ -248,8 +248,8 @@ set /p vf_capital="Capital [10000000]: "
 if "%vf_capital%"=="" set vf_capital=10000000
 set /p vf_interval="Sample every N trading days [5]: "
 if "%vf_interval%"=="" set vf_interval=5
-set /p vf_output="HTML output file [validation_report.html]: "
-if "%vf_output%"=="" set vf_output=validation_report.html
+set /p vf_output="HTML output file [reports\validation_report.html]: "
+if "%vf_output%"=="" set vf_output=reports\validation_report.html
 
 echo.
 echo %YELLOW%Running walk-forward validation (may take a while)...%RESET%

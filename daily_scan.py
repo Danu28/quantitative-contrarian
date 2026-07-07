@@ -8,21 +8,17 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from pathlib import Path
 
 import pandas as pd
 import yfinance as yf
 
-from src.backtest import (
-    HARD_STOP,
-    PROFIT_TARGET_1,
-    PROFIT_TARGET_2,
-    SLIPPAGE,
-    BROKERAGE,
-    TRAIL_ACTIVATE,
-    TRAIL_DISTANCE,
-    generate_signals,
+from src.backtest import generate_signals
+from src.config import (
+    HARD_STOP, PROFIT_TARGET_1, PROFIT_TARGET_2,
+    SLIPPAGE, BROKERAGE, TRAIL_ACTIVATE, TRAIL_DISTANCE,
 )
 from src.db import DB_PATH, load_data, load_universe
 from src.features import precompute_all_characteristics
@@ -176,8 +172,9 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
           f"TrailStop=-{TRAIL_DISTANCE*100:.0f}% from high  TimeStop=20d")
     print(f"  *Target/stop prices include exit costs (slippage + brokerage)")
     print(f"{'='*70}\n")
-
     if output:
+
+        os.makedirs(os.path.dirname(output), exist_ok=True)
         html = generate_html(scan_date.strftime("%Y-%m-%d"), sig, regime, targets, universe_name)
         with open(output, "w", encoding="utf-8") as f:
             f.write(html)

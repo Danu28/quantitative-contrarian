@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from collections import defaultdict
 from datetime import datetime, timedelta
@@ -645,6 +646,7 @@ def validate(universe_slug: str, years: int = 3, horizon: int = 21, capital: flo
     print(f"  {'Recommendation':.<30} {'Ready for paper trading' if sum([g1,g2,g3,g4,g5]) >= 4 else 'More research needed'}")
 
     if output:
+        os.makedirs(os.path.dirname(output), exist_ok=True)
         html = generate_html(
             universe_slug, years, horizon, capital, sample_interval,
             all_dates, sample_dates, dates_with_signals, dates_no_signals, signal_counts,

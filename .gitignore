@@ -5,3 +5,4 @@ data/*.db
 reverse_engineer/state/*.parquet
 reverse_engineer/__pycache__/
 .env
+reports/

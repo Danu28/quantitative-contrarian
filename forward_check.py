@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from pathlib import Path
 
@@ -171,8 +172,9 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
         line = f"  {sym:<18}" + "".join(f" {rets.get(h, 0):>+7.2f}%" if h in rets else f" {'N/A':>8}" for h in horizons)
         print(f"{line} {avg:>+7.2f}%")
     print(f"\n  Entry Date: {entry_date.date()}  |  Signals: {len(sig)}")
-
     if output:
+
+        os.makedirs(os.path.dirname(output), exist_ok=True)
         html = generate_html(entry_date, sig, horizon_data, horizons, capital, regime=regime)
         with open(output, "w", encoding="utf-8") as f:
             f.write(html)

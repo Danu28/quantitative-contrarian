@@ -7,29 +7,16 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
-from src.db import DB_PATH, load_data, load_universe
+from src.db import DB_PATH, load_data, load_universe, get_sector_map
 from src.features import precompute_all_characteristics
-
-CAPITAL = 10_000_000
-SLIPPAGE = 0.001
-BROKERAGE = 0.0005
-MAX_POSITIONS = 10
-HARD_STOP = -0.08
-PROFIT_TARGET_1 = 0.12
-PROFIT_TARGET_2 = 0.18
-TRAIL_ACTIVATE = 0.10
-TRAIL_DISTANCE = 0.12
-TIME_STOP_DAYS = 20
-MAX_DAILY_LOSS = 0.02
-MAX_DRAWDOWN_DISABLE = 0.15
-REGIME_NORMAL = 1.0
-REGIME_REDUCED = 0.5
-
-ENTRY_DRAWDOWN = -0.08
-ENTRY_VOLUME_RATIO = 1.0
-ENTRY_PRICE_VS_LOW = 1.05
-ENTRY_PRICE_VS_HIGH_MAX = 0.98
-HORIZON = 20
+from src.config import (
+    CAPITAL, SLIPPAGE, BROKERAGE, MAX_POSITIONS, MIN_POSITIONS,
+    HARD_STOP, PROFIT_TARGET_1, PROFIT_TARGET_2, TRAIL_ACTIVATE,
+    TRAIL_DISTANCE, TIME_STOP_DAYS, MAX_DAILY_LOSS, MAX_DRAWDOWN_DISABLE,
+    REGIME_NORMAL, REGIME_REDUCED, ENTRY_DRAWDOWN, ENTRY_VOLUME_RATIO,
+    ENTRY_PRICE_VS_LOW, ENTRY_PRICE_VS_HIGH_MAX, HORIZON,
+    REGIME_MULTIPLIERS, MAX_SECTOR_POSITIONS,
+)
 
 
 def equal_weight_conviction(signals: pd.DataFrame) -> pd.DataFrame:
@@ -112,7 +99,7 @@ def generate_signals(
 
 
 class Portfolio:
-    def __init__(self, capital: float = CAPITAL):
+    def __init__(self, capital: float = CAPITAL, sector_map: dict[str, str] | None = None):
         self.cash = capital
         self.positions: dict[str, dict] = {}
         self.trades: list[dict] = []
@@ -121,6 +108,14 @@ class Portfolio:
         self.peak_equity = capital
         self.daily_loss_today = 0
         self.disabled = False
+        self.sector_map = sector_map or {}
+
+    def sector_count(self) -> dict[str, int]:
+        counts: dict[str, int] = {}
+        for sym in self.positions:
+            sector = self.sector_map.get(sym, "Unknown")
+            counts[sector] = counts.get(sector, 0) + 1
+        return counts
 
     def total_equity(self, current_prices: dict[str, float] | None = None) -> float:
         pv = 0
@@ -215,7 +210,8 @@ class Portfolio:
                     self.exit_position(s, price, current_date, reason)
 
         if current_date.weekday() == 4 and not self.disabled:
-            self._rebalance(signals, prices, current_date, regime_multiplier)
+            if self.daily_loss_today <= self.starting_capital * MAX_DAILY_LOSS:
+                self._rebalance(signals, prices, current_date, regime_multiplier)
 
         for s in list(self.positions.keys()):
             price = prices.get(s)
@@ -255,7 +251,21 @@ class Portfolio:
         remaining = max_new - len(self.positions)
         if remaining <= 0:
             return
-        candidates = [s for s in signal_symbols if s not in self.positions][:remaining]
+        candidates = [s for s in signal_symbols if s not in self.positions][:remaining * MAX_SECTOR_POSITIONS]
+        if not candidates:
+            return
+
+        # Sector concentration: skip candidates in sectors already at limit
+        sector_counts = self.sector_count()
+        filtered: list[str] = []
+        for s in candidates:
+            sec = self.sector_map.get(s, "Unknown")
+            if sector_counts.get(sec, 0) < MAX_SECTOR_POSITIONS:
+                filtered.append(s)
+                sector_counts[sec] = sector_counts.get(sec, 0) + 1
+            if len(filtered) >= remaining:
+                break
+        candidates = filtered
         if not candidates:
             return
 
@@ -290,6 +300,8 @@ class Portfolio:
         return pd.DataFrame(self.trades)
 
     def get_performance(self) -> dict:
+        if not self.equity_curve:
+            return {"status": "insufficient_data"}
         eq = pd.DataFrame(self.equity_curve).set_index("date")
         if len(eq) < 2:
             return {"status": "insufficient_data"}
@@ -388,15 +400,6 @@ def compute_metrics(eq: pd.DataFrame, trades: pd.DataFrame, capital: float) -> d
     }
 
 
-# Regime rules matching daily_scan.py REGIME_RULES
-REGIME_MULTIPLIERS = [
-    (8,    float("inf"), 0.67),   # Strong Bull: 2 positions
-    (3,    8,             0.33),   # Bull: 1 position
-    (-3,   3,             1.0),    # Sideways: 3 positions
-    (float("-inf"), -3,   1.0),    # Bear/Crash: 3 positions
-]
-
-
 def compute_regime_multiplier(date: pd.Timestamp, data: dict[str, pd.DataFrame], all_dates: list[pd.Timestamp]) -> float:
     idx = all_dates.index(date) if date in all_dates else -1
     if idx < 20:
@@ -413,14 +416,14 @@ def compute_regime_multiplier(date: pd.Timestamp, data: dict[str, pd.DataFrame],
     return REGIME_NORMAL
 
 
-def run_horizon(data: dict, char_data: dict, horizon: int, config: BacktestConfig) -> HorizonResult:
+def run_horizon(data: dict, char_data: dict, horizon: int, config: BacktestConfig, sector_map: dict[str, str] | None = None) -> HorizonResult:
     all_dates = sorted(set(d for s in char_data for d in char_data[s].index))
     cutoff = pd.Timestamp.now() - pd.Timedelta(days=365 * config.years)
     all_dates = [d for d in all_dates if d >= cutoff]
     if not all_dates:
         return HorizonResult(horizon=horizon, trades=pd.DataFrame(), equity=pd.DataFrame(), metrics={"status": "no_data"}, exposure=pd.Series(), monthly_returns=pd.DataFrame())
 
-    pf = Portfolio(capital=config.capital)
+    pf = Portfolio(capital=config.capital, sector_map=sector_map)
     for date in all_dates:
         prices = {s: data[s].loc[date, "close"] for s in data if date in data[s].index}
         sig = generate_signals(data, char_data, date)
@@ -528,6 +531,7 @@ def run_backtest(
 
     config_data = load_universe(universe_slug_or_path)
     symbols = config_data["symbols"]
+    sector_map = get_sector_map(universe_slug_or_path)
     print(f"Loading data for {len(symbols)} stocks...")
     df_all = load_data(universe_slug_or_path, db_path=db_path)
     cutoff = pd.Timestamp.now() - pd.DateOffset(years=365 * years)
@@ -540,13 +544,27 @@ def run_backtest(
         sub = sub.set_index("date")
         sub.index = pd.DatetimeIndex(sub.index)
         data[sym] = sub
+
+    # Survivorship bias filter: drop stocks not present at start of backtest
+    min_date = df_all["date"].min()
+    max_date = df_all["date"].max()
+    expected_days = (max_date - min_date).days
+    before = len(data)
+    data = {
+        s: df for s, df in data.items()
+        if (df.index.max() - df.index.min()).days >= expected_days * 0.9
+    }
+    dropped = before - len(data)
+    if dropped:
+        print(f"  Survivorship filter: dropped {dropped} stock(s) with insufficient history")
+
     print(f"Loaded {len(data)} stocks.")
 
     results = []
     for horizon in horizons:
         print(f"\nProcessing horizon {horizon}d...")
         char_data = precompute_all_characteristics(data, window=horizon)
-        hr = run_horizon(data, char_data, horizon, config)
+        hr = run_horizon(data, char_data, horizon, config, sector_map=sector_map)
         results.append(hr)
         m = hr.metrics
         if m.get("status") not in ("insufficient_data", "no_data"):
