@@ -5,10 +5,11 @@ from pathlib import Path
 
 import pandas as pd
 
-from src.backtest import generate_signals
+import numpy as np
+from src.backtest import generate_signals, compute_regime_multiplier
 from src.db import DB_PATH, load_data, load_universe
 from src.features import precompute_all_characteristics
-from src.reporting import forward_check_html
+from src.reporting import forward_check_html, _classify_regime
 
 
 def find_trading_dates(data, date, ahead):
@@ -52,8 +53,8 @@ def build_horizon_results(data, sig, entry_date, horizons):
     return horizon_data
 
 
-def generate_html(entry_date, sig, horizon_data, horizons, capital):
-    return forward_check_html(entry_date, sig, horizon_data, horizons, capital)
+def generate_html(entry_date, sig, horizon_data, horizons, capital, regime=None):
+    return forward_check_html(entry_date, sig, horizon_data, horizons, capital, regime=regime)
 
 
 def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20), capital=10_000_000, output=None):
@@ -99,7 +100,22 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
         print(f"\n  No signals generated on {entry_date.date()}.")
         return
 
+    # Compute regime at entry date
+    all_dates_fwd = sorted(set(d for s in char_data for d in char_data[s].index))
+    mult = compute_regime_multiplier(entry_date, data, all_dates_fwd)
+    # Map multiplier back to regime label
+    all_prices = [data[s].loc[entry_date, "close"] for s in data if entry_date in data[s].index]
+    idx_fwd = all_dates_fwd.index(entry_date) if entry_date in all_dates_fwd else -1
+    if idx_fwd >= 20 and all_prices:
+        past_date = all_dates_fwd[idx_fwd - 20]
+        past_prices = [data[s].loc[past_date, "close"] for s in data if past_date in data[s].index]
+        ret_20d = (np.mean(all_prices) / np.mean(past_prices) - 1) * 100 if past_prices else 0
+    else:
+        ret_20d = 0
+    regime = _classify_regime(ret_20d)
+
     print(f"\n  Signals generated: {len(sig)}")
+    print(f"  Regime: {regime['trend_label']} ({regime['trend_20d']:+.2f}% 20d) | {regime['action']} (max {regime['max_positions']} positions)")
     print(f"  {'Rank':<5} {'Symbol':<18} {'Close':>8} {'Conviction':>10}")
     print(f"  {'-'*4:<5} {'-'*17:<18} {'-'*7:>8} {'-'*9:>10}")
     for _, row in sig.iterrows():
@@ -156,7 +172,7 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
     print(f"\n  Entry Date: {entry_date.date()}  |  Signals: {len(sig)}")
 
     if output:
-        html = generate_html(entry_date, sig, horizon_data, horizons, capital)
+        html = generate_html(entry_date, sig, horizon_data, horizons, capital, regime=regime)
         with open(output, "w", encoding="utf-8") as f:
             f.write(html)
         print(f"\n  HTML report saved: {output}")

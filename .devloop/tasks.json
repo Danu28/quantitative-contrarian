@@ -1,28 +1,28 @@
 [
   {
-    "id": "task_1",
-    "title": "Create daily_scan.py",
-    "description": "CLI tool that scans any universe for actionable signals today.",
+    "id": "task_4",
+    "title": "Add regime action to daily_scan.py compute_regime()",
+    "description": "Update compute_regime() to return max_positions and action recommendation. Show in console output.",
     "dependencies": [],
     "status": "done",
     "priority": "high",
     "type": "implementation"
   },
   {
-    "id": "task_2",
-    "title": "Remove not_in_universe exit in Portfolio._rebalance()",
-    "description": "Delete the for-loop in _rebalance() that exits positions not in current signal list. Positions should only exit on hard stop, profit targets, trailing stop, time stop, or emergency drawdown.",
-    "dependencies": [],
+    "id": "task_5",
+    "title": "Update HTML report with regime recommendation",
+    "description": "Add regime action banner to daily_scan_html() in src/reporting.py. Show max positions, action (Full/Reduce/Skip), and reasoning.",
+    "dependencies": ["task_4"],
     "status": "done",
     "priority": "high",
     "type": "implementation"
   },
   {
-    "id": "task_3",
-    "title": "Verify the fix — run backtest, lint, compare metrics",
-    "description": "1) Run `python backtest.py -u nifty50 --years 3` 2) Verify not_in_universe = 0, CAGR >= baseline 3) Check there are no lint errors",
-    "dependencies": ["task_2"],
-    "status": "pending",
+    "id": "task_6",
+    "title": "Verify: run daily_scan.py, check output",
+    "description": "Run `python daily_scan.py --output report.html`. Verify regime label, action, max positions all display correctly in both console and HTML.",
+    "dependencies": ["task_5"],
+    "status": "done",
     "priority": "high",
     "type": "testing"
   }

@@ -210,6 +210,7 @@ def daily_scan_html(
     hard_stop: float = -0.08,
     trail_activate: float = 0.10,
     trail_distance: float = 0.12,
+    max_positions: int = 3,
 ) -> str:
     now = pd.Timestamp.now().strftime("%Y-%m-%d %H:%M")
     trend_cls = regime.get("trend_label", "sideways").lower()
@@ -240,6 +241,20 @@ def daily_scan_html(
           <td><div class="micro-bar"><div class="fill positive" style="width:{min(r.get("conviction",0)/5*100,100):.0f}%"></div></div></td>
         </tr>"""
 
+    regime_action = regime.get("action", "Full deploy")
+    regime_note = regime.get("regime_note", "")
+    regime_label = regime.get("trend_label", "Unknown")
+    max_pos_from_regime = max_positions
+
+    # Action colors
+    action_cls = "positive"
+    if "Skip" in regime_action or "Reduce" in regime_action:
+        action_cls = "negative"
+    elif "Full" in regime_action:
+        action_cls = "positive"
+
+    entries_today = min(signal_count, max_pos_from_regime)
+
     return f"""<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -256,6 +271,28 @@ Entry/exit prices include slippage (0.1%) + brokerage (0.05%). Entry occurs at F
 </div>
 </div></header>
 
+<div style="background:var(--surface);border:2px solid var(--{action_cls == 'positive' and 'sage' or 'negative'});border-radius:12px;padding:16px 20px;margin-bottom:20px;box-shadow:var(--shadow)">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+    <div>
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Regime</span>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text)">{regime_label} ({regime.get("trend_20d",0):+.2f}%)</div>
+    </div>
+    <div style="text-align:right">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Recommendation</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--{action_cls == 'positive' and 'sage' or 'negative'})">{regime_action}</div>
+    </div>
+    <div style="text-align:right">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Max Positions</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--text)">{max_pos_from_regime}</div>
+    </div>
+    <div style="text-align:right">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Enter Today</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--text)">{entries_today}</div>
+    </div>
+  </div>
+  <div style="font-size:13px;color:var(--text-secondary);margin-top:8px">{regime_note} &middot; Index ATR {regime.get("atr_pct",0)}%</div>
+</div>
+
 <div class="exec-summary">
   <div class="context-card">
     <h3>Market Context</h3>
@@ -266,7 +303,7 @@ Entry/exit prices include slippage (0.1%) + brokerage (0.05%). Entry occurs at F
     </div>
   </div>
   <div class="kpi-grid">
-    <div class="kpi-card"><span class="kpi-label">Signals</span><span class="kpi-value">{signal_count}</span><span class="kpi-sub">next entry: Friday</span></div>
+    <div class="kpi-card"><span class="kpi-label">Signals</span><span class="kpi-value">{signal_count}</span><span class="kpi-sub">entering {entries_today} of {signal_count}</span></div>
     <div class="kpi-card"><span class="kpi-label">Universe</span><span class="kpi-value" style="font-size:16px">{universe_name}</span><span class="kpi-sub">{regime.get("n_stocks","?")} stocks</span></div>
   </div>
 </div>
@@ -301,12 +338,30 @@ Time Stop = 20 trading days
 </div></body></html>"""
 
 
+REGIME_RULES_HTML = [
+    (8,    float("inf"), "Strong Bull", 2, "Reduce", "Rare regime. Trades infrequent."),
+    (3,    8,             "Bull",        1, "Skip or 1", "25% win rate. Avoid."),
+    (-3,   3,             "Sideways",    3, "Full deploy", "Core regime. 59% of market."),
+    (-8,   -3,            "Bear",        3, "Full deploy", "Best regime. 78% win rate."),
+    (float("-inf"), -8,   "Crash",       3, "Full deploy", "Best regime. 71% win rate."),
+]
+
+
+def _classify_regime(ret_20d: float) -> dict:
+    for lo, hi, label, max_pos, action, note in REGIME_RULES_HTML:
+        if lo <= ret_20d < hi:
+            return {"trend_label": label, "max_positions": max_pos, "action": action, "regime_note": note,
+                    "trend_20d": round(ret_20d, 2)}
+    return {"trend_label": "Unknown", "max_positions": 1, "action": "Skip", "regime_note": "", "trend_20d": 0}
+
+
 def forward_check_html(
     entry_date: pd.Timestamp,
     sig: pd.DataFrame,
     horizon_data: dict,
     horizons: list,
     capital: float,
+    regime: dict | None = None,
 ) -> str:
     now = pd.Timestamp.now().strftime("%Y-%m-%d %H:%M")
     signal_count = len(sig)
@@ -411,6 +466,27 @@ def forward_check_html(
         avg_cls = "positive" if avg > 0 else "negative"
         cross_rows += f"<tr><td style='font-weight:600'>{sym}</td>{cells}<td class='mono {avg_cls}'>{avg:+.2f}%</td></tr>"
 
+    # Regime banner for forward check
+    regime_banner = ""
+    if regime:
+        r_action = regime.get("action", "")
+        r_label = regime.get("trend_label", "")
+        r_note = regime.get("regime_note", "")
+        r_max = regime.get("max_positions", 3)
+        r_ret = regime.get("trend_20d", 0)
+        action_cls = "positive" if "Full" in r_action else "negative"
+        regime_banner = f"""<div style="background:var(--surface);border:2px solid var(--{'sage' if 'Full' in r_action else 'negative'});border-radius:12px;padding:14px 20px;margin-bottom:20px;box-shadow:var(--shadow)">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+    <div><span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Regime at Entry</span>
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text)">{r_label} ({r_ret:+.2f}%)</div></div>
+    <div style="text-align:right"><span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Action</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--{action_cls == 'positive' and 'sage' or 'negative'})">{r_action}</div></div>
+    <div style="text-align:right"><span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Max Positions</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--text)">{r_max}</div></div>
+  </div>
+  <div style="font-size:12px;color:var(--text-secondary);margin-top:6px">{r_note}</div>
+</div>"""
+
     return f"""<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -422,6 +498,8 @@ def forward_check_html(
 <button class="theme-toggle" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Toggle Theme</button>
 <div class="container">
 <header><div><h1>Forward Return Report</h1><div class="meta">Entry {entry_date.strftime('%Y-%m-%d')} ({entry_date.strftime('%A')}) · Generated {now}</div></div></header>
+
+{regime_banner}
 
 <div class="exec-summary">
   <div class="context-card">

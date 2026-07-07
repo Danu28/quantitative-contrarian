@@ -33,10 +33,21 @@ ENTRY_COST_MULT = 1 + SLIPPAGE + BROKERAGE
 EXIT_COST_MULT = 1 - SLIPPAGE - BROKERAGE
 
 
+REGIME_RULES = [
+    # (20d_return_min, 20d_return_max, label, max_positions, action, note)
+    (8,    float("inf"), "Strong Bull", 2, "Reduce", "Rare regime. Trades infrequent."),
+    (3,    8,             "Bull",        1, "Skip or 1", "25% win rate. Avoid."),
+    (-3,   3,             "Sideways",    3, "Full deploy", "Core regime. 59% of market."),
+    (-8,   -3,            "Bear",        3, "Full deploy", "Best regime. 78% win rate."),
+    (float("-inf"), -8,   "Crash",       3, "Full deploy", "Best regime. 71% win rate."),
+]
+
+
 def compute_regime() -> dict:
     df = yf.download(NIFTY_INDEX_TICKER, period="6mo", progress=False, auto_adjust=True)
     if df.empty:
-        return {"index_price": 0, "trend_20d": 0, "trend_label": "Unknown", "atr_pct": 0}
+        return {"index_price": 0, "trend_20d": 0, "trend_label": "Unknown", "atr_pct": 0,
+                "max_positions": 1, "action": "Unknown", "regime_note": ""}
     if isinstance(df.columns, pd.MultiIndex):
         df.columns = [c[0].lower() for c in df.columns]
     else:
@@ -46,13 +57,29 @@ def compute_regime() -> dict:
     ret_20d = close.iloc[-1] / close.iloc[-min(21, len(close))] - 1 if len(close) >= 21 else 0
     atr = (df["high"] - df["low"]).rolling(20).mean().iloc[-1]
     atr_pct = atr / price * 100 if price > 0 else 0
-    if ret_20d > 0.03:
-        label = "Bullish"
-    elif ret_20d < -0.03:
-        label = "Bearish"
-    else:
-        label = "Sideways"
-    return {"index_price": round(price, 2), "trend_20d": round(ret_20d * 100, 2), "trend_label": label, "atr_pct": round(atr_pct, 2)}
+    ret_pct = ret_20d * 100
+
+    label = "Unknown"
+    max_pos = 1
+    action = "Skip"
+    note = ""
+    for lo, hi, lbl, mp, act, nt in REGIME_RULES:
+        if lo <= ret_pct < hi:
+            label = lbl
+            max_pos = mp
+            action = act
+            note = nt
+            break
+
+    return {
+        "index_price": round(price, 2),
+        "trend_20d": round(ret_pct, 2),
+        "trend_label": label,
+        "atr_pct": round(atr_pct, 2),
+        "max_positions": max_pos,
+        "action": action,
+        "regime_note": note,
+    }
 
 
 def generate_html(date_str, signals, regime, targets, universe_name):
@@ -60,7 +87,7 @@ def generate_html(date_str, signals, regime, targets, universe_name):
         date_str, signals, regime, targets, universe_name,
         profit_target_1=PROFIT_TARGET_1, profit_target_2=PROFIT_TARGET_2,
         hard_stop=HARD_STOP, trail_activate=TRAIL_ACTIVATE,
-        trail_distance=TRAIL_DISTANCE,
+        trail_distance=TRAIL_DISTANCE, max_positions=regime.get("max_positions", 3),
     )
 
 
@@ -86,6 +113,7 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
     print(f"\n  Market Regime...")
     regime = compute_regime()
     print(f"  {NIFTY_INDEX_TICKER} @ {regime['index_price']} | {regime['trend_label']} ({regime['trend_20d']:+.2f}% 20d) | ATR {regime['atr_pct']}%")
+    print(f"  >>> RECOMMENDATION: {regime['action']} (max {regime['max_positions']} positions) — {regime['regime_note']}")
 
     print(f"  Loading data...")
     df_all = load_data(universe_slug_or_path)
@@ -137,6 +165,9 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
         t = targets[r["symbol"]]
         print(f"  {r['rank']:<5} {r['symbol']:<18} {t['entry']:>9.2f} {t['target1']:>9.2f} {t['target2']:>9.2f} {t['hard_stop']:>9.2f} {t['trail_trigger']:>9.2f} {r['conviction']:>10.4f}")
 
+    max_pos = regime["max_positions"]
+    entries_today = min(len(sig), max_pos)
+    print(f"  Max positions today: {max_pos} ({regime['action']}) — entering {entries_today} of {len(sig)} signals")
     print(f"\n  Entry Timing: Signal detected — next entry on {rebalance_day} (rebalance day)")
     print(f"  *Entry price includes slippage ({SLIPPAGE:.1%}) + brokerage ({BROKERAGE:.2%})")
     print(f"  Target1=+{PROFIT_TARGET_1*100:.0f}%  Target2=+{PROFIT_TARGET_2*100:.0f}%  "

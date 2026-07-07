@@ -4,17 +4,26 @@
 AI Quantitative Researcher — contrarian system for Indian equities (NIFTY 50)
 
 ## Current Cycle
-Production hardening: Remove not_in_universe exit in `Portfolio._rebalance()`
+Complete trader playbook: Add regime-based position sizing recommendations to daily_scan.py and HTML report.
 
 ## Key Files
-- `src/backtest.py` — main backtest engine, Portfolio class, generate_signals
-- `backtest.py` — CLI wrapper
+- `daily_scan.py` — CLI tool for daily signal scan
+- `src/reporting.py` — HTML report generation
+- `TRADER_PLAYBOOK.md` — Complete trader documentation (already written)
 
-## The Fix
-In `Portfolio._rebalance()` (src/backtest.py), removed the block that exits positions not in the current signal list. Reason: entry conditions (6-condition AND gate) should not dictate hold conditions. Positions now run to target/stop/time-stop.
-
-## Validation
-Backtest (21d): CAGR 3.51% → 3.80%, not_in_universe 92→0, avg hold 8.8→18.6d. All gates pass.
+## What's Being Built
+1. `compute_regime()` in daily_scan.py already computes NIFTY 20d trend.
+   Change: add `max_positions` and `action` recommendation to the returned dict.
+2. Console output: show regime action (Full/Reduce/Skip) with max position count.
+3. HTML report: add regime recommendation section with clear action banner.
+4. The regime multiplier logic:
+   - Bull (> +3%): 1 position max (Skip or minimal)
+   - Sideways (-3% to +3%): 3 positions (Full deploy)
+   - Bear/Crash (< -3%): 3 positions (Full deploy — best regime)
 
 ## Stack
 Python 3.14, pandas, numpy, scipy, yfinance, SQLite
+
+## Validation
+python daily_scan.py --output report.html
+Verify: regime label, recommended action, max positions displayed correctly.

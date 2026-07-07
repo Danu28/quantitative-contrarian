@@ -388,6 +388,31 @@ def compute_metrics(eq: pd.DataFrame, trades: pd.DataFrame, capital: float) -> d
     }
 
 
+# Regime rules matching daily_scan.py REGIME_RULES
+REGIME_MULTIPLIERS = [
+    (8,    float("inf"), 0.67),   # Strong Bull: 2 positions
+    (3,    8,             0.33),   # Bull: 1 position
+    (-3,   3,             1.0),    # Sideways: 3 positions
+    (float("-inf"), -3,   1.0),    # Bear/Crash: 3 positions
+]
+
+
+def compute_regime_multiplier(date: pd.Timestamp, data: dict[str, pd.DataFrame], all_dates: list[pd.Timestamp]) -> float:
+    idx = all_dates.index(date) if date in all_dates else -1
+    if idx < 20:
+        return REGIME_NORMAL
+    past_date = all_dates[idx - 20]
+    prices_now = [data[s].loc[date, "close"] for s in data if date in data[s].index]
+    prices_past = [data[s].loc[past_date, "close"] for s in data if past_date in data[s].index]
+    if not prices_now or not prices_past:
+        return REGIME_NORMAL
+    ret_20d = (np.mean(prices_now) / np.mean(prices_past) - 1) * 100
+    for lo, hi, mult in REGIME_MULTIPLIERS:
+        if lo <= ret_20d < hi:
+            return mult
+    return REGIME_NORMAL
+
+
 def run_horizon(data: dict, char_data: dict, horizon: int, config: BacktestConfig) -> HorizonResult:
     all_dates = sorted(set(d for s in char_data for d in char_data[s].index))
     cutoff = pd.Timestamp.now() - pd.Timedelta(days=365 * config.years)
@@ -399,7 +424,8 @@ def run_horizon(data: dict, char_data: dict, horizon: int, config: BacktestConfi
     for date in all_dates:
         prices = {s: data[s].loc[date, "close"] for s in data if date in data[s].index}
         sig = generate_signals(data, char_data, date)
-        pf.process_day(sig, prices, date)
+        mult = compute_regime_multiplier(date, data, all_dates)
+        pf.process_day(sig, prices, date, regime_multiplier=mult)
 
     eq = pd.DataFrame(pf.equity_curve).set_index("date") if pf.equity_curve else pd.DataFrame()
     trades = pf.get_trades_summary()
