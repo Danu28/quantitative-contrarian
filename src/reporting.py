@@ -209,6 +209,7 @@ def daily_scan_html(
     profit_target_2: float = 0.18,
     hard_stop: float = -0.08,
     trail_activate: float = 0.10,
+    trail_distance: float = 0.12,
 ) -> str:
     now = pd.Timestamp.now().strftime("%Y-%m-%d %H:%M")
     trend_cls = regime.get("trend_label", "sideways").lower()
@@ -218,10 +219,11 @@ def daily_scan_html(
     for _, r in signals.iterrows():
         sym = r["symbol"]
         t = targets.get(sym, {})
-        ep = r["close"]
+        ep = t.get("entry", r["close"])
         ret_t1 = (t.get("target1", ep) / ep - 1) * 100
         ret_t2 = (t.get("target2", ep) / ep - 1) * 100
         ret_stop = (t.get("hard_stop", ep) / ep - 1) * 100
+        ret_trail = (t.get("trail_stop", ep) / ep - 1) * 100
         target_rows += f"""<tr>
           <td style="font-weight:600">{sym}</td>
           <td class="mono">{ep:.2f}</td>
@@ -232,6 +234,8 @@ def daily_scan_html(
           <td class="mono">{t.get("hard_stop", 0):.2f}</td>
           <td class="mono negative">{ret_stop:+.1f}%</td>
           <td class="mono">{t.get("trail_trigger", 0):.2f}</td>
+          <td class="mono">{t.get("trail_stop", 0):.2f}</td>
+          <td class="mono negative">{ret_trail:+.1f}%</td>
           <td class="mono">{r.get("conviction", 0):.4f}</td>
           <td><div class="micro-bar"><div class="fill positive" style="width:{min(r.get("conviction",0)/5*100,100):.0f}%"></div></div></td>
         </tr>"""
@@ -246,7 +250,11 @@ def daily_scan_html(
 </head><body>
 <button class="theme-toggle" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Toggle Theme</button>
 <div class="container">
-<header><div><h1>Daily Scan</h1><div class="meta">{date_str} · {universe_name} · Generated {now}</div></div></header>
+<header><div><h1>Daily Scan</h1><div class="meta">{date_str} · {universe_name} · Generated {now}</div>
+<div class="meta" style="color:var(--amber);font-size:13px;margin-top:4px">
+Entry/exit prices include slippage (0.1%) + brokerage (0.05%). Entry occurs at Friday rebalance.
+</div>
+</div></header>
 
 <div class="exec-summary">
   <div class="context-card">
@@ -258,7 +266,7 @@ def daily_scan_html(
     </div>
   </div>
   <div class="kpi-grid">
-    <div class="kpi-card"><span class="kpi-label">Signals</span><span class="kpi-value">{signal_count}</span><span class="kpi-sub">actionable today</span></div>
+    <div class="kpi-card"><span class="kpi-label">Signals</span><span class="kpi-value">{signal_count}</span><span class="kpi-sub">next entry: Friday</span></div>
     <div class="kpi-card"><span class="kpi-label">Universe</span><span class="kpi-value" style="font-size:16px">{universe_name}</span><span class="kpi-sub">{regime.get("n_stocks","?")} stocks</span></div>
   </div>
 </div>
@@ -267,21 +275,25 @@ def daily_scan_html(
 <div class="data-table-wrap">
 <table class="data-table">
 <thead><tr>
-  <th scope="col">Symbol</th><th scope="col">Entry</th>
-  <th scope="col">Target 1</th><th scope="col">Ret 1</th>
-  <th scope="col">Target 2</th><th scope="col">Ret 2</th>
-  <th scope="col">Hard Stop</th><th scope="col">Stop Ret</th>
-  <th scope="col">Trail Trig</th><th scope="col">Conviction</th><th scope="col">Score</th>
+  <th scope="col">Symbol</th><th scope="col">Entry*</th>
+  <th scope="col">Target1</th><th scope="col">Ret1</th>
+  <th scope="col">Target2</th><th scope="col">Ret2</th>
+  <th scope="col">HardStop</th><th scope="col">StopRet</th>
+  <th scope="col">TrailTrig</th><th scope="col">TrailStop</th><th scope="col">TrailRet</th>
+  <th scope="col">Conviction</th><th scope="col">Score</th>
 </tr></thead>
 <tbody>{target_rows}</tbody>
 </table></div>
 <div class="legend">
 <strong>Exit Rules:</strong>
-Target 1 = +{profit_target_1*100:.0f}% (sell half)&ensp;·&ensp;
-Target 2 = +{profit_target_2*100:.0f}%&ensp;·&ensp;
-Hard Stop = {abs(hard_stop)*100:.0f}%&ensp;·&ensp;
-Trailing Stop = activate at +{trail_activate*100:.0f}%, trail distance 12%&ensp;·&ensp;
+Target1 = +{profit_target_1*100:.0f}% (sell half)&ensp;·&ensp;
+Target2 = +{profit_target_2*100:.0f}%&ensp;·&ensp;
+HardStop = {abs(hard_stop)*100:.0f}%&ensp;·&ensp;
+Trailing Stop = activate at +{trail_activate*100:.0f}%, trail {-abs(trail_distance)*100:.0f}% from high&ensp;·&ensp;
 Time Stop = 20 trading days
+</div>
+<div class="legend" style="margin-top:8px;color:var(--muted);font-size:12px">
+*All prices include transaction costs (slippage + brokerage). Entry occurs at Friday close on rebalance day.
 </div>
 </section>
 

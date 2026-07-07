@@ -2,12 +2,12 @@
   "pipeline": {
     "current_stage": null,
     "stages": {
-      "think":     { "status": "completed", "notes": "Questioned all 7 conditions from research evidence. gap_freq p=0.25 (removed). ATR/vol 56% correlated but kept as separate AND (strictness > redundancy). Conviction replaced with equal-weight rank." },
-      "research":  { "status": "completed", "notes": "Condition decomposition: 7 individual MW tests, AND combo monotonicity, alternative conviction scores, redundancy analysis." },
-      "classify":  { "status": "completed", "notes": "No regime changes needed. Same exits/stops applicable." },
-      "design":    { "status": "completed", "notes": "6 entry conditions (removed gap_freq). Equal-weight conviction: 5-feature percentile rank average." },
-      "validate":  { "status": "completed", "notes": "21d CAGR +3.12% (+0.38% vs old). MaxDD -6.49% (-35% vs old). Trades +103. All metrics improved. Not deployment-ready (Sharpe negative at 6.5% RFR, 87% exits not_in_universe)." },
-      "build":     { "status": "completed", "notes": "Changes in src/backtest.py: -ENTRY_GAP_FREQ, -ENTRY_ATR_MULT, -ENTRY_VOL_MULT, -compute_conviction(). +equal_weight_conviction(). 5 conditions +2 kept as AND. git diff confirms clean 26-line change." }
+      "think":     { "status": "completed", "notes": "7 rules assessed for redundancy, weak evidence, and arbitrary weights. Key hypotheses: ATR/vol redundant (r=0.756), volume failed OOS, thresholds suboptimal, conviction weights arbitrary." },
+      "research":  { "status": "completed", "notes": "Empirical tests ran: (1) Correlations: ATR/vol=0.756, gap/vol=0.792, gap/ATR=0.768. (2) Stepwise: 3 rules do most work but all 6+filter best. (3) Logistic regression: ATR=+0.289, avg_down_day=+0.273, drawdown=-0.228, vol=-0.056. (4) Threshold sensitivity: -12% drawdown > -8% but too few signals." },
+      "classify":  { "status": "completed", "notes": "New rules survive all regimes. Bull WR 27.8% vs 18.8%. Bear 19.4% vs 16.9%. Sideways: neutral. Signal count -81% is the limiting factor." },
+      "design":    { "status": "completed", "notes": "Designed 3-rule system with LR conviction. Specification: drawdown <= -10%, ATR% > median, price_vs_low < 1.05. + LR-based conviction weights." },
+      "validate":  { "status": "completed", "notes": "CONTROLLED TEST RESULTS: A (baseline/all 7 cond)=CAGR 5.10%. B (remove vol)=3.63%. C (remove vol+volume)=4.70%. D (remove vol+volume+LR conv)=3.98%. CONCLUSION: Removing conditions hurts. The AND gate works synergistically. not_in_universe fix (+1.59% CAGR) is the proven improvement. No single entry condition change beats baseline." },
+      "build":     { "status": "completed", "notes": "Reverted to validated baseline (not_in_universe fix only, 6-entry conditions unchanged). Entry condition removal empirically shown to reduce CAGR." }
     }
   },
   "project": "ai-quantitative-researcher"

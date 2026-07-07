@@ -17,7 +17,10 @@ from src.backtest import (
     HARD_STOP,
     PROFIT_TARGET_1,
     PROFIT_TARGET_2,
+    SLIPPAGE,
+    BROKERAGE,
     TRAIL_ACTIVATE,
+    TRAIL_DISTANCE,
     generate_signals,
 )
 from src.db import DB_PATH, load_data, load_universe
@@ -25,6 +28,9 @@ from src.features import precompute_all_characteristics
 from src.reporting import daily_scan_html
 
 NIFTY_INDEX_TICKER = "^NSEI"
+
+ENTRY_COST_MULT = 1 + SLIPPAGE + BROKERAGE
+EXIT_COST_MULT = 1 - SLIPPAGE - BROKERAGE
 
 
 def compute_regime() -> dict:
@@ -54,6 +60,7 @@ def generate_html(date_str, signals, regime, targets, universe_name):
         date_str, signals, regime, targets, universe_name,
         profit_target_1=PROFIT_TARGET_1, profit_target_2=PROFIT_TARGET_2,
         hard_stop=HARD_STOP, trail_activate=TRAIL_ACTIVATE,
+        trail_distance=TRAIL_DISTANCE,
     )
 
 
@@ -110,24 +117,32 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
         return
 
     targets = {}
+    rebalance_day = "Friday" if pd.Timestamp.now().weekday() < 4 else "next Friday"
     for _, r in sig.iterrows():
-        ep = r["close"]
+        raw_entry = r["close"]
+        entry_price = raw_entry * ENTRY_COST_MULT
         targets[r["symbol"]] = {
-            "target1": round(ep * (1 + PROFIT_TARGET_1), 2),
-            "target2": round(ep * (1 + PROFIT_TARGET_2), 2),
-            "hard_stop": round(ep * (1 + HARD_STOP), 2),
-            "trail_trigger": round(ep * (1 + TRAIL_ACTIVATE), 2),
+            "entry": round(entry_price, 2),
+            "target1": round(entry_price * (1 + PROFIT_TARGET_1) * EXIT_COST_MULT, 2),
+            "target2": round(entry_price * (1 + PROFIT_TARGET_2) * EXIT_COST_MULT, 2),
+            "hard_stop": round(entry_price * (1 + HARD_STOP) * EXIT_COST_MULT, 2),
+            "trail_trigger": round(entry_price * (1 + TRAIL_ACTIVATE), 2),
+            "trail_stop": round(entry_price * (1 + TRAIL_ACTIVATE) * (1 - TRAIL_DISTANCE), 2),
         }
 
     print(f"\n  Signals: {len(sig)}")
-    print(f"  {'Rank':<5} {'Symbol':<18} {'Entry':>9} {'Target1':>9} {'Target2':>9} {'Stop':>9} {'TrailTrg':>9} {'Conviction':>10}")
+    print(f"  {'Rank':<5} {'Symbol':<18} {'Entry*':>9} {'Target1':>9} {'Target2':>9} {'Stop':>9} {'Trail@':>9} {'Conv':>10}")
     print(f"  {'-'*4:<5} {'-'*17:<18} {'-'*8:>9} {'-'*8:>9} {'-'*8:>9} {'-'*8:>9} {'-'*8:>9} {'-'*9:>10}")
     for _, r in sig.iterrows():
         t = targets[r["symbol"]]
-        print(f"  {r['rank']:<5} {r['symbol']:<18} {r['close']:>9.2f} {t['target1']:>9.2f} {t['target2']:>9.2f} {t['hard_stop']:>9.2f} {t['trail_trigger']:>9.2f} {r['conviction']:>10.4f}")
+        print(f"  {r['rank']:<5} {r['symbol']:<18} {t['entry']:>9.2f} {t['target1']:>9.2f} {t['target2']:>9.2f} {t['hard_stop']:>9.2f} {t['trail_trigger']:>9.2f} {r['conviction']:>10.4f}")
 
-    print(f"\n  Exit Levels: Target1=+{PROFIT_TARGET_1*100:.0f}%  Target2=+{PROFIT_TARGET_2*100:.0f}%  "
-          f"HardStop={abs(HARD_STOP)*100:.0f}%  TrailTrigger=+{TRAIL_ACTIVATE*100:.0f}% from entry high  TimeStop=20d")
+    print(f"\n  Entry Timing: Signal detected — next entry on {rebalance_day} (rebalance day)")
+    print(f"  *Entry price includes slippage ({SLIPPAGE:.1%}) + brokerage ({BROKERAGE:.2%})")
+    print(f"  Target1=+{PROFIT_TARGET_1*100:.0f}%  Target2=+{PROFIT_TARGET_2*100:.0f}%  "
+          f"HardStop={abs(HARD_STOP)*100:.0f}%  TrailTrigger=+{TRAIL_ACTIVATE*100:.0f}%  "
+          f"TrailStop=-{TRAIL_DISTANCE*100:.0f}% from high  TimeStop=20d")
+    print(f"  *Target/stop prices include exit costs (slippage + brokerage)")
     print(f"{'='*70}\n")
 
     if output:

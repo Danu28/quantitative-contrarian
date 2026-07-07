@@ -2,10 +2,28 @@
   {
     "id": "task_1",
     "title": "Create daily_scan.py",
-    "description": "CLI tool that scans any universe for actionable signals today. Reuses generate_signals() from src/backtest.py. Outputs terminal report with entry price, target1 (+12%), target2 (+18%), hard stop (-8%), trailing trigger (+10%), conviction. Optional --output HTML. Includes index regime context header.",
+    "description": "CLI tool that scans any universe for actionable signals today.",
     "dependencies": [],
     "status": "done",
     "priority": "high",
     "type": "implementation"
+  },
+  {
+    "id": "task_2",
+    "title": "Remove not_in_universe exit in Portfolio._rebalance()",
+    "description": "Delete the for-loop in _rebalance() that exits positions not in current signal list. Positions should only exit on hard stop, profit targets, trailing stop, time stop, or emergency drawdown.",
+    "dependencies": [],
+    "status": "done",
+    "priority": "high",
+    "type": "implementation"
+  },
+  {
+    "id": "task_3",
+    "title": "Verify the fix — run backtest, lint, compare metrics",
+    "description": "1) Run `python backtest.py -u nifty50 --years 3` 2) Verify not_in_universe = 0, CAGR >= baseline 3) Check there are no lint errors",
+    "dependencies": ["task_2"],
+    "status": "pending",
+    "priority": "high",
+    "type": "testing"
   }
 ]

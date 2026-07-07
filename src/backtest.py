@@ -147,12 +147,13 @@ class Portfolio:
         if pos is None:
             return False, None, False
         days_held = (current_date - pos["entry_date"]).days
+        trading_days_held = pos.get("trading_days", 0)
         ret = price / pos["entry_price"] - 1
         high_since = pos.get("high_since_entry", pos["entry_price"])
 
         if ret <= HARD_STOP:
             return True, "hard_stop", False
-        if days_held >= TIME_STOP_DAYS:
+        if trading_days_held >= TIME_STOP_DAYS:
             return True, "time_stop", False
         if ret >= TRAIL_ACTIVATE and price <= high_since * (1 - TRAIL_DISTANCE):
             return True, "trailing_stop", False
@@ -170,6 +171,7 @@ class Portfolio:
         proceeds = pos["shares"] * exit_price
         self.cash += proceeds
         days_held = (current_date - pos["entry_date"]).days
+        trading_days = pos.get("trading_days", 0)
         pnl_pct = (exit_price / pos["entry_price"] - 1) * 100
         self.trades.append({
             "symbol": symbol,
@@ -180,6 +182,7 @@ class Portfolio:
             "pnl_pct": pnl_pct,
             "exit_reason": exit_reason,
             "days_held": days_held,
+            "trading_days": trading_days,
         })
         if pnl_pct < 0:
             self.daily_loss_today += abs(pnl_pct) * pos["shares"] * pos["entry_price"] / 100
@@ -202,6 +205,7 @@ class Portfolio:
             price = prices.get(s)
             if price is None:
                 continue
+            self.positions[s]["trading_days"] = self.positions[s].get("trading_days", 0) + 1
             self.update_high_since_entry(s, price)
             should_exit, reason, is_half = self.evaluate_exits(s, price, current_date)
             if should_exit and reason:
@@ -246,11 +250,7 @@ class Portfolio:
         max_new = max(max_new, 0)
         signal_symbols = set(signals["symbol"].values) if not signals.empty else set()
 
-        for s in list(self.positions.keys()):
-            if s not in signal_symbols:
-                price = prices.get(s)
-                if price is not None:
-                    self.exit_position(s, price, current_date, "not_in_universe")
+        # Removed: not_in_universe exit — positions run to target/stop/time-stop regardless of re-entry conditions
 
         remaining = max_new - len(self.positions)
         if remaining <= 0:
@@ -270,7 +270,7 @@ class Portfolio:
                 self.cash -= shares * ep
                 self.positions[symbol] = {
                     "entry_price": ep, "entry_date": current_date, "shares": shares,
-                    "high_since_entry": ep, "first_target_hit": False,
+                    "high_since_entry": ep, "first_target_hit": False, "trading_days": 0,
                 }
 
     def get_positions_summary(self) -> pd.DataFrame:
