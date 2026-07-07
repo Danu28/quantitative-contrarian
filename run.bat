@@ -24,15 +24,17 @@ echo  %CYAN%[2]%RESET%  Forward Check     - Check forward returns for a date
 echo  %CYAN%[3]%RESET%  Backtest          - Run full backtest with gates
 echo  %CYAN%[4]%RESET%  Run All           - Daily Scan + Forward Check + Backtest
 echo  %CYAN%[5]%RESET%  Open Last Report  - Open most recent HTML report
+echo  %CYAN%[6]%RESET%  Validate Forward  - Walk-forward accuracy check
 echo  %CYAN%[0]%RESET%  Exit
 echo.
-set /p choice="%BOLD%%YELLOW%Enter your choice [0-5]: %RESET%"
+set /p choice="%BOLD%%YELLOW%Enter your choice [0-6]: %RESET%"
 
 if "%choice%"=="1" goto daily_scan
 if "%choice%"=="2" goto forward_check
 if "%choice%"=="3" goto backtest
 if "%choice%"=="4" goto run_all
 if "%choice%"=="5" goto open_report
+if "%choice%"=="6" goto validate_fwd
 if "%choice%"=="0" goto end
 echo %RED%Invalid choice. Try again.%RESET%
 pause
@@ -203,11 +205,12 @@ echo.
 echo Select report to open:
 echo  %CYAN%[1]%RESET%  daily_report.html
 echo  %CYAN%[2]%RESET%  fwd_report.html
-echo  %CYAN%[3]%RESET%  report_signal_scarcity.html
-echo  %CYAN%[4]%RESET%  report_signal_timing.html
+echo  %CYAN%[3]%RESET%  validation_report.html
+echo  %CYAN%[4]%RESET%  report_signal_scarcity.html
+echo  %CYAN%[5]%RESET%  report_signal_timing.html
 echo  %CYAN%[0]%RESET%  Back
 echo.
-set /p rp_choice="%BOLD%%YELLOW%Choice [0-4]: %RESET%"
+set /p rp_choice="%BOLD%%YELLOW%Choice [0-5]: %RESET%"
 if "%rp_choice%"=="1" (
     if exist "daily_report.html" ( start "" "daily_report.html" ) else echo %RED%File not found: daily_report.html%RESET%
 )
@@ -215,12 +218,49 @@ if "%rp_choice%"=="2" (
     if exist "fwd_report.html" ( start "" "fwd_report.html" ) else echo %RED%File not found: fwd_report.html%RESET%
 )
 if "%rp_choice%"=="3" (
-    if exist "report_signal_scarcity.html" ( start "" "report_signal_scarcity.html" ) else echo %RED%File not found: report_signal_scarcity.html%RESET%
+    if exist "validation_report.html" ( start "" "validation_report.html" ) else echo %RED%File not found: validation_report.html%RESET%
 )
 if "%rp_choice%"=="4" (
+    if exist "report_signal_scarcity.html" ( start "" "report_signal_scarcity.html" ) else echo %RED%File not found: report_signal_scarcity.html%RESET%
+)
+if "%rp_choice%"=="5" (
     if exist "report_signal_timing.html" ( start "" "report_signal_timing.html" ) else echo %RED%File not found: report_signal_timing.html%RESET%
 )
 if not "%rp_choice%"=="0" pause
+goto menu
+
+:: ─── Validate Forward ───
+:validate_fwd
+cls
+echo %BOLD%%WHITE%VALIDATE FORWARD ACCURACY%RESET%
+echo %DIV%
+echo.
+echo Runs walk-forward validation across sampled historical dates.
+echo Measures win rate, expectancy, profit factor by regime.
+echo.
+set /p vf_universe="Universe [nifty50]: "
+if "%vf_universe%"=="" set vf_universe=nifty50
+set /p vf_horizon="Horizon in trading days [21]: "
+if "%vf_horizon%"=="" set vf_horizon=21
+set /p vf_years="Years of history [3]: "
+if "%vf_years%"=="" set vf_years=3
+set /p vf_capital="Capital [10000000]: "
+if "%vf_capital%"=="" set vf_capital=10000000
+set /p vf_interval="Sample every N trading days [5]: "
+if "%vf_interval%"=="" set vf_interval=5
+set /p vf_output="HTML output file [validation_report.html]: "
+if "%vf_output%"=="" set vf_output=validation_report.html
+
+echo.
+echo %YELLOW%Running walk-forward validation (may take a while)...%RESET%
+python validate_forward.py --universe "%vf_universe%" --horizon %vf_horizon% --years %vf_years% --capital %vf_capital% --interval %vf_interval% --output "%vf_output%"
+if %ERRORLEVEL% neq 0 (
+    echo %RED%Validation failed.%RESET%
+    pause
+    goto menu
+)
+echo %GREEN%Validation complete!%RESET%
+pause
 goto menu
 
 :: ─── End ───

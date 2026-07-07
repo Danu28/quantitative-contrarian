@@ -54,8 +54,12 @@ body {
 .theme-toggle:hover { border-color: var(--sage); }
 .container { max-width: 1200px; margin: 0 auto; }
 header {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  margin-bottom: 28px; flex-wrap: wrap; gap: 16px;
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 16px; margin-bottom: 28px; align-items: start;
+}
+@media (max-width: 640px) {
+  header { grid-template-columns: 1fr; }
+  header .meta { text-align: left; }
 }
 header h1 {
   font-family: 'Playfair Display', Georgia, serif;
@@ -117,7 +121,7 @@ section { margin-bottom: 28px; }
 section h2 {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 20px; font-weight: 600; color: var(--slate);
-  margin-bottom: 14px; padding-bottom: 8px;
+  margin-bottom: 14px; padding: 0 14px 8px 14px;
   border-bottom: 2px solid var(--border);
 }
 .data-table-wrap {
@@ -189,7 +193,7 @@ def _signal_rows_html(signals: pd.DataFrame) -> str:
     rows = ""
     for _, r in signals.iterrows():
         conv = r.get("conviction", 0)
-        conv_pct = min(conv / 5 * 100, 100)
+        conv_pct = min(conv * 100, 100)
         rows += f"""<tr>
           <td>{r['rank']}</td>
           <td class="mono">{r['close']:.2f}</td>
@@ -238,7 +242,7 @@ def daily_scan_html(
           <td class="mono">{t.get("trail_stop", 0):.2f}</td>
           <td class="mono negative">{ret_trail:+.1f}%</td>
           <td class="mono">{r.get("conviction", 0):.4f}</td>
-          <td><div class="micro-bar"><div class="fill positive" style="width:{min(r.get("conviction",0)/5*100,100):.0f}%"></div></div></td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:{min(r.get("conviction",0)*100,100):.0f}%"></div></div></td>
         </tr>"""
 
     regime_action = regime.get("action", "Full deploy")
@@ -369,7 +373,7 @@ def forward_check_html(
     signal_rows = ""
     for _, r in sig.iterrows():
         conv = r.get("conviction", 0)
-        conv_pct = min(conv / 5 * 100, 100)
+        conv_pct = min(conv * 100, 100)
         signal_rows += f"""<tr>
           <td style="font-weight:600">{r['symbol']}</td>
           <td class="mono">{r['close']:.2f}</td>
