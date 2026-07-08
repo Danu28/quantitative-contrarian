@@ -269,7 +269,7 @@ def daily_scan_html(
 </head><body>
 <button class="theme-toggle" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Toggle Theme</button>
 <div class="container">
-<header><div><h1>Daily Scan</h1><div class="meta">{date_str} · {universe_name} · Generated {now}</div>
+<header><div><h1>Daily Scan</h1><div class="meta">Scan: {date_str} · {universe_name} · Run: {now}</div>
 <div class="meta" style="color:var(--amber);font-size:13px;margin-top:4px">
 Entry/exit prices include slippage (0.1%) + brokerage (0.05%). Entry occurs at Friday rebalance.
 </div>

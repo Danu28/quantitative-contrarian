@@ -49,8 +49,14 @@ echo.
 set /p ds_universe="Universe [niftymidcap150]: "
 if "%ds_universe%"=="" set ds_universe=niftymidcap150
 set /p ds_date="Date (YYYY-MM-DD) [today]: "
-set /p ds_output="HTML output file [reports\daily_report.html]: "
-if "%ds_output%"=="" set ds_output=reports\daily_report.html
+
+:: Build filename from date
+if "%ds_date%"=="" (
+    for /f %%a in ('powershell -Command "Get-Date -Format 'yyyy-MM-dd'"') do set ds_filedate=%%a
+) else (
+    set ds_filedate=%ds_date%
+)
+set ds_output=reports\daily-scan-%ds_filedate%.html
 
 echo.
 echo %YELLOW%Running daily scan...%RESET%
@@ -156,9 +162,14 @@ if "%ra_years%"=="" set ra_years=3
 echo.
 echo %BOLD%%YELLOW%Phase 1/3: Daily Scan%RESET%
 if "%ra_date%"=="" (
-    python daily_scan.py --universe "%ra_universe%" --output reports\daily_report.html
+    for /f %%a in ('powershell -Command "Get-Date -Format 'yyyy-MM-dd'"') do set ra_filedate=%%a
 ) else (
-    python daily_scan.py --universe "%ra_universe%" --date "%ra_date%" --output reports\daily_report.html
+    set ra_filedate=%ra_date%
+)
+if "%ra_date%"=="" (
+    python daily_scan.py --universe "%ra_universe%" --output "reports\daily-scan-%ra_filedate%.html"
+) else (
+    python daily_scan.py --universe "%ra_universe%" --date "%ra_date%" --output "reports\daily-scan-%ra_filedate%.html"
 )
 if %ERRORLEVEL% neq 0 (
     echo %RED%Daily scan failed. Aborting.%RESET%
