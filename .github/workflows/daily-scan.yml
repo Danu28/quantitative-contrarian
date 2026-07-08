@@ -42,15 +42,17 @@ jobs:
         continue-on-error: true
         run: |
           TODAY=$(date +%Y-%m-%d)
-          ARGS="--universe ${{ inputs.universe || 'nifty50' }} --output reports/${TODAY}.html"
+          FILENAME="daily-scan-${TODAY}.html"
+          ARGS="--universe ${{ inputs.universe || 'nifty50' }} --output reports/${FILENAME}"
           if [ -n "${{ inputs.date }}" ]; then
             ARGS="$ARGS --date ${{ inputs.date }}"
             TODAY="${{ inputs.date }}"
+            FILENAME="daily-scan-${TODAY}.html"
           fi
           python daily_scan.py $ARGS
-          cp "reports/${TODAY}.html" reports/latest.html
+          cp "reports/${FILENAME}" reports/latest.html
           echo "report_date=${TODAY}" >> $GITHUB_OUTPUT
-          echo "report_path=reports/${TODAY}.html" >> $GITHUB_OUTPUT
+          echo "report_path=reports/${FILENAME}" >> $GITHUB_OUTPUT
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
