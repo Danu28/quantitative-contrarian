@@ -80,7 +80,14 @@ A GitHub Actions workflow runs the daily scan every morning at **9:00 AM IST** a
 
 ### Live report
 
-[https://danu28.github.io/quantitative-contrarian/latest.html](https://danu28.github.io/quantitative-contrarian/latest.html)
+| Report | URL |
+|--------|-----|
+| Latest | [https://danu28.github.io/quantitative-contrarian/latest.html](https://danu28.github.io/quantitative-contrarian/latest.html) |
+| Historical | `https://danu28.github.io/quantitative-contrarian/daily-scan-YYYY-MM-DD.html` |
+
+Example: [https://danu28.github.io/quantitative-contrarian/daily-scan-2026-07-08.html](https://danu28.github.io/quantitative-contrarian/daily-scan-2026-07-08.html)
+
+Browse all past reports on the `gh-pages` branch: [https://github.com/Danu28/quantitative-contrarian/tree/gh-pages](https://github.com/Danu28/quantitative-contrarian/tree/gh-pages)
 
 ### Manual trigger
 
