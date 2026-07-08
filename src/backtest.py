@@ -16,6 +16,10 @@ from src.config import (
     REGIME_NORMAL, REGIME_REDUCED, ENTRY_DRAWDOWN, ENTRY_VOLUME_RATIO,
     ENTRY_PRICE_VS_LOW, ENTRY_PRICE_VS_HIGH_MAX, HORIZON,
     REGIME_MULTIPLIERS, MAX_SECTOR_POSITIONS,
+    MOM_MAX_POSITIONS, MOM_MIN_POSITIONS, MOM_STOP_LOSS,
+    MOM_TRAIL_ACTIVATE, MOM_TRAIL_DISTANCE, MOM_MIN_VOLUME,
+    MOM_LOOKBACK, MOM_CRASH_THRESHOLD, MOM_MAX_PRICE, MOM_MIN_PRICE,
+    MOM_SECTOR_MAX,
 )
 
 
@@ -106,6 +110,61 @@ def generate_signals(
         result = result.sort_values("conviction", ascending=False).reset_index(drop=True)
         result["rank"] = range(1, len(result) + 1)
     return result
+
+
+def generate_momentum_signals(
+    data: dict[str, pd.DataFrame],
+    date: pd.Timestamp,
+    avg_vol_series: pd.Series | None = None,
+) -> pd.DataFrame:
+    """Rank stocks by trailing 12-month momentum, apply filters."""
+    lookback_date = date - pd.DateOffset(days=400)
+    candidates = []
+    for sym in data:
+        df = data[sym]
+        if date not in df.index:
+            continue
+        if lookback_date not in df.index and date not in df.index:
+            continue
+        try:
+            past = df.loc[lookback_date:, "close"]
+            if len(past) < MOM_LOOKBACK:
+                continue
+            mom = df.loc[date, "close"] / past.iloc[-MOM_LOOKBACK] - 1
+        except (KeyError, IndexError):
+            continue
+
+        cp = df.loc[date, "close"]
+        if cp < MOM_MIN_PRICE or cp > MOM_MAX_PRICE:
+            continue
+
+        vol = df.loc[date, "volume"] if "volume" in df.columns else 0
+        if avg_vol_series is not None and sym in avg_vol_series.index:
+            if avg_vol_series[sym] < MOM_MIN_VOLUME:
+                continue
+
+        candidates.append({
+            "symbol": sym,
+            "close": cp,
+            "momentum_12m": mom,
+        })
+
+    if not candidates:
+        return pd.DataFrame()
+
+    result = pd.DataFrame(candidates)
+    result = result.sort_values("momentum_12m", ascending=False).reset_index(drop=True)
+    result["rank"] = range(1, len(result) + 1)
+    return result
+
+
+def compute_momentum_stops(entry_price: float) -> dict:
+    return {
+        "entry": round(entry_price * (1 + SLIPPAGE + BROKERAGE), 2),
+        "hard_stop": round(entry_price * (1 + MOM_STOP_LOSS) * (1 - SLIPPAGE - BROKERAGE), 2),
+        "trail_trigger": round(entry_price * (1 + MOM_TRAIL_ACTIVATE), 2),
+        "trail_stop": round(entry_price * (1 + MOM_TRAIL_ACTIVATE) * (1 - MOM_TRAIL_DISTANCE) * (1 - SLIPPAGE - BROKERAGE), 2),
+    }
 
 
 class Portfolio:
@@ -543,7 +602,7 @@ def run_backtest(
     sector_map = get_sector_map(universe_slug_or_path)
     print(f"Loading data for {len(symbols)} stocks...")
     df_all = load_data(universe_slug_or_path, db_path=db_path)
-    cutoff = pd.Timestamp.now() - pd.DateOffset(years=365 * years)
+    cutoff = pd.Timestamp.now() - pd.DateOffset(days=365 * years)
     df_all = df_all[df_all["date"] >= cutoff]
     data: dict[str, pd.DataFrame] = {}
     for sym in symbols:

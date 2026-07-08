@@ -1,8 +1,10 @@
 """Daily scan: find actionable signals in any universe, with exit levels.
 
 Usage:
-    python daily_scan.py                                # NIFTY 50, today
-    python daily_scan.py --universe niftymidcap150      # Midcap 150, today
+    python daily_scan.py                                          # NIFTY 50, contrarian, today
+    python daily_scan.py --universe niftymidcap150                # Midcap 150, today
+    python daily_scan.py --strategy momentum                      # Momentum strategy
+    python daily_scan.py --strategy momentum --universe nifty500  # Momentum on Nifty500
     python daily_scan.py --date 2026-06-01 --output report.html
 """
 from __future__ import annotations
@@ -15,13 +17,15 @@ from pathlib import Path
 import pandas as pd
 import yfinance as yf
 
-from src.backtest import generate_signals
+from src.backtest import generate_signals, generate_momentum_signals, compute_momentum_stops
 from src.config import (
     HARD_STOP, PROFIT_TARGET_1, PROFIT_TARGET_2,
     SLIPPAGE, BROKERAGE, TRAIL_ACTIVATE, TRAIL_DISTANCE,
-    REGIME_RULES,
+    REGIME_RULES, MOM_MAX_POSITIONS, MOM_MIN_POSITIONS,
+    MOM_STOP_LOSS, MOM_TRAIL_ACTIVATE, MOM_TRAIL_DISTANCE,
+    MOM_MIN_VOLUME, MOM_SECTOR_MAX,
 )
-from src.db import DB_PATH, load_data, load_universe
+from src.db import DB_PATH, load_data, load_universe, get_sector_map
 from src.features import precompute_all_characteristics
 from src.reporting import daily_scan_html
 
@@ -80,7 +84,7 @@ def generate_html(date_str, signals, regime, targets, universe_name):
     )
 
 
-def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | None = None):
+def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | None = None, strategy: str = "contrarian"):
     config = load_universe(universe_slug_or_path)
     slug = config.get("slug", Path(universe_slug_or_path).stem)
     universe_name = config.get("name", slug)
@@ -97,12 +101,16 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
     print(f"  DAILY SCAN REPORT")
     print(f"  Date:     {scan_date.date()} ({scan_date.strftime('%A')})")
     print(f"  Universe: {universe_name} ({len(symbols)} stocks)")
+    print(f"  Strategy: {strategy.upper()}")
     print(f"{'='*70}")
 
     print(f"\n  Market Regime...")
     regime = compute_regime()
+    crash_mode = regime["trend_20d"] < -8
     print(f"  {NIFTY_INDEX_TICKER} @ {regime['index_price']} | {regime['trend_label']} ({regime['trend_20d']:+.2f}% 20d) | ATR {regime['atr_pct']}%")
     print(f"  >>> RECOMMENDATION: {regime['action']} (max {regime['max_positions']} positions) — {regime['regime_note']}")
+    if crash_mode and strategy == "momentum":
+        print(f"  *** CRASH MODE: Momentum strategy deactivated. Hold cash. ***")
 
     print(f"  Loading data...")
     df_all = load_data(universe_slug_or_path)
@@ -116,56 +124,82 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
         data[sym] = sub
     print(f"  Loaded {len(data)}/{len(symbols)} stocks")
 
-    print(f"  Computing characteristics...")
-    char_data = precompute_all_characteristics(data, window=20)
+    if strategy == "momentum":
+        # Compute average volume for liquidity filter
+        all_vol = pd.concat({s: df["volume"] for s, df in data.items() if "volume" in df.columns}, axis=1)
+        avg_vol = all_vol.mean() if not all_vol.empty else None
 
-    if scan_date not in next(iter(char_data.values()), pd.DataFrame()).index:
-        available = sorted(set(d for s in char_data for d in char_data[s].index))
-        closest = [d for d in available if d >= scan_date]
-        if not closest:
-            print(f"  No trading data on or after {scan_date.date()}")
+        sig = generate_momentum_signals(data, scan_date, avg_vol_series=avg_vol)
+        if sig.empty:
+            print(f"\n  No momentum signals on {scan_date.date()}.")
             sys.exit(1)
-        scan_date = closest[0]
-        print(f"  Adjusted to nearest trading day: {scan_date.date()}")
 
-    sig = generate_signals(data, char_data, scan_date)
-    if sig.empty:
-        print(f"\n  No signals on {scan_date.date()}.")
-        sys.exit(1)
+        targets = {}
+        for _, r in sig.iterrows():
+            targets[r["symbol"]] = compute_momentum_stops(r["close"])
 
-    targets = {}
+        print(f"\n  Momentum Signals: {len(sig)}")
+        print(f"  {'Rank':<5} {'Symbol':<18} {'Momentum':>10} {'Price':>9} {'Entry*':>9} {'Stop':>9} {'Trail@':>9}")
+        print(f"  {'-'*4:<5} {'-'*17:<18} {'-'*9:>10} {'-'*8:>9} {'-'*8:>9} {'-'*8:>9} {'-'*8:>9}")
+        for _, r in sig.iterrows():
+            t = targets[r["symbol"]]
+            print(f"  {r['rank']:<5} {r['symbol']:<18} {r['momentum_12m']*100:>9.1f}% {r['close']:>8.2f} {t['entry']:>9.2f} {t['hard_stop']:>9.2f} {t['trail_trigger']:>9.2f}")
+
+        max_pos = MOM_MAX_POSITIONS
+        entries_today = min(len(sig), max_pos)
+        print(f"\n  Max positions: {max_pos}  |  Entering: {entries_today}")
+        print(f"  Stop: {abs(MOM_STOP_LOSS)*100:.0f}%  |  Trail activate: +{MOM_TRAIL_ACTIVATE*100:.0f}%, trail distance: {abs(MOM_TRAIL_DISTANCE)*100:.0f}%")
+        print(f"  Rebalance: Monthly (every 21 trading days)  |  Max {MOM_SECTOR_MAX} per sector")
+        if crash_mode:
+            print(f"  *** CRASH REGIME: Do NOT enter. Wait for 20d return > -3%. ***")
+
+    else:
+        print(f"  Computing characteristics...")
+        char_data = precompute_all_characteristics(data, window=20)
+
+        if scan_date not in next(iter(char_data.values()), pd.DataFrame()).index:
+            available = sorted(set(d for s in char_data for d in char_data[s].index))
+            closest = [d for d in available if d >= scan_date]
+            if not closest:
+                print(f"  No trading data on or after {scan_date.date()}")
+                sys.exit(1)
+            scan_date = closest[0]
+            print(f"  Adjusted to nearest trading day: {scan_date.date()}")
+
+        sig = generate_signals(data, char_data, scan_date)
+        if sig.empty:
+            print(f"\n  No signals on {scan_date.date()}.")
+            sys.exit(1)
+
+        targets = {}
+        for _, r in sig.iterrows():
+            raw_entry = r["close"]
+            entry_price = raw_entry * ENTRY_COST_MULT
+            targets[r["symbol"]] = {
+                "entry": round(entry_price, 2),
+                "target1": round(entry_price * (1 + PROFIT_TARGET_1) * EXIT_COST_MULT, 2),
+                "target2": round(entry_price * (1 + PROFIT_TARGET_2) * EXIT_COST_MULT, 2),
+                "hard_stop": round(entry_price * (1 + HARD_STOP) * EXIT_COST_MULT, 2),
+                "trail_trigger": round(entry_price * (1 + TRAIL_ACTIVATE), 2),
+                "trail_stop": round(entry_price * (1 + TRAIL_ACTIVATE) * (1 - TRAIL_DISTANCE) * EXIT_COST_MULT, 2),
+            }
+
+        print(f"\n  Signals: {len(sig)}")
+        print(f"  {'Rank':<5} {'Symbol':<18} {'Entry*':>9} {'Target1':>9} {'Target2':>9} {'Stop':>9} {'Trail@':>9} {'Conv':>10}")
+        print(f"  {'-'*4:<5} {'-'*17:<18} {'-'*8:>9} {'-'*8:>9} {'-'*8:>9} {'-'*8:>9} {'-'*8:>9} {'-'*9:>10}")
+        for _, r in sig.iterrows():
+            t = targets[r["symbol"]]
+            print(f"  {r['rank']:<5} {r['symbol']:<18} {t['entry']:>9.2f} {t['target1']:>9.2f} {t['target2']:>9.2f} {t['hard_stop']:>9.2f} {t['trail_trigger']:>9.2f} {r['conviction']:>10.4f}")
+
+        max_pos = regime["max_positions"]
+        entries_today = min(len(sig), max_pos)
+        print(f"  Max positions today: {max_pos} ({regime['action']}) — entering {entries_today} of {len(sig)} signals")
+
     rebalance_day = "Friday" if pd.Timestamp.now().weekday() < 4 else "next Friday"
-    for _, r in sig.iterrows():
-        raw_entry = r["close"]
-        entry_price = raw_entry * ENTRY_COST_MULT
-        targets[r["symbol"]] = {
-            "entry": round(entry_price, 2),
-            "target1": round(entry_price * (1 + PROFIT_TARGET_1) * EXIT_COST_MULT, 2),
-            "target2": round(entry_price * (1 + PROFIT_TARGET_2) * EXIT_COST_MULT, 2),
-            "hard_stop": round(entry_price * (1 + HARD_STOP) * EXIT_COST_MULT, 2),
-            "trail_trigger": round(entry_price * (1 + TRAIL_ACTIVATE), 2),
-            "trail_stop": round(entry_price * (1 + TRAIL_ACTIVATE) * (1 - TRAIL_DISTANCE), 2),
-        }
-
-    print(f"\n  Signals: {len(sig)}")
-    print(f"  {'Rank':<5} {'Symbol':<18} {'Entry*':>9} {'Target1':>9} {'Target2':>9} {'Stop':>9} {'Trail@':>9} {'Conv':>10}")
-    print(f"  {'-'*4:<5} {'-'*17:<18} {'-'*8:>9} {'-'*8:>9} {'-'*8:>9} {'-'*8:>9} {'-'*8:>9} {'-'*9:>10}")
-    for _, r in sig.iterrows():
-        t = targets[r["symbol"]]
-        print(f"  {r['rank']:<5} {r['symbol']:<18} {t['entry']:>9.2f} {t['target1']:>9.2f} {t['target2']:>9.2f} {t['hard_stop']:>9.2f} {t['trail_trigger']:>9.2f} {r['conviction']:>10.4f}")
-
-    max_pos = regime["max_positions"]
-    entries_today = min(len(sig), max_pos)
-    print(f"  Max positions today: {max_pos} ({regime['action']}) — entering {entries_today} of {len(sig)} signals")
     print(f"\n  Entry Timing: Signal detected — next entry on {rebalance_day} (rebalance day)")
     print(f"  *Entry price includes slippage ({SLIPPAGE:.1%}) + brokerage ({BROKERAGE:.2%})")
-    print(f"  Target1=+{PROFIT_TARGET_1*100:.0f}%  Target2=+{PROFIT_TARGET_2*100:.0f}%  "
-          f"HardStop={abs(HARD_STOP)*100:.0f}%  TrailTrigger=+{TRAIL_ACTIVATE*100:.0f}%  "
-          f"TrailStop=-{TRAIL_DISTANCE*100:.0f}% from high  TimeStop=20d")
-    print(f"  *Target/stop prices include exit costs (slippage + brokerage)")
     print(f"{'='*70}\n")
     if output:
-
         os.makedirs(os.path.dirname(output), exist_ok=True)
         html = generate_html(scan_date.strftime("%Y-%m-%d"), sig, regime, targets, universe_name)
         with open(output, "w", encoding="utf-8") as f:
@@ -181,8 +215,10 @@ def main():
                         help="Override date (YYYY-MM-DD). Default: today")
     parser.add_argument("--output", default=None,
                         help="Save HTML report to file")
+    parser.add_argument("--strategy", "-s", default="contrarian", choices=["contrarian", "momentum"],
+                        help="Strategy to scan for (default: contrarian)")
     args = parser.parse_args()
-    scan(args.universe, args.date, args.output)
+    scan(args.universe, args.date, args.output, args.strategy)
 
 
 if __name__ == "__main__":

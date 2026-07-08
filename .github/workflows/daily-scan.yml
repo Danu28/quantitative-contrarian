@@ -6,10 +6,14 @@ on:
     - cron: "30 3 * * *"
   workflow_dispatch:
     inputs:
-      universe:
-        description: "Universe slug"
+      contrarian_universe:
+        description: "Contrarian universe slug"
         required: false
         default: "niftymidcap150"
+      momentum_universe:
+        description: "Momentum universe slug"
+        required: false
+        default: "nifty500"
       date:
         description: "Date (YYYY-MM-DD) or leave empty for today"
         required: false
@@ -19,7 +23,7 @@ permissions:
   contents: write
 
 jobs:
-  scan:
+  contrarian-scan:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -37,22 +41,106 @@ jobs:
       - name: Create reports directory
         run: mkdir -p reports
 
-      - name: Run daily scan
-        id: scan
-        continue-on-error: true
+      - name: Run contrarian scan
+        id: contrarian
         run: |
           TODAY=$(date +%Y-%m-%d)
-          FILENAME="daily-scan-${TODAY}.html"
-          ARGS="--universe ${{ inputs.universe || 'niftymidcap150' }} --output reports/${FILENAME}"
+          FILENAME="contrarian-scan-${TODAY}.html"
+          ARGS="--strategy contrarian --universe ${{ inputs.contrarian_universe || 'niftymidcap150' }} --output reports/${FILENAME}"
           if [ -n "${{ inputs.date }}" ]; then
             ARGS="$ARGS --date ${{ inputs.date }}"
             TODAY="${{ inputs.date }}"
-            FILENAME="daily-scan-${TODAY}.html"
+            FILENAME="contrarian-scan-${TODAY}.html"
           fi
-          python daily_scan.py $ARGS
-          cp "reports/${FILENAME}" reports/latest.html
-          echo "report_date=${TODAY}" >> $GITHUB_OUTPUT
-          echo "report_path=reports/${FILENAME}" >> $GITHUB_OUTPUT
+          python daily_scan.py $ARGS || echo "Contrarian scan had no signals"
+          echo "contrarian_path=reports/${FILENAME}" >> $GITHUB_OUTPUT
+
+      - name: Upload contrarian report
+        uses: actions/upload-artifact@v4
+        with:
+          name: contrarian-report
+          path: reports/contrarian-scan-*.html
+          retention-days: 7
+
+  momentum-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create reports directory
+        run: mkdir -p reports
+
+      - name: Run momentum scan
+        id: momentum
+        run: |
+          TODAY=$(date +%Y-%m-%d)
+          FILENAME="momentum-scan-${TODAY}.html"
+          ARGS="--strategy momentum --universe ${{ inputs.momentum_universe || 'nifty500' }} --output reports/${FILENAME}"
+          if [ -n "${{ inputs.date }}" ]; then
+            ARGS="$ARGS --date ${{ inputs.date }}"
+            TODAY="${{ inputs.date }}"
+            FILENAME="momentum-scan-${TODAY}.html"
+          fi
+          python daily_scan.py $ARGS || echo "Momentum scan had no signals"
+          echo "momentum_path=reports/${FILENAME}" >> $GITHUB_OUTPUT
+
+      - name: Upload momentum report
+        uses: actions/upload-artifact@v4
+        with:
+          name: momentum-report
+          path: reports/momentum-scan-*.html
+          retention-days: 7
+
+  deploy:
+    needs: [contrarian-scan, momentum-scan]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all reports
+        uses: actions/download-artifact@v4
+        with:
+          path: ./reports
+          merge-multiple: true
+
+      - name: Generate index page
+        run: |
+          TODAY=$(date +%Y-%m-%d)
+          cat > reports/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head><title>Quant Scanner Reports</title>
+          <style>
+            body { font-family: -apple-system, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; }
+            h1 { color: #1a1a2e; }
+            a { color: #4361ee; text-decoration: none; display: block; padding: 8px 0; }
+            a:hover { text-decoration: underline; }
+            .date { color: #666; font-size: 0.9em; }
+          </style></head>
+          <body>
+          <h1>Quant Scanner Reports</h1>
+          <p class="date">Updated: $(date -u +'%Y-%m-%d %H:%M UTC')</p>
+          <hr>
+          <h2>Today's Reports</h2>
+          <a href="./contrarian-scan-${TODAY}.html">Contrarian Scan — ${TODAY}</a>
+          <a href="./momentum-scan-${TODAY}.html">Momentum Scan — ${TODAY}</a>
+          <hr>
+          <p><em>Older reports are available in the reports directory.</em></p>
+          </body></html>
+          EOF
+          ls -la reports/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
