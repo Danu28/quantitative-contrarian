@@ -176,7 +176,7 @@ def fetch_symbol_data(
         print(f"  {symbol}: WARNING - no data returned")
         return df
 
-    df.index = pd.to_datetime(df.index)
+    df.index = pd.to_datetime(df.index).tz_localize(None)
     if isinstance(df.columns, pd.MultiIndex):
         df.columns = [c[0].lower() for c in df.columns]
     else:
@@ -195,6 +195,8 @@ def validate_symbols(symbols: list[str]) -> list[str]:
             info = yf.Ticker(sym).info
             if not info or "regularMarketPrice" not in info:
                 info = yf.download(sym, period="5d", progress=False, auto_adjust=True)
+                if not info.empty:
+                    info.index = pd.to_datetime(info.index).tz_localize(None)
                 if info.empty:
                     print("NOT FOUND")
                     bad.append(sym)
@@ -205,6 +207,8 @@ def validate_symbols(symbols: list[str]) -> list[str]:
         except Exception:
             try:
                 df = yf.download(sym, period="5d", progress=False, auto_adjust=True)
+                if not df.empty:
+                    df.index = pd.to_datetime(df.index).tz_localize(None)
                 if df.empty:
                     print("NOT FOUND")
                     bad.append(sym)

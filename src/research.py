@@ -42,7 +42,7 @@ def fetch_index_data(years: int = 10) -> pd.DataFrame:
     df = yf.download(NIFTY_INDEX_TICKER, period=f"{years}y", progress=False, auto_adjust=True)
     if df.empty:
         return pd.DataFrame()
-    df.index = pd.to_datetime(df.index)
+    df.index = pd.to_datetime(df.index).tz_localize(None)
     if isinstance(df.columns, pd.MultiIndex):
         df.columns = [c[0].lower() for c in df.columns]
     else:

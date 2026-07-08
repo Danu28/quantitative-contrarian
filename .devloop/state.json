@@ -1,0 +1,24 @@
+{
+  "project": {
+    "name": "ai-quantitative-researcher",
+    "description": "Statistical contrarian trading system for Indian equities",
+    "created_at": "2026-07-08T18:00:00Z"
+  },
+  "execution": {
+    "mode": "execution",
+    "current_task_id": 4,
+    "last_completed_task_id": 4,
+    "status": "idle",
+    "last_updated": "2026-07-08T18:15:00Z"
+  },
+  "progress": {
+    "total_tasks": 4,
+    "completed_tasks": [1, 2, 3, 4],
+    "pending_tasks": []
+  },
+  "error": {
+    "has_error": false,
+    "last_error_message": null,
+    "last_failed_task_id": null
+  }
+}

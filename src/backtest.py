@@ -39,6 +39,7 @@ def generate_signals(
     data: dict[str, pd.DataFrame],
     char_data: dict[str, pd.DataFrame],
     date: pd.Timestamp,
+    horizon: int = HORIZON,
 ) -> pd.DataFrame:
     universe_atr = np.median([
         char_data[s].loc[date, "avg_true_range_pct"]
@@ -60,7 +61,7 @@ def generate_signals(
         df = data[symbol]
         c = char_data[symbol].loc[date]
         close = df.loc[date, "close"]
-        hv = df["high"].rolling(HORIZON, min_periods=5).max()
+        hv = df["high"].rolling(horizon, min_periods=5).max()
         pvh = close / hv.loc[date] if date in hv.index else 1
 
         dd = c.get("max_drawdown", 0)
@@ -248,8 +249,6 @@ class Portfolio:
             prev_eq = self.equity_curve[-2]["equity"]
             self.equity_curve[-1]["daily_pnl_pct"] = (total / prev_eq - 1) * 100
 
-    MIN_POSITIONS = 3
-
     def _rebalance(self, signals: pd.DataFrame, prices: dict[str, float], current_date: pd.Timestamp, regime_multiplier: float):
         max_new = int(MAX_POSITIONS * regime_multiplier)
         max_new = max(max_new, 0)
@@ -276,7 +275,7 @@ class Portfolio:
         if not candidates:
             return
 
-        cap_per = self.cash / (len(self.positions) + len(candidates) + self.MIN_POSITIONS)
+        cap_per = self.cash / (len(self.positions) + len(candidates) + MIN_POSITIONS)
         for symbol in candidates:
             price = prices.get(symbol)
             if price is None:
@@ -412,11 +411,14 @@ def compute_regime_multiplier(date: pd.Timestamp, data: dict[str, pd.DataFrame],
     if idx < 20:
         return REGIME_NORMAL
     past_date = all_dates[idx - 20]
-    prices_now = [data[s].loc[date, "close"] for s in data if date in data[s].index]
-    prices_past = [data[s].loc[past_date, "close"] for s in data if past_date in data[s].index]
-    if not prices_now or not prices_past:
+    returns_20d = [
+        data[s].loc[date, "close"] / data[s].loc[past_date, "close"] - 1
+        for s in data
+        if date in data[s].index and past_date in data[s].index
+    ]
+    if not returns_20d:
         return REGIME_NORMAL
-    ret_20d = (np.mean(prices_now) / np.mean(prices_past) - 1) * 100
+    ret_20d = np.mean(returns_20d) * 100
     for lo, hi, mult in REGIME_MULTIPLIERS:
         if lo <= ret_20d < hi:
             return mult
@@ -433,7 +435,7 @@ def run_horizon(data: dict, char_data: dict, horizon: int, config: BacktestConfi
     pf = Portfolio(capital=config.capital, sector_map=sector_map)
     for date in all_dates:
         prices = {s: data[s].loc[date, "close"] for s in data if date in data[s].index}
-        sig = generate_signals(data, char_data, date)
+        sig = generate_signals(data, char_data, date, horizon=horizon)
         mult = compute_regime_multiplier(date, data, all_dates)
         pf.process_day(sig, prices, date, regime_multiplier=mult)
 
@@ -552,7 +554,10 @@ def run_backtest(
         sub.index = pd.DatetimeIndex(sub.index)
         data[sym] = sub
 
-    # Survivorship bias filter: drop stocks not present at start of backtest
+    # Data quality filter: drop stocks with insufficient history
+    # NOTE: This uses current index constituents, not historical ones.
+    # True survivorship-bias-free backtesting requires historical constituent lists
+    # from the exchange. Using current-only constituents may inflate returns.
     min_date = df_all["date"].min()
     max_date = df_all["date"].max()
     expected_days = (max_date - min_date).days
@@ -563,7 +568,7 @@ def run_backtest(
     }
     dropped = before - len(data)
     if dropped:
-        print(f"  Survivorship filter: dropped {dropped} stock(s) with insufficient history")
+        print(f"  Data quality filter: dropped {dropped} stock(s) with insufficient history")
 
     print(f"Loaded {len(data)} stocks.")
 
@@ -580,3 +585,49 @@ def run_backtest(
             print(f"  {m.get('status', 'error')}")
 
     return results
+
+
+def find_trading_dates(data: dict[str, pd.DataFrame], date: pd.Timestamp, ahead: int) -> list[pd.Timestamp]:
+    all_dates = sorted(set(d for s in data for d in data[s].index))
+    available = [d for d in all_dates if d >= date]
+    if not available:
+        return []
+    return available[:ahead + 1]
+
+
+def build_horizon_results(
+    data: dict[str, pd.DataFrame],
+    sig: pd.DataFrame,
+    entry_date: pd.Timestamp,
+    horizons: list[int],
+) -> dict:
+    horizon_data = {}
+    for h in horizons:
+        dates = find_trading_dates(data, entry_date, h)
+        if len(dates) <= 1:
+            horizon_data[h] = {"dates": dates, "results": [], "df": pd.DataFrame()}
+            continue
+        exit_date = dates[-1]
+        results = []
+        for _, row in sig.iterrows():
+            symbol = row["symbol"]
+            ep = row["close"]
+            if symbol not in data or exit_date not in data[symbol].index:
+                results.append({"symbol": symbol, "entry_date": entry_date, "exit_date": exit_date,
+                                "entry_price": ep, "exit_price": None, "return_pct": None,
+                                "min_intra_pct": None, "status": "no_data"})
+                continue
+            xp = data[symbol].loc[exit_date, "close"]
+            ret = (xp / ep - 1) * 100
+            min_ret = None
+            for d in dates[1:]:
+                if d in data[symbol].index:
+                    r = (data[symbol].loc[d, "close"] / ep - 1) * 100
+                    if min_ret is None or r < min_ret:
+                        min_ret = r
+            results.append({"symbol": symbol, "entry_date": entry_date, "exit_date": exit_date,
+                            "entry_price": round(ep, 2), "exit_price": round(xp, 2),
+                            "return_pct": round(ret, 2), "min_intra_pct": round(min_ret, 2) if min_ret is not None else None,
+                            "status": "ok"})
+        horizon_data[h] = {"dates": dates, "exit_date": exit_date, "results": results, "df": pd.DataFrame(results)}
+    return horizon_data

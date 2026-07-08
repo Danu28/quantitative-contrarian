@@ -10,7 +10,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from src.backtest import generate_signals, compute_regime_multiplier
+from src.backtest import generate_signals, compute_regime_multiplier, find_trading_dates, build_horizon_results
 from src.db import DB_PATH, load_data, load_universe
 from src.features import precompute_all_characteristics
 from src.reporting import _classify_regime
@@ -42,35 +42,7 @@ def build_portfolio(signals, horizon_data, horizon, regime, capital):
     return trades
 
 
-def find_trading_dates(data, entry_date, ahead):
-    all_dates = sorted(set(d for s in data for d in data[s].index))
-    available = [d for d in all_dates if d >= entry_date]
-    return available[:ahead + 1]
 
-
-def build_horizon_results(data, sig, entry_date, horizons):
-    horizon_data = {}
-    for h in horizons:
-        dates = find_trading_dates(data, entry_date, h)
-        if len(dates) <= 1:
-            horizon_data[h] = {"dates": dates, "results": [], "df": pd.DataFrame()}
-            continue
-        exit_date = dates[-1]
-        results = []
-        for _, row in sig.iterrows():
-            symbol = row["symbol"]
-            ep = row["close"]
-            if symbol not in data or exit_date not in data[symbol].index:
-                continue
-            xp = data[symbol].loc[exit_date, "close"]
-            ret = (xp / ep - 1) * 100
-            results.append({
-                "symbol": symbol, "entry_date": entry_date, "exit_date": exit_date,
-                "entry_price": round(ep, 2), "exit_price": round(xp, 2),
-                "return_pct": round(ret, 2), "status": "ok",
-            })
-        horizon_data[h] = {"dates": dates, "exit_date": exit_date, "results": results, "df": pd.DataFrame(results)}
-    return horizon_data
 
 
 def _bar(val, max_val, color="var(--accent-1)"):

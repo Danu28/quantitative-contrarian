@@ -19,6 +19,7 @@ from src.backtest import generate_signals
 from src.config import (
     HARD_STOP, PROFIT_TARGET_1, PROFIT_TARGET_2,
     SLIPPAGE, BROKERAGE, TRAIL_ACTIVATE, TRAIL_DISTANCE,
+    REGIME_RULES,
 )
 from src.db import DB_PATH, load_data, load_universe
 from src.features import precompute_all_characteristics
@@ -30,21 +31,12 @@ ENTRY_COST_MULT = 1 + SLIPPAGE + BROKERAGE
 EXIT_COST_MULT = 1 - SLIPPAGE - BROKERAGE
 
 
-REGIME_RULES = [
-    # (20d_return_min, 20d_return_max, label, max_positions, action, note)
-    (8,    float("inf"), "Strong Bull", 2, "Reduce", "Rare regime. Trades infrequent."),
-    (3,    8,             "Bull",        1, "Skip or 1", "25% win rate. Avoid."),
-    (-3,   3,             "Sideways",    3, "Full deploy", "Core regime. 59% of market."),
-    (-8,   -3,            "Bear",        3, "Full deploy", "Best regime. 78% win rate."),
-    (float("-inf"), -8,   "Crash",       3, "Full deploy", "Best regime. 71% win rate."),
-]
-
-
 def compute_regime() -> dict:
     df = yf.download(NIFTY_INDEX_TICKER, period="6mo", progress=False, auto_adjust=True)
     if df.empty:
         return {"index_price": 0, "trend_20d": 0, "trend_label": "Unknown", "atr_pct": 0,
                 "max_positions": 1, "action": "Unknown", "regime_note": ""}
+    df.index = pd.to_datetime(df.index).tz_localize(None)
     if isinstance(df.columns, pd.MultiIndex):
         df.columns = [c[0].lower() for c in df.columns]
     else:

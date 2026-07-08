@@ -6,7 +6,7 @@ Statistical contrarian system for Indian equities. Scans any universe for beaten
 
 | Condition | Threshold | Purpose |
 |-----------|-----------|---------|
-| Drawdown | ≤ -8% | Beaten down from 20d high |
+| Drawdown | ≤ -5% | Beaten down from 20d high |
 | Price vs Low | < 1.05 | Near 20-day low |
 | Price vs High | < 0.98 | Not at 20-day high |
 | Volume vs MA(10) | > 1.0 | Above-average volume |
@@ -23,7 +23,9 @@ Statistical contrarian system for Indian equities. Scans any universe for beaten
 
 ## Conviction
 
-Equal-weight percentile rank of 5 features (drawdown, ATR, volatility, price-vs-low distance, volume ratio). No arbitrary multipliers.
+Research-weighted percentile rank of 8 features with empirically calibrated weights:
+- Positive: gap_frequency (0.19), avg_true_range_pct (0.18), avg_up_day (0.17), volatility (0.12)
+- Negative (inverted): price_vs_ma10 (0.17), price_vs_high (0.16), ma_slope_5 (0.17), ret_3d (0.13)
 
 ## Data
 
@@ -66,7 +68,28 @@ Backtested on NIFTY 50 (3yr): **+3.12% CAGR** at 21d horizon, MaxDrawdown **-6.4
 
 Not deployment-ready — 87% of exits are "not_in_universe" (signal lost before target hit). Sharpe ratio negative at 6.5% risk-free rate.
 
+## Automated Daily Scan
+
+A GitHub Actions workflow runs the daily scan every morning at **9:00 AM IST** and deploys the HTML report to **GitHub Pages**.
+
+### Setup (one-time)
+
+1. **Enable GitHub Pages**: Go to repo **Settings → Pages → Source: "Deploy from a branch"**, branch: `gh-pages`, folder: `/ (root)`. Click Save.
+2. **Push to main**: The first push triggers a workflow run.
+3. **Bookmark the report**: `https://<your-username>.github.io/ai-quantitative-researcher/latest.html`
+
+### Live report
+
+[https://danu28.github.io/quantitative-contrarian/latest.html](https://danu28.github.io/quantitative-contrarian/latest.html)
+
+### Manual trigger
+
+```bash
+# Go to Actions → Daily Scan → Run workflow
+# Optionally override universe or date
+```
+
 ## Requirements
 
 - Python 3.10+
-- `pip install pandas numpy scipy yfinance`
+- `pip install -r requirements.txt`

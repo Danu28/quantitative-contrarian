@@ -328,19 +328,17 @@ class TestProcessDay:
     def test_emergency_drawdown_liquidates(self):
         pf = Portfolio(100_000)
         pf.peak_equity = 100_000
-        # Force a -20% equity state
-        pf.cash = 50_000
+        pf.cash = 0
         pf.positions["TEST.NS"] = {
             "entry_price": 100, "entry_date": pd.Timestamp("2024-01-01"),
             "shares": 100, "high_since_entry": 100,
             "first_target_hit": False, "trading_days": 10,
         }
-        prices = {"TEST.NS": 80}
-        total_after = pf.cash + 100 * 80
-        drawdown = (100_000 - total_after) / 100_000
-        if drawdown >= MAX_DRAWDOWN_DISABLE:
-            pf.process_day(pd.DataFrame(), prices, pd.Timestamp("2024-01-10"), REGIME_NORMAL)
-            assert pf.disabled
+        prices = {"TEST.NS": 50}
+        # Cash 0 + 100 shares * 50 = 5000 total equity vs 100000 peak = 95% drawdown
+        pf.process_day(pd.DataFrame(), prices, pd.Timestamp("2024-01-10"), REGIME_NORMAL)
+        assert pf.disabled
+        assert "TEST.NS" not in pf.positions
 
     def test_daily_loss_circuit_breaker_blocks_rebalance(self):
         """When daily loss exceeds MAX_DAILY_LOSS, rebalancing should not happen."""
@@ -382,20 +380,25 @@ class TestSectorConcentration:
         assert counts.get("Energy") == 1
 
     def test_sector_limit_blocks_excess_in_same_sector(self):
-        sector_map = {"A.NS": "Tech", "B.NS": "Tech", "C.NS": "Energy"}
-        pf = Portfolio(1_000_000, sector_map=sector_map)
+        sector_map = {"A.NS": "Tech", "B.NS": "Tech", "C.NS": "Tech", "D.NS": "Energy"}
+        pf = Portfolio(10_000_000, sector_map=sector_map)
         ep = 100 * (1 + SLIPPAGE + BROKERAGE)
-        # With MAX_POSITIONS=1 (single-position strategy), sector limit is not reached.
-        # Verify the best signal is added to an empty portfolio.
+        # Manually set positions to trigger sector limiting
+        pf.positions["A.NS"] = {"shares": 10000, "entry_price": ep, "entry_date": pd.Timestamp("2024-01-01"),
+                                "high_since_entry": ep, "first_target_hit": False, "trading_days": 5}
+        pf.positions["B.NS"] = {"shares": 10000, "entry_price": ep, "entry_date": pd.Timestamp("2024-01-01"),
+                                "high_since_entry": ep, "first_target_hit": False, "trading_days": 5}
+        pf.cash = 8_000_000
+        pf._rebalance(pd.DataFrame(), {}, pd.Timestamp("2024-01-05"), 3)
+        # MAX_SECTOR_POSITIONS=2, already have 2 Tech, so C.NS (Tech) should be blocked,
+        # but D.NS (Energy) should be allowed.
         signals = pd.DataFrame({
-            "symbol": ["A.NS", "C.NS"],
+            "symbol": ["C.NS", "D.NS"],
             "conviction": [0.9, 0.8], "close": [100, 100],
         })
-        prices = {"A.NS": 100, "C.NS": 100}
-        friday = pd.Timestamp("2024-01-05")
-        pf.process_day(signals, prices, friday, REGIME_NORMAL)
-        # Only the highest-conviction signal is taken (A.NS)
-        assert "A.NS" in pf.positions
+        prices = {"C.NS": 100, "D.NS": 100}
+        pf._rebalance(signals, prices, pd.Timestamp("2024-01-05"), 3)
+        assert "D.NS" in pf.positions
         assert "C.NS" not in pf.positions
 
 

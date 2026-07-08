@@ -1,0 +1,49 @@
+{
+  "metadata": {
+    "total_tasks": 4,
+    "created_at": "2026-07-08T18:10:00Z",
+    "last_updated": "2026-07-08T18:10:00Z"
+  },
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Create requirements.txt for CI",
+      "description": "Create requirements.txt with pandas, numpy, yfinance, scipy for GitHub Actions dependency install.",
+      "status": "pending",
+      "priority": "high",
+      "dependencies": [],
+      "type": "setup",
+      "completed_at": null
+    },
+    {
+      "id": 2,
+      "title": "Create GitHub Actions workflow with Pages deployment",
+      "description": "Write .github/workflows/daily-scan.yml. Steps: checkout, setup Python, pip install, run daily_scan.py generating both latest.html and dated file, deploy reports/ to gh-pages branch using peaceiris/actions-gh-pages.",
+      "status": "pending",
+      "priority": "high",
+      "dependencies": [1],
+      "type": "implementation",
+      "completed_at": null
+    },
+    {
+      "id": 3,
+      "title": "Configure GitHub Pages in repo settings",
+      "description": "Enable GitHub Pages in repo Settings → Pages → Source: Deploy from branch gh-pages, folder / (root).",
+      "status": "pending",
+      "priority": "high",
+      "dependencies": [2],
+      "type": "setup",
+      "completed_at": null
+    },
+    {
+      "id": 4,
+      "title": "Test with manual workflow trigger",
+      "description": "Push to main, manually trigger workflow, verify HTML report is deployed to Pages URL and accessible.",
+      "status": "pending",
+      "priority": "medium",
+      "dependencies": [2, 3],
+      "type": "testing",
+      "completed_at": null
+    }
+  ]
+}

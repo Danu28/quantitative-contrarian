@@ -8,51 +8,10 @@ from pathlib import Path
 import pandas as pd
 
 import numpy as np
-from src.backtest import generate_signals, compute_regime_multiplier
+from src.backtest import generate_signals, compute_regime_multiplier, find_trading_dates, build_horizon_results
 from src.db import DB_PATH, load_data, load_universe
 from src.features import precompute_all_characteristics
 from src.reporting import forward_check_html, _classify_regime
-
-
-def find_trading_dates(data, date, ahead):
-    all_dates = sorted(set(d for s in data for d in data[s].index))
-    available = [d for d in all_dates if d >= date]
-    if not available:
-        return []
-    return available[:ahead + 1]
-
-
-def build_horizon_results(data, sig, entry_date, horizons):
-    horizon_data = {}
-    for h in horizons:
-        dates = find_trading_dates(data, entry_date, h)
-        if len(dates) <= 1:
-            horizon_data[h] = {"dates": dates, "results": [], "df": pd.DataFrame()}
-            continue
-        exit_date = dates[-1]
-        results = []
-        for _, row in sig.iterrows():
-            symbol = row["symbol"]
-            ep = row["close"]
-            if symbol not in data or exit_date not in data[symbol].index:
-                results.append({"symbol": symbol, "entry_date": entry_date, "exit_date": exit_date,
-                                "entry_price": ep, "exit_price": None, "return_pct": None,
-                                "min_intra_pct": None, "status": "no_data"})
-                continue
-            xp = data[symbol].loc[exit_date, "close"]
-            ret = (xp / ep - 1) * 100
-            min_ret = None
-            for d in dates[1:]:
-                if d in data[symbol].index:
-                    r = (data[symbol].loc[d, "close"] / ep - 1) * 100
-                    if min_ret is None or r < min_ret:
-                        min_ret = r
-            results.append({"symbol": symbol, "entry_date": entry_date, "exit_date": exit_date,
-                            "entry_price": round(ep, 2), "exit_price": round(xp, 2),
-                            "return_pct": round(ret, 2), "min_intra_pct": round(min_ret, 2) if min_ret is not None else None,
-                            "status": "ok"})
-        horizon_data[h] = {"dates": dates, "exit_date": exit_date, "results": results, "df": pd.DataFrame(results)}
-    return horizon_data
 
 
 def generate_html(entry_date, sig, horizon_data, horizons, capital, regime=None):

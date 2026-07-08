@@ -342,17 +342,11 @@ Time Stop = 20 trading days
 </div></body></html>"""
 
 
-REGIME_RULES_HTML = [
-    (8,    float("inf"), "Strong Bull", 1, "Single position", "Single highest-conviction position."),
-    (3,    8,             "Bull",        1, "Single position", "Single highest-conviction position."),
-    (-3,   3,             "Sideways",    1, "Single position", "Single highest-conviction position."),
-    (-8,   -3,            "Bear",        1, "Single position", "Single highest-conviction position."),
-    (float("-inf"), -8,   "Crash",       1, "Single position", "Single highest-conviction position."),
-]
+from src.config import REGIME_RULES
 
 
 def _classify_regime(ret_20d: float) -> dict:
-    for lo, hi, label, max_pos, action, note in REGIME_RULES_HTML:
+    for lo, hi, label, max_pos, action, note in REGIME_RULES:
         if lo <= ret_20d < hi:
             return {"trend_label": label, "max_positions": max_pos, "action": action, "regime_note": note,
                     "trend_20d": round(ret_20d, 2)}

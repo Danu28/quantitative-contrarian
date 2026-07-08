@@ -29,6 +29,16 @@ MAX_DRAWDOWN_DISABLE = 0.15
 REGIME_NORMAL = 1.0
 REGIME_REDUCED = 1.0
 
+# Regime rules: (20d_return_min, 20d_return_max, label, max_positions, action, note)
+# Single source of truth for regime classification across daily_scan.py and reporting.py
+REGIME_RULES = [
+    (8,    float("inf"), "Strong Bull", 1, "Reduce",    "Rare regime. Trades infrequent."),
+    (3,    8,             "Bull",        1, "Skip or 1", "25% win rate. Avoid."),
+    (-3,   3,             "Sideways",    1, "Full deploy", "Core regime. 59% of market."),
+    (-8,   -3,            "Bear",        1, "Full deploy", "Best regime. 78% win rate."),
+    (float("-inf"), -8,   "Crash",       1, "Full deploy", "Best regime. 71% win rate."),
+]
+
 # Entry conditions
 ENTRY_DRAWDOWN = -0.05
 ENTRY_VOLUME_RATIO = 1.0
