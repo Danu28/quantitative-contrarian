@@ -15,6 +15,7 @@ DB_PATH = Path(__file__).resolve().parent.parent / "data" / "market_data.db"
 KNOWN_SLUGS: dict[str, str] = {
     "nifty50": "nifty50.json",
     "nifty500": "nifty500.json",
+    "niftymidcap150": "niftymidcap150.json",
 }
 
 

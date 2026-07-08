@@ -9,7 +9,7 @@ on:
       universe:
         description: "Universe slug"
         required: false
-        default: "nifty50"
+        default: "niftymidcap150"
       date:
         description: "Date (YYYY-MM-DD) or leave empty for today"
         required: false
@@ -43,7 +43,7 @@ jobs:
         run: |
           TODAY=$(date +%Y-%m-%d)
           FILENAME="daily-scan-${TODAY}.html"
-          ARGS="--universe ${{ inputs.universe || 'nifty50' }} --output reports/${FILENAME}"
+          ARGS="--universe ${{ inputs.universe || 'niftymidcap150' }} --output reports/${FILENAME}"
           if [ -n "${{ inputs.date }}" ]; then
             ARGS="$ARGS --date ${{ inputs.date }}"
             TODAY="${{ inputs.date }}"
