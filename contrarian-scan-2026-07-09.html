@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Daily Scan — 2026-07-09</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F8F9FA;
+  --surface: #FFFFFF;
+  --slate: #1E293B;
+  --sage: #2E6F40;
+  --navy: #0F172A;
+  --amber: #D97706;
+  --border: #E2E8F0;
+  --muted: #64748B;
+  --text: #1E293B;
+  --text-soft: #475569;
+  --positive: #2E6F40;
+  --negative: #DC2626;
+  --shadow: 0 4px 20px -2px rgba(0,0,0,0.05);
+}
+[data-theme="dark"] {
+  --bg: #121314;
+  --surface: #1A1B1E;
+  --slate: #E2E8F0;
+  --sage: #4ADE80;
+  --navy: #38BDF8;
+  --amber: #FBBF24;
+  --border: #2A2B2D;
+  --muted: #94A3B8;
+  --text: #E2E8F0;
+  --text-soft: #CBD5E1;
+  --positive: #4ADE80;
+  --negative: #F87171;
+  --shadow: 0 4px 20px -2px rgba(0,0,0,0.4);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 24px;
+  transition: background 0.3s, color 0.3s;
+}
+.theme-toggle {
+  position: fixed; top: 16px; right: 16px; z-index: 100;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 14px; cursor: pointer;
+  font-size: 13px; color: var(--text-soft);
+  box-shadow: var(--shadow);
+}
+.theme-toggle:hover { border-color: var(--sage); }
+.container { max-width: 1200px; margin: 0 auto; }
+header {
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 16px; margin-bottom: 28px; align-items: start;
+}
+@media (max-width: 640px) {
+  header { grid-template-columns: 1fr; }
+  header .meta { text-align: left; }
+}
+header h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 28px; font-weight: 700; color: var(--slate);
+  letter-spacing: -0.3px;
+}
+header .meta { color: var(--muted); font-size: 14px; margin-top: 4px; }
+.exec-summary {
+  display: grid; grid-template-columns: 2fr 1fr; gap: 16px;
+  margin-bottom: 28px;
+}
+.exec-summary .context-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px 24px; box-shadow: var(--shadow);
+}
+.exec-summary .context-card h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--muted); margin-bottom: 12px;
+}
+.exec-summary .context-card .stat-row {
+  display: flex; flex-wrap: wrap; gap: 20px 32px;
+}
+.exec-summary .context-card .stat {
+  display: flex; flex-direction: column;
+}
+.exec-summary .context-card .stat .label {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--muted);
+}
+.exec-summary .context-card .stat .value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px; font-weight: 600; color: var(--slate);
+  line-height: 1.3;
+}
+.exec-summary .context-card .stat .value.bullish { color: var(--positive); }
+.exec-summary .context-card .stat .value.bearish { color: var(--negative); }
+.kpi-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+.kpi-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px; box-shadow: var(--shadow);
+  display: flex; flex-direction: column;
+}
+.kpi-card .kpi-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--muted);
+}
+.kpi-card .kpi-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px; font-weight: 700; color: var(--slate);
+  line-height: 1.2; margin-top: 4px;
+}
+.kpi-card .kpi-sub {
+  font-size: 12px; color: var(--text-soft); margin-top: 2px;
+}
+section { margin-bottom: 28px; }
+section h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 20px; font-weight: 600; color: var(--slate);
+  margin-bottom: 14px; padding: 0 14px 8px 14px;
+  border-bottom: 2px solid var(--border);
+}
+.data-table-wrap {
+  overflow-x: auto; border: 1px solid var(--border);
+  border-radius: 10px; background: var(--surface); box-shadow: var(--shadow);
+}
+table.data-table {
+  width: 100%; border-collapse: collapse; font-size: 14px;
+  table-layout: fixed;
+}
+table.data-table thead th {
+  background: var(--bg); color: var(--muted);
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px;
+  padding: 12px 14px; text-align: right; border-bottom: 1px solid var(--border);
+  font-weight: 600;
+}
+table.data-table thead th:first-child { text-align: left; }
+table.data-table tbody td {
+  padding: 10px 14px; text-align: right; border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+table.data-table tbody td:first-child { text-align: left; font-weight: 600; }
+table.data-table tbody tr:nth-child(even) { background: rgba(0,0,0,0.015); }
+table.data-table tbody tr:hover { background: rgba(46,111,64,0.04); }
+table.data-table tbody td.mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+table.data-table td.positive { color: var(--positive); font-weight: 600; }
+table.data-table td.negative { color: var(--negative); font-weight: 600; }
+.micro-bar {
+  display: inline-block; height: 6px; border-radius: 3px;
+  background: var(--border); width: 60px; vertical-align: middle;
+  margin-right: 6px; overflow: hidden;
+}
+.micro-bar .fill { height: 100%; border-radius: 3px; transition: width 0.6s; }
+.micro-bar .fill.positive { background: var(--positive); }
+.micro-bar .fill.negative { background: var(--negative); }
+.badge {
+  display: inline-block; padding: 2px 10px; border-radius: 12px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.3px;
+}
+.badge.bullish { background: rgba(46,111,64,0.1); color: var(--positive); }
+.badge.bearish { background: rgba(220,38,38,0.1); color: var(--negative); }
+.badge.sideways { background: rgba(217,119,6,0.1); color: var(--amber); }
+.legend {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px 20px; margin-top: 14px;
+  font-size: 13px; color: var(--text-soft); line-height: 1.8;
+  box-shadow: var(--shadow);
+}
+.legend strong { color: var(--text); }
+footer {
+  margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--border);
+  font-size: 12px; color: var(--muted); text-align: center;
+}
+@media (max-width: 768px) {
+  .exec-summary { grid-template-columns: 1fr; }
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  header h1 { font-size: 22px; }
+}
+@media print {
+  body { background: #fff; padding: 0; }
+  .theme-toggle { display: none; }
+  .container { max-width: 100%; }
+  table.data-table tbody tr:nth-child(even) { background: #f8f9fa; }
+}
+</style>
+</head><body>
+<button class="theme-toggle" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Toggle Theme</button>
+<div class="container">
+<header><div><h1>Daily Scan</h1><div class="meta">Scan: 2026-07-09 · NIFTY Midcap 150 · Run: 2026-07-09 07:00</div>
+<div class="meta" style="color:var(--amber);font-size:13px;margin-top:4px">
+Entry/exit prices include slippage (0.1%) + brokerage (0.05%). Entry occurs at Friday rebalance.
+</div>
+</div></header>
+
+<div style="background:var(--surface);border:2px solid var(--negative);border-radius:12px;padding:16px 20px;margin-bottom:20px;box-shadow:var(--shadow)">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+    <div>
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Regime</span>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text)">Bull (+3.64%)</div>
+    </div>
+    <div style="text-align:right">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Recommendation</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--negative)">Skip or 1</div>
+    </div>
+    <div style="text-align:right">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Max Positions</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--text)">1</div>
+    </div>
+    <div style="text-align:right">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Enter Today</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--text)">1</div>
+    </div>
+  </div>
+  <div style="font-size:13px;color:var(--text-secondary);margin-top:8px">25% win rate. Avoid. &middot; Index ATR 0.87%</div>
+</div>
+
+<div class="exec-summary">
+  <div class="context-card">
+    <h3>Market Context</h3>
+    <div class="stat-row">
+      <div class="stat"><span class="label">Index</span><span class="value">^NSEI @ 24,061</span></div>
+      <div class="stat"><span class="label">Trend 20d</span><span class="value bull">Bull (+3.64%)</span></div>
+      <div class="stat"><span class="label">Volatility</span><span class="value">ATR 0.87%</span></div>
+    </div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi-card"><span class="kpi-label">Signals</span><span class="kpi-value">1</span><span class="kpi-sub">entering 1 of 1</span></div>
+    <div class="kpi-card"><span class="kpi-label">Universe</span><span class="kpi-value" style="font-size:16px">NIFTY Midcap 150</span><span class="kpi-sub">? stocks</span></div>
+  </div>
+</div>
+
+<section><h2>Signals with Exit Levels</h2>
+<div class="data-table-wrap">
+<table class="data-table">
+<thead><tr>
+  <th scope="col">Symbol</th><th scope="col">Entry*</th>
+  <th scope="col">Target1</th><th scope="col">Ret1</th>
+  <th scope="col">Target2</th><th scope="col">Ret2</th>
+  <th scope="col">HardStop</th><th scope="col">StopRet</th>
+  <th scope="col">TrailTrig</th><th scope="col">TrailStop</th><th scope="col">TrailRet</th>
+  <th scope="col">Conviction</th><th scope="col">Score</th>
+</tr></thead>
+<tbody><tr>
+          <td style="font-weight:600">SOLARINDS.NS</td>
+          <td class="mono">17280.88</td>
+          <td class="mono">19325.56</td>
+          <td class="mono positive">+11.8%</td>
+          <td class="mono">20360.85</td>
+          <td class="mono positive">+17.8%</td>
+          <td class="mono">15874.56</td>
+          <td class="mono negative">-8.1%</td>
+          <td class="mono">19008.97</td>
+          <td class="mono">16702.80</td>
+          <td class="mono negative">-3.3%</td>
+          <td class="mono">0.5116</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:51%"></div></div></td>
+        </tr></tbody>
+</table></div>
+<div class="legend">
+<strong>Exit Rules:</strong>
+Target1 = +12% (sell half)&ensp;·&ensp;
+Target2 = +18%&ensp;·&ensp;
+HardStop = 8%&ensp;·&ensp;
+Trailing Stop = activate at +10%, trail -12% from high&ensp;·&ensp;
+Time Stop = 20 trading days
+</div>
+<div class="legend" style="margin-top:8px;color:var(--muted);font-size:12px">
+*All prices include transaction costs (slippage + brokerage). Entry occurs at Friday close on rebalance day.
+</div>
+</section>
+
+<footer>Daily Scan Report · AI Quantitative Researcher</footer>
+</div></body></html>
