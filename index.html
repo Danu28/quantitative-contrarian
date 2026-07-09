@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head><title>Quant Scanner Reports</title>
+<style>
+  body { font-family: -apple-system, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; }
+  h1 { color: #1a1a2e; }
+  a { color: #4361ee; text-decoration: none; display: block; padding: 8px 0; }
+  a:hover { text-decoration: underline; }
+  .date { color: #666; font-size: 0.9em; }
+</style></head>
+<body>
+<h1>Quant Scanner Reports</h1>
+<p class="date">Updated: $(date -u +'%Y-%m-%d %H:%M UTC')</p>
+<hr>
+<h2>Today's Reports</h2>
+<a href="./contrarian-scan-${TODAY}.html">Contrarian Scan — ${TODAY}</a>
+<a href="./momentum-scan-${TODAY}.html">Momentum Scan — ${TODAY}</a>
+<hr>
+<p><em>Older reports are available in the reports directory.</em></p>
+</body></html>

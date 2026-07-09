@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Daily Scan — 2026-07-09</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F8F9FA;
+  --surface: #FFFFFF;
+  --slate: #1E293B;
+  --sage: #2E6F40;
+  --navy: #0F172A;
+  --amber: #D97706;
+  --border: #E2E8F0;
+  --muted: #64748B;
+  --text: #1E293B;
+  --text-soft: #475569;
+  --positive: #2E6F40;
+  --negative: #DC2626;
+  --shadow: 0 4px 20px -2px rgba(0,0,0,0.05);
+}
+[data-theme="dark"] {
+  --bg: #121314;
+  --surface: #1A1B1E;
+  --slate: #E2E8F0;
+  --sage: #4ADE80;
+  --navy: #38BDF8;
+  --amber: #FBBF24;
+  --border: #2A2B2D;
+  --muted: #94A3B8;
+  --text: #E2E8F0;
+  --text-soft: #CBD5E1;
+  --positive: #4ADE80;
+  --negative: #F87171;
+  --shadow: 0 4px 20px -2px rgba(0,0,0,0.4);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 24px;
+  transition: background 0.3s, color 0.3s;
+}
+.theme-toggle {
+  position: fixed; top: 16px; right: 16px; z-index: 100;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 14px; cursor: pointer;
+  font-size: 13px; color: var(--text-soft);
+  box-shadow: var(--shadow);
+}
+.theme-toggle:hover { border-color: var(--sage); }
+.container { max-width: 1200px; margin: 0 auto; }
+header {
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 16px; margin-bottom: 28px; align-items: start;
+}
+@media (max-width: 640px) {
+  header { grid-template-columns: 1fr; }
+  header .meta { text-align: left; }
+}
+header h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 28px; font-weight: 700; color: var(--slate);
+  letter-spacing: -0.3px;
+}
+header .meta { color: var(--muted); font-size: 14px; margin-top: 4px; }
+.exec-summary {
+  display: grid; grid-template-columns: 2fr 1fr; gap: 16px;
+  margin-bottom: 28px;
+}
+.exec-summary .context-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px 24px; box-shadow: var(--shadow);
+}
+.exec-summary .context-card h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--muted); margin-bottom: 12px;
+}
+.exec-summary .context-card .stat-row {
+  display: flex; flex-wrap: wrap; gap: 20px 32px;
+}
+.exec-summary .context-card .stat {
+  display: flex; flex-direction: column;
+}
+.exec-summary .context-card .stat .label {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--muted);
+}
+.exec-summary .context-card .stat .value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px; font-weight: 600; color: var(--slate);
+  line-height: 1.3;
+}
+.exec-summary .context-card .stat .value.bullish { color: var(--positive); }
+.exec-summary .context-card .stat .value.bearish { color: var(--negative); }
+.kpi-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+.kpi-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px; box-shadow: var(--shadow);
+  display: flex; flex-direction: column;
+}
+.kpi-card .kpi-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--muted);
+}
+.kpi-card .kpi-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px; font-weight: 700; color: var(--slate);
+  line-height: 1.2; margin-top: 4px;
+}
+.kpi-card .kpi-sub {
+  font-size: 12px; color: var(--text-soft); margin-top: 2px;
+}
+section { margin-bottom: 28px; }
+section h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 20px; font-weight: 600; color: var(--slate);
+  margin-bottom: 14px; padding: 0 14px 8px 14px;
+  border-bottom: 2px solid var(--border);
+}
+.data-table-wrap {
+  overflow-x: auto; border: 1px solid var(--border);
+  border-radius: 10px; background: var(--surface); box-shadow: var(--shadow);
+}
+table.data-table {
+  width: 100%; border-collapse: collapse; font-size: 14px;
+  table-layout: fixed;
+}
+table.data-table thead th {
+  background: var(--bg); color: var(--muted);
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px;
+  padding: 12px 14px; text-align: right; border-bottom: 1px solid var(--border);
+  font-weight: 600;
+}
+table.data-table thead th:first-child { text-align: left; }
+table.data-table tbody td {
+  padding: 10px 14px; text-align: right; border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+table.data-table tbody td:first-child { text-align: left; font-weight: 600; }
+table.data-table tbody tr:nth-child(even) { background: rgba(0,0,0,0.015); }
+table.data-table tbody tr:hover { background: rgba(46,111,64,0.04); }
+table.data-table tbody td.mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+table.data-table td.positive { color: var(--positive); font-weight: 600; }
+table.data-table td.negative { color: var(--negative); font-weight: 600; }
+.micro-bar {
+  display: inline-block; height: 6px; border-radius: 3px;
+  background: var(--border); width: 60px; vertical-align: middle;
+  margin-right: 6px; overflow: hidden;
+}
+.micro-bar .fill { height: 100%; border-radius: 3px; transition: width 0.6s; }
+.micro-bar .fill.positive { background: var(--positive); }
+.micro-bar .fill.negative { background: var(--negative); }
+.badge {
+  display: inline-block; padding: 2px 10px; border-radius: 12px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.3px;
+}
+.badge.bullish { background: rgba(46,111,64,0.1); color: var(--positive); }
+.badge.bearish { background: rgba(220,38,38,0.1); color: var(--negative); }
+.badge.sideways { background: rgba(217,119,6,0.1); color: var(--amber); }
+.legend {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px 20px; margin-top: 14px;
+  font-size: 13px; color: var(--text-soft); line-height: 1.8;
+  box-shadow: var(--shadow);
+}
+.legend strong { color: var(--text); }
+footer {
+  margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--border);
+  font-size: 12px; color: var(--muted); text-align: center;
+}
+@media (max-width: 768px) {
+  .exec-summary { grid-template-columns: 1fr; }
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  header h1 { font-size: 22px; }
+}
+@media print {
+  body { background: #fff; padding: 0; }
+  .theme-toggle { display: none; }
+  .container { max-width: 100%; }
+  table.data-table tbody tr:nth-child(even) { background: #f8f9fa; }
+}
+</style>
+</head><body>
+<button class="theme-toggle" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Toggle Theme</button>
+<div class="container">
+<header><div><h1>Daily Scan</h1><div class="meta">Scan: 2026-07-09 · NIFTY Midcap 150 · Run: 2026-07-09 03:49</div>
+<div class="meta" style="color:var(--amber);font-size:13px;margin-top:4px">
+Entry/exit prices include slippage (0.1%) + brokerage (0.05%). Entry occurs at Friday rebalance.
+</div>
+</div></header>
+
+<div style="background:var(--surface);border:2px solid var(--negative);border-radius:12px;padding:16px 20px;margin-bottom:20px;box-shadow:var(--shadow)">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+    <div>
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Regime</span>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text)">Bull (+3.35%)</div>
+    </div>
+    <div style="text-align:right">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Recommendation</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--negative)">Skip or 1</div>
+    </div>
+    <div style="text-align:right">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Max Positions</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--text)">1</div>
+    </div>
+    <div style="text-align:right">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Enter Today</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--text)">1</div>
+    </div>
+  </div>
+  <div style="font-size:13px;color:var(--text-secondary);margin-top:8px">25% win rate. Avoid. &middot; Index ATR 0.84%</div>
+</div>
+
+<div class="exec-summary">
+  <div class="context-card">
+    <h3>Market Context</h3>
+    <div class="stat-row">
+      <div class="stat"><span class="label">Index</span><span class="value">^NSEI @ 23,993</span></div>
+      <div class="stat"><span class="label">Trend 20d</span><span class="value bull">Bull (+3.35%)</span></div>
+      <div class="stat"><span class="label">Volatility</span><span class="value">ATR 0.84%</span></div>
+    </div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi-card"><span class="kpi-label">Signals</span><span class="kpi-value">101</span><span class="kpi-sub">entering 1 of 101</span></div>
+    <div class="kpi-card"><span class="kpi-label">Universe</span><span class="kpi-value" style="font-size:16px">NIFTY Midcap 150</span><span class="kpi-sub">? stocks</span></div>
+  </div>
+</div>
+
+<section><h2>Signals with Exit Levels</h2>
+<div class="data-table-wrap">
+<table class="data-table">
+<thead><tr>
+  <th scope="col">Symbol</th><th scope="col">Entry*</th>
+  <th scope="col">Target1</th><th scope="col">Ret1</th>
+  <th scope="col">Target2</th><th scope="col">Ret2</th>
+  <th scope="col">HardStop</th><th scope="col">StopRet</th>
+  <th scope="col">TrailTrig</th><th scope="col">TrailStop</th><th scope="col">TrailRet</th>
+  <th scope="col">Conviction</th><th scope="col">Score</th>
+</tr></thead>
+<tbody><tr>
+          <td style="font-weight:600">NATIONALUM.NS</td>
+          <td class="mono">347.22</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">294.25</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">416.04</td>
+          <td class="mono">353.10</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">CUMMINSIND.NS</td>
+          <td class="mono">5568.84</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">4719.34</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">6672.60</td>
+          <td class="mono">5663.20</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">NYKAA.NS</td>
+          <td class="mono">322.98</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">273.71</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">387.00</td>
+          <td class="mono">328.46</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">BHARATFORG.NS</td>
+          <td class="mono">2116.77</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1793.87</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">2536.32</td>
+          <td class="mono">2152.64</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">FEDERALBNK.NS</td>
+          <td class="mono">330.19</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">279.82</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">395.64</td>
+          <td class="mono">335.79</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">LTF.NS</td>
+          <td class="mono">316.32</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">268.07</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">379.02</td>
+          <td class="mono">321.68</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">NAM-INDIA.NS</td>
+          <td class="mono">1188.38</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1007.10</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1423.92</td>
+          <td class="mono">1208.52</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">BHEL.NS</td>
+          <td class="mono">385.18</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">326.42</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">461.52</td>
+          <td class="mono">391.70</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">MAHABANK.NS</td>
+          <td class="mono">81.28</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">68.88</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">97.39</td>
+          <td class="mono">82.66</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">ABCAPITAL.NS</td>
+          <td class="mono">392.99</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">333.04</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">470.88</td>
+          <td class="mono">399.65</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">STARHEALTH.NS</td>
+          <td class="mono">589.98</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">499.98</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">706.92</td>
+          <td class="mono">599.98</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">SONACOMS.NS</td>
+          <td class="mono">662.19</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">561.18</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">793.44</td>
+          <td class="mono">673.41</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">PAYTM.NS</td>
+          <td class="mono">1243.36</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1053.69</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1489.80</td>
+          <td class="mono">1264.43</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">NLCINDIA.NS</td>
+          <td class="mono">296.94</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">251.65</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">355.80</td>
+          <td class="mono">301.98</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">AUROPHARMA.NS</td>
+          <td class="mono">1559.64</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1321.72</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1868.76</td>
+          <td class="mono">1586.06</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">ASHOKLEY.NS</td>
+          <td class="mono">158.75</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">134.53</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">190.21</td>
+          <td class="mono">161.44</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">NMDC.NS</td>
+          <td class="mono">84.17</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">71.33</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">100.85</td>
+          <td class="mono">85.59</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">M&MFIN.NS</td>
+          <td class="mono">333.75</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">282.84</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">399.90</td>
+          <td class="mono">339.41</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">AUBANK.NS</td>
+          <td class="mono">1047.67</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">887.85</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1255.32</td>
+          <td class="mono">1065.42</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">GMRAIRPORT.NS</td>
+          <td class="mono">112.74</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">95.54</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">135.08</td>
+          <td class="mono">114.65</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">LUPIN.NS</td>
+          <td class="mono">2463.59</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">2087.78</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">2951.88</td>
+          <td class="mono">2505.33</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">INDIANB.NS</td>
+          <td class="mono">785.53</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">665.70</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">941.22</td>
+          <td class="mono">798.84</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">SAIL.NS</td>
+          <td class="mono">163.12</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">138.24</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">195.46</td>
+          <td class="mono">165.89</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">GLENMARK.NS</td>
+          <td class="mono">2239.05</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1897.49</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">2682.84</td>
+          <td class="mono">2276.99</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">HINDZINC.NS</td>
+          <td class="mono">527.29</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">446.85</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">631.80</td>
+          <td class="mono">536.22</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">BANKINDIA.NS</td>
+          <td class="mono">136.78</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">115.92</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">163.90</td>
+          <td class="mono">139.10</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">YESBANK.NS</td>
+          <td class="mono">23.66</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">20.05</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">28.34</td>
+          <td class="mono">24.06</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">FORTIS.NS</td>
+          <td class="mono">950.32</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">805.36</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1138.68</td>
+          <td class="mono">966.43</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">MUTHOOTFIN.NS</td>
+          <td class="mono">3103.45</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">2630.03</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">3718.56</td>
+          <td class="mono">3156.03</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">MARICO.NS</td>
+          <td class="mono">846.72</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">717.55</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1014.54</td>
+          <td class="mono">861.07</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">BANDHANBNK.NS</td>
+          <td class="mono">199.80</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">169.32</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">239.40</td>
+          <td class="mono">203.18</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">EXIDEIND.NS</td>
+          <td class="mono">425.84</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">360.88</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">510.24</td>
+          <td class="mono">433.05</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">UNIONBANK.NS</td>
+          <td class="mono">156.36</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">132.51</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">187.36</td>
+          <td class="mono">159.01</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">HDFCAMC.NS</td>
+          <td class="mono">2672.10</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">2264.48</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">3201.72</td>
+          <td class="mono">2717.38</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">TATACOMM.NS</td>
+          <td class="mono">1889.83</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1601.54</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">2264.40</td>
+          <td class="mono">1921.85</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">ATGL.NS</td>
+          <td class="mono">707.96</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">599.96</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">848.28</td>
+          <td class="mono">719.96</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">BIOCON.NS</td>
+          <td class="mono">399.80</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">338.81</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">479.04</td>
+          <td class="mono">406.57</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">MANKIND.NS</td>
+          <td class="mono">2510.76</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">2127.75</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">3008.40</td>
+          <td class="mono">2553.30</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">APLAPOLLO.NS</td>
+          <td class="mono">1811.11</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1534.83</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">2170.08</td>
+          <td class="mono">1841.80</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">UNOMINDA.NS</td>
+          <td class="mono">1142.11</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">967.89</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1368.48</td>
+          <td class="mono">1161.46</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">JSWINFRA.NS</td>
+          <td class="mono">317.53</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">269.09</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">380.46</td>
+          <td class="mono">322.91</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">JSL.NS</td>
+          <td class="mono">698.25</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">591.73</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">836.64</td>
+          <td class="mono">710.08</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">MRPL.NS</td>
+          <td class="mono">147.95</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">125.38</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">177.28</td>
+          <td class="mono">150.46</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">PRESTIGE.NS</td>
+          <td class="mono">1644.06</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1393.27</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1969.92</td>
+          <td class="mono">1671.92</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">IDFCFIRSTB.NS</td>
+          <td class="mono">78.64</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">66.64</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">94.22</td>
+          <td class="mono">79.97</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">MOTILALOFS.NS</td>
+          <td class="mono">922.28</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">781.59</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1105.08</td>
+          <td class="mono">937.91</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">OBEROIRLTY.NS</td>
+          <td class="mono">1884.82</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1597.30</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">2258.40</td>
+          <td class="mono">1916.76</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">TATATECH.NS</td>
+          <td class="mono">699.95</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">593.17</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">838.68</td>
+          <td class="mono">711.81</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">OLAELEC.NS</td>
+          <td class="mono">41.58</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">35.24</td>
+          <td class="mono negative">-15.2%</td>
+          <td class="mono">49.82</td>
+          <td class="mono">42.29</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">TATAINVEST.NS</td>
+          <td class="mono">672.26</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">569.71</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">805.50</td>
+          <td class="mono">683.65</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">OIL.NS</td>
+          <td class="mono">428.49</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">363.13</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">513.42</td>
+          <td class="mono">435.75</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">PREMIERENE.NS</td>
+          <td class="mono">1054.08</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">893.28</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1263.00</td>
+          <td class="mono">1071.94</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">MFSL.NS</td>
+          <td class="mono">1574.46</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1334.28</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1886.52</td>
+          <td class="mono">1601.14</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">TORNTPOWER.NS</td>
+          <td class="mono">1406.21</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1191.69</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1684.92</td>
+          <td class="mono">1430.03</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">MSUMI.NS</td>
+          <td class="mono">40.88</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">34.64</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">48.98</td>
+          <td class="mono">41.57</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">NIACL.NS</td>
+          <td class="mono">181.78</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">154.05</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">217.81</td>
+          <td class="mono">184.86</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">APOLLOTYRE.NS</td>
+          <td class="mono">442.91</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">375.35</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">530.70</td>
+          <td class="mono">450.42</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">WAAREEENER.NS</td>
+          <td class="mono">2851.27</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">2416.32</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">3416.40</td>
+          <td class="mono">2899.58</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">GICRE.NS</td>
+          <td class="mono">359.69</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">304.82</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">430.98</td>
+          <td class="mono">365.78</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">NHPC.NS</td>
+          <td class="mono">79.20</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">67.12</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">94.90</td>
+          <td class="mono">80.54</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">INDUSTOWER.NS</td>
+          <td class="mono">395.39</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">335.08</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">473.76</td>
+          <td class="mono">402.09</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">VOLTAS.NS</td>
+          <td class="mono">1266.20</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1073.04</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1517.16</td>
+          <td class="mono">1287.65</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">PETRONET.NS</td>
+          <td class="mono">273.51</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">231.79</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">327.72</td>
+          <td class="mono">278.14</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">HUDCO.NS</td>
+          <td class="mono">204.99</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">173.72</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">245.62</td>
+          <td class="mono">208.46</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">VMM.NS</td>
+          <td class="mono">117.26</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">99.37</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">140.50</td>
+          <td class="mono">119.24</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">LICHSGFIN.NS</td>
+          <td class="mono">536.00</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">454.24</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">642.24</td>
+          <td class="mono">545.09</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">HINDPETRO.NS</td>
+          <td class="mono">385.83</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">326.97</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">462.30</td>
+          <td class="mono">392.37</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">ESCORTS.NS</td>
+          <td class="mono">2917.37</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">2472.34</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">3495.60</td>
+          <td class="mono">2966.80</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">POLICYBZR.NS</td>
+          <td class="mono">1589.98</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1347.44</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1905.12</td>
+          <td class="mono">1616.92</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">GODREJPROP.NS</td>
+          <td class="mono">2009.61</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1703.05</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">2407.92</td>
+          <td class="mono">2043.66</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">NTPCGREEN.NS</td>
+          <td class="mono">92.96</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">78.78</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">111.38</td>
+          <td class="mono">94.53</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">UPL.NS</td>
+          <td class="mono">583.57</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">494.55</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">699.24</td>
+          <td class="mono">593.46</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">SUNTV.NS</td>
+          <td class="mono">495.24</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">419.69</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">593.40</td>
+          <td class="mono">503.63</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">SRF.NS</td>
+          <td class="mono">2730.79</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">2314.22</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">3272.04</td>
+          <td class="mono">2777.06</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">BERGEPAINT.NS</td>
+          <td class="mono">499.75</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">423.51</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">598.80</td>
+          <td class="mono">508.22</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">MAXHEALTH.NS</td>
+          <td class="mono">1089.03</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">922.90</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1304.88</td>
+          <td class="mono">1107.48</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">IRB.NS</td>
+          <td class="mono">20.30</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">17.20</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">24.32</td>
+          <td class="mono">20.64</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">DEEPAKNTR.NS</td>
+          <td class="mono">1592.38</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1349.47</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1908.00</td>
+          <td class="mono">1619.37</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">SUZLON.NS</td>
+          <td class="mono">53.49</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">45.33</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">64.09</td>
+          <td class="mono">54.40</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">BHARTIHEXA.NS</td>
+          <td class="mono">1514.87</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1283.78</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1815.12</td>
+          <td class="mono">1540.54</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">CONCOR.NS</td>
+          <td class="mono">455.93</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">386.38</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">546.30</td>
+          <td class="mono">463.66</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">ABFRL.NS</td>
+          <td class="mono">58.84</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">49.86</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">70.50</td>
+          <td class="mono">59.84</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">PATANJALI.NS</td>
+          <td class="mono">412.67</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">349.72</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">494.46</td>
+          <td class="mono">419.66</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">MAZDOCK.NS</td>
+          <td class="mono">2438.65</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">2066.65</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">2922.00</td>
+          <td class="mono">2479.97</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">COFORGE.NS</td>
+          <td class="mono">1435.15</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1216.22</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1719.60</td>
+          <td class="mono">1459.47</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">EMAMILTD.NS</td>
+          <td class="mono">408.91</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">346.53</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">489.96</td>
+          <td class="mono">415.84</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">IREDA.NS</td>
+          <td class="mono">122.19</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">103.55</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">146.41</td>
+          <td class="mono">124.26</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">SJVN.NS</td>
+          <td class="mono">70.26</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">59.54</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">84.18</td>
+          <td class="mono">71.45</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">AWL.NS</td>
+          <td class="mono">182.71</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">154.84</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">218.93</td>
+          <td class="mono">185.81</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">BDL.NS</td>
+          <td class="mono">1347.02</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1141.54</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1614.00</td>
+          <td class="mono">1369.84</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">COCHINSHIP.NS</td>
+          <td class="mono">1416.22</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1200.18</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1696.92</td>
+          <td class="mono">1440.22</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">ACC.NS</td>
+          <td class="mono">1346.32</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">1140.94</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">1613.16</td>
+          <td class="mono">1369.13</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">IGL.NS</td>
+          <td class="mono">150.18</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">127.27</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">179.95</td>
+          <td class="mono">152.73</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">KALYANKJIL.NS</td>
+          <td class="mono">395.24</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">334.95</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">473.58</td>
+          <td class="mono">401.94</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">SBICARD.NS</td>
+          <td class="mono">589.43</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">499.52</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">706.26</td>
+          <td class="mono">599.42</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">SYNGENE.NS</td>
+          <td class="mono">412.12</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">349.25</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">493.80</td>
+          <td class="mono">419.10</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">IRCTC.NS</td>
+          <td class="mono">499.10</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">422.96</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">598.02</td>
+          <td class="mono">507.55</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">JUBLFOOD.NS</td>
+          <td class="mono">433.50</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">367.37</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">519.42</td>
+          <td class="mono">440.84</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">GUJENERGY.NS</td>
+          <td class="mono">289.43</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">245.28</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">346.80</td>
+          <td class="mono">294.34</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">RVNL.NS</td>
+          <td class="mono">226.32</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">191.79</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">271.18</td>
+          <td class="mono">230.15</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr><tr>
+          <td style="font-weight:600">KPITTECH.NS</td>
+          <td class="mono">550.32</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">0.00</td>
+          <td class="mono positive">+0.0%</td>
+          <td class="mono">466.37</td>
+          <td class="mono negative">-15.3%</td>
+          <td class="mono">659.40</td>
+          <td class="mono">559.65</td>
+          <td class="mono negative">+1.7%</td>
+          <td class="mono">0.0000</td>
+           <td><div class="micro-bar"><div class="fill positive" style="width:0%"></div></div></td>
+        </tr></tbody>
+</table></div>
+<div class="legend">
+<strong>Exit Rules:</strong>
+Target1 = +12% (sell half)&ensp;·&ensp;
+Target2 = +18%&ensp;·&ensp;
+HardStop = 8%&ensp;·&ensp;
+Trailing Stop = activate at +10%, trail -12% from high&ensp;·&ensp;
+Time Stop = 20 trading days
+</div>
+<div class="legend" style="margin-top:8px;color:var(--muted);font-size:12px">
+*All prices include transaction costs (slippage + brokerage). Entry occurs at Friday close on rebalance day.
+</div>
+</section>
+
+<footer>Daily Scan Report · AI Quantitative Researcher</footer>
+</div></body></html>
