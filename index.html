@@ -1,20 +1,427 @@
 <!DOCTYPE html>
-<html>
-<head><title>Quant Scanner Reports</title>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quant Scanner · Dashboard</title>
 <style>
-  body { font-family: -apple-system, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; }
-  h1 { color: #1a1a2e; }
-  a { color: #4361ee; text-decoration: none; display: block; padding: 8px 0; }
-  a:hover { text-decoration: underline; }
-  .date { color: #666; font-size: 0.9em; }
-</style></head>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #F8F9FA;
+  --surface: #FFFFFF;
+  --text: #1E293B;
+  --text-secondary: #64748B;
+  --slate: #1E293B;
+  --sage: #2E6F40;
+  --sage-light: #E8F5E9;
+  --navy: #0F172A;
+  --amber: #D97706;
+  --amber-light: #FEF3C7;
+  --border: #E2E8F0;
+  --shadow: 0 4px 20px -2px rgba(0,0,0,0.05);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+[data-theme="dark"] {
+  --bg: #121314;
+  --surface: #1A1B1E;
+  --text: #E2E8F0;
+  --text-secondary: #94A3B8;
+  --slate: #E2E8F0;
+  --sage: #4ADE80;
+  --sage-light: #1A2E1A;
+  --navy: #38BDF8;
+  --amber: #FBBF24;
+  --amber-light: #2A2410;
+  --border: #2A2B2D;
+  --shadow: 0 4px 20px -2px rgba(0,0,0,0.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.6; min-height: 100vh; }
+
+/* Layout */
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+
+/* Header */
+.header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 48px; gap: 24px; flex-wrap: wrap; }
+.header-title h1 { font-family: var(--font-serif); font-size: 2.4rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
+.header-title h1 span { color: var(--sage); }
+.header-title p { color: var(--text-secondary); margin-top: 6px; font-size: 0.95rem; }
+.header-meta { text-align: right; font-size: 0.85rem; color: var(--text-secondary); white-space: nowrap; }
+.header-meta .badge { display: inline-block; background: var(--sage-light); color: var(--sage); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; margin-top: 4px; }
+
+/* Toggle */
+.theme-toggle { position: fixed; top: 20px; right: 20px; z-index: 100; background: var(--surface); border: 1px solid var(--border); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; transition: 0.2s; }
+.theme-toggle:hover { transform: scale(1.05); }
+
+/* KPI Grid */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
+.kpi-card { background: var(--surface); border-radius: var(--radius); padding: 20px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+.kpi-card .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); font-weight: 600; margin-bottom: 4px; }
+.kpi-card .value { font-family: var(--font-mono); font-size: 1.6rem; font-weight: 500; color: var(--text); }
+.kpi-card .sub { font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px; }
+
+/* Section */
+.section { margin-bottom: 40px; }
+.section-title { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+.section-title .count { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary); font-weight: 400; }
+
+/* Strategy Cards */
+.strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.strategy-card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); overflow: hidden; }
+.strategy-card-header { padding: 20px 24px 12px; border-bottom: 1px solid var(--border); }
+.strategy-card-header h3 { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 600; }
+.strategy-card-header .tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+.tag-contrarian { background: var(--sage-light); color: var(--sage); }
+.tag-momentum { background: var(--amber-light); color: var(--amber); }
+.strategy-card-body { padding: 16px 24px 20px; }
+.report-list { list-style: none; }
+.report-list li { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+.report-list li:last-child { border-bottom: none; }
+.report-list .name { color: var(--text); }
+.report-list .name a { color: var(--text); text-decoration: none; }
+.report-list .name a:hover { color: var(--sage); }
+.report-list .meta { font-size: 0.8rem; color: var(--text-secondary); }
+.report-list .arrow { color: var(--text-secondary); font-size: 0.8rem; }
+
+/* Actions Card */
+.actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.action-card { background: var(--surface); border-radius: var(--radius-sm); padding: 16px 20px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
+.action-card:hover { border-color: var(--sage); }
+.action-card .info h4 { font-size: 0.9rem; font-weight: 600; }
+.action-card .info p { font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px; }
+.action-card .btn { display: inline-block; padding: 6px 16px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; text-decoration: none; transition: 0.2s; white-space: nowrap; }
+.btn-primary { background: var(--sage); color: #fff; }
+.btn-primary:hover { opacity: 0.85; }
+.btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--text-secondary); }
+
+/* Quick Stats Table */
+.data-table-wrap { overflow-x: auto; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.data-table thead th { text-align: left; padding: 10px 16px; font-size: 0.73rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); font-weight: 600; border-bottom: 2px solid var(--border); }
+.data-table tbody td { padding: 10px 16px; border-bottom: 1px solid var(--border); }
+.data-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+.data-table .num { font-family: var(--font-mono); text-align: right; }
+.data-table .pos { color: var(--sage); }
+.data-table .neg { color: var(--amber); }
+
+/* Bar visualization */
+.bar-cell { display: flex; align-items: center; gap: 8px; }
+.bar-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 3px; }
+.bar-fill.pos { background: var(--sage); }
+.bar-fill.neg { background: var(--amber); }
+
+/* Footer */
+.footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-secondary); flex-wrap: wrap; gap: 12px; }
+.footer a { color: var(--text-secondary); text-decoration: none; }
+.footer a:hover { color: var(--sage); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .strategy-grid { grid-template-columns: 1fr; }
+  .actions-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  .header-title h1 { font-size: 1.6rem; }
+  .header-meta { text-align: left; }
+}
+
+/* Misc */
+.mt-8 { margin-top: 8px; }
+.mb-16 { margin-bottom: 16px; }
+</style>
+</head>
 <body>
-<h1>Quant Scanner Reports</h1>
-<p class="date">Updated: $(date -u +'%Y-%m-%d %H:%M UTC')</p>
-<hr>
-<h2>Today's Reports</h2>
-<a href="./contrarian-scan-${TODAY}.html">Contrarian Scan — ${TODAY}</a>
-<a href="./momentum-scan-${TODAY}.html">Momentum Scan — ${TODAY}</a>
-<hr>
-<p><em>Older reports are available in the reports directory.</em></p>
-</body></html>
+
+<div class="theme-toggle" id="themeToggle" title="Toggle theme" onclick="toggleTheme()">&#9790;</div>
+
+<div class="container">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-title">
+      <h1>Quant <span>Scanner</span></h1>
+      <p>Institutional-grade trading signal dashboard &middot; NSE India</p>
+    </div>
+    <div class="header-meta">
+      <div>Last scan: <strong>2026-07-08</strong></div>
+      <div class="badge">&#9679; All systems nominal</div>
+    </div>
+  </header>
+
+  <!-- KPI Grid -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="label">Universe Coverage</div>
+      <div class="value">196</div>
+      <div class="sub">Nifty 50 + Midcap 150</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Strategies</div>
+      <div class="value">2</div>
+      <div class="sub">Contrarian &middot; Momentum</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Reports Generated</div>
+      <div class="value">43</div>
+      <div class="sub">All-time total</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Market Regime</div>
+      <div class="value">Sideways</div>
+      <div class="sub">20d: +2.75% &middot; ATR 0.88%</div>
+    </div>
+  </div>
+
+  <!-- Strategy Reports -->
+  <section class="section">
+    <h2 class="section-title">Strategy Reports <span class="count">(latest)</span></h2>
+    <div class="strategy-grid">
+      <!-- Contrarian -->
+      <div class="strategy-card">
+        <div class="strategy-card-header">
+          <h3>Volatility Contrarian</h3>
+          <span class="tag tag-contrarian">Contrarian</span>
+        </div>
+        <div class="strategy-card-body">
+          <ul class="report-list">
+            <li>
+              <span class="name"><a href="../reports/daily-scan-2026-07-06.html">Daily Scan &mdash; Jul 06, 2026</a></span>
+              <span class="meta">12.6 KB</span>
+            </li>
+            <li>
+              <span class="name"><a href="../reports/daily_report.html">Daily Report (latest)</a></span>
+              <span class="meta">16.8 KB</span>
+            </li>
+            <li>
+              <span class="name"><a href="../reports/fwd_report.html">Forward Check</a></span>
+              <span class="meta">17.1 KB</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- Momentum -->
+      <div class="strategy-card">
+        <div class="strategy-card-header">
+          <h3>12-Month Momentum</h3>
+          <span class="tag tag-momentum">Momentum</span>
+        </div>
+        <div class="strategy-card-body">
+          <ul class="report-list">
+            <li>
+              <span class="name"><a href="../reports/momentum_scan_2026-07-08.html">Momentum Scan &mdash; Jul 08, 2026</a></span>
+              <span class="meta">103.9 KB</span>
+            </li>
+            <li>
+              <span class="name"><span style="color: var(--text-secondary)">No other reports yet</span></span>
+              <span class="meta">&mdash;</span>
+            </li>
+          </ul>
+          <div style="margin-top: 12px; font-size: 0.8rem; color: var(--text-secondary); background: var(--bg); padding: 10px 14px; border-radius: 6px;">
+            <strong>Today&rsquo;s Top Picks:</strong> NATIONALUM (+90%), CUMMINSIND (+67%), BHARATFORG (+63%), NYKAA (+60%), LTF (+54%)
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Run Actions -->
+  <section class="section">
+    <h2 class="section-title">Trigger Scans <span class="count">(GitHub Actions)</span></h2>
+    <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 0.9rem;">
+      Click a button below to trigger a scan on GitHub Actions. Results appear in this dashboard after completion (~2&ndash;5 min).
+    </p>
+    <div class="actions-grid">
+      <a href="https://github.com/Danu28/quantitative-contrarian/actions/workflows/daily-scan.yml" target="_blank" class="action-card">
+        <div class="info">
+          <h4>Contrarian Scan</h4>
+          <p>Nifty Midcap 150 &middot; ~2 min</p>
+        </div>
+        <span class="btn btn-primary">Run &#8599;</span>
+      </a>
+      <a href="https://github.com/Danu28/quantitative-contrarian/actions/workflows/daily-scan.yml" target="_blank" class="action-card">
+        <div class="info">
+          <h4>Momentum Scan</h4>
+          <p>Nifty 500 &middot; ~3 min</p>
+        </div>
+        <span class="btn btn-primary">Run &#8599;</span>
+      </a>
+      <a href="https://github.com/Danu28/quantitative-contrarian/actions/workflows/daily-scan.yml" target="_blank" class="action-card">
+        <div class="info">
+          <h4>Forward Check</h4>
+          <p>Validate signals on past date</p>
+        </div>
+        <span class="btn btn-secondary">Configure &#8599;</span>
+      </a>
+      <a href="https://github.com/Danu28/quantitative-contrarian/actions" target="_blank" class="action-card">
+        <div class="info">
+          <h4>All Workflows</h4>
+          <p>View all runs &amp; history</p>
+        </div>
+        <span class="btn btn-secondary">View &#8599;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Performance Summary -->
+  <section class="section">
+    <h2 class="section-title">Backtest Summary <span class="count">(10yr, Nifty 50 + Midcap 150)</span></h2>
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Strategy</th>
+            <th class="num">CAGR</th>
+            <th class="num">Sharpe</th>
+            <th class="num">Max DD</th>
+            <th class="num">Win Rate</th>
+            <th class="num">Profit Factor</th>
+            <th>Outperformance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>12-Month Momentum (Rs 1Cr)</td>
+            <td class="num pos">28.9%</td>
+            <td class="num pos">1.41</td>
+            <td class="num neg">-28.3%</td>
+            <td class="num">56.3%</td>
+            <td class="num">1.60</td>
+            <td class="bar-cell">
+              <span class="pos">+7.5%</span>
+              <div class="bar-track"><div class="bar-fill pos" style="width: 75%"></div></div>
+            </td>
+          </tr>
+          <tr>
+            <td>12-Month Momentum (Rs 1L)</td>
+            <td class="num pos">21.9%</td>
+            <td class="num pos">1.03</td>
+            <td class="num neg">-37.9%</td>
+            <td class="num">54.0%</td>
+            <td class="num">1.44</td>
+            <td class="bar-cell">
+              <span class="pos">+0.5%</span>
+              <div class="bar-track"><div class="bar-fill pos" style="width: 5%"></div></div>
+            </td>
+          </tr>
+          <tr>
+            <td>Volatility Contrarian (best horizon)</td>
+            <td class="num pos">8.7%</td>
+            <td class="num" style="color: var(--text-secondary);">0.22</td>
+            <td class="num neg">-13.4%</td>
+            <td class="num">&mdash;</td>
+            <td class="num">&mdash;</td>
+            <td class="bar-cell">
+              <span class="neg">-12.7%</span>
+              <div class="bar-track"><div class="bar-fill neg" style="width: 0%"></div></div>
+            </td>
+          </tr>
+          <tr style="color: var(--text-secondary);">
+            <td>Equal-Weight Market (benchmark)</td>
+            <td class="num">21.4%</td>
+            <td class="num">1.27</td>
+            <td class="num">-37.5%</td>
+            <td class="num">&mdash;</td>
+            <td class="num">&mdash;</td>
+            <td class="bar-cell"><span>&mdash;</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Regime Reference -->
+  <section class="section">
+    <h2 class="section-title">Regime Reference</h2>
+    <p style="color: var(--text-secondary); margin-bottom: 12px; font-size: 0.9rem;">
+      The market regime determines which strategy to deploy. Current regime: <strong style="color: var(--sage);">Sideways</strong>.
+    </p>
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Regime</th>
+            <th class="num">20d Return</th>
+            <th class="num">% of Time</th>
+            <th>Momentum</th>
+            <th>Contrarian</th>
+            <th>Recommendation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Strong Bull</td>
+            <td class="num pos">&gt; +8%</td>
+            <td class="num">8%</td>
+            <td class="pos">&#10003;</td>
+            <td class="neg">&#10007;</td>
+            <td>Momentum: full deploy</td>
+          </tr>
+          <tr>
+            <td>Bull</td>
+            <td class="num pos">+3% to +8%</td>
+            <td class="num">34%</td>
+            <td class="pos">&#10003;</td>
+            <td class="neg">&#10007;</td>
+            <td>Momentum: full deploy</td>
+          </tr>
+          <tr style="background: rgba(46, 111, 64, 0.05);">
+            <td><strong>Sideways</strong> <span style="font-size: 0.7rem; color: var(--sage);">&#9679; NOW</span></td>
+            <td class="num">-3% to +3%</td>
+            <td class="num">43%</td>
+            <td class="pos">&#10003;</td>
+            <td class="pos">&#10003;</td>
+            <td style="color: var(--sage); font-weight: 600;">Both: full deploy</td>
+          </tr>
+          <tr>
+            <td>Bear</td>
+            <td class="num neg">-8% to -3%</td>
+            <td class="num">11%</td>
+            <td class="pos">&#10003;</td>
+            <td class="pos">&#10003;</td>
+            <td>Both active, reduce size</td>
+          </tr>
+          <tr>
+            <td>Crash</td>
+            <td class="num neg">&lt; -8%</td>
+            <td class="num">3%</td>
+            <td class="neg">&#10007;</td>
+            <td class="pos">&#10003;</td>
+            <td>Momentum: HOLD CASH</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <span>Quant Scanner &middot; <a href="https://github.com/Danu28/quantitative-contrarian" target="_blank">github.com/Danu28/quantitative-contrarian</a></span>
+    <span>Built with Python &middot; Hosted on GitHub Pages</span>
+  </footer>
+
+</div>
+
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+  localStorage.setItem('theme', current === 'dark' ? 'light' : 'dark');
+}
+const saved = localStorage.getItem('theme');
+if (saved) document.documentElement.setAttribute('data-theme', saved);
+</script>
+
+</body>
+</html>
