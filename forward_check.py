@@ -8,7 +8,7 @@ from pathlib import Path
 import pandas as pd
 
 import numpy as np
-from src.backtest import generate_signals, compute_regime_multiplier, find_trading_dates, build_horizon_results
+from src.backtest import generate_signals, generate_momentum_signals, compute_momentum_stops, compute_regime_multiplier, find_trading_dates, build_horizon_results
 from src.db import DB_PATH, load_data, load_universe
 from src.features import precompute_all_characteristics
 from src.reporting import forward_check_html, _classify_regime
@@ -18,7 +18,7 @@ def generate_html(entry_date, sig, horizon_data, horizons, capital, regime=None)
     return forward_check_html(entry_date, sig, horizon_data, horizons, capital, regime=regime)
 
 
-def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20), capital=10_000_000, output=None):
+def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20), capital=10_000_000, output=None, strategy="contrarian"):
     config = load_universe(universe_slug_or_path)
     universe_name = config.get("name", universe_slug_or_path)
     symbols = config["symbols"]
@@ -28,6 +28,7 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
     print(f"  FORWARD RETURN CHECK")
     print(f"  Universe:   {universe_name} ({len(symbols)} stocks)")
     print(f"  Entry date: {entry_date.date()} ({entry_date.strftime('%A')})")
+    print(f"  Strategy:   {strategy.upper()}")
     print(f"  Capital:    INR {capital:,.0f}")
     print(f"{'='*70}")
 
@@ -43,44 +44,67 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
         data[sym] = sub
     print(f"  Loaded {len(data)} stocks")
 
-    print(f"  Pre-computing characteristics...")
-    char_data = precompute_all_characteristics(data, window=20)
-    print(f"  Done.")
+    if strategy == "momentum":
+        all_vol = pd.concat({s: df["volume"] for s, df in data.items() if "volume" in df.columns}, axis=1)
+        avg_vol = all_vol.mean() if not all_vol.empty else None
+        sig = generate_momentum_signals(data, entry_date, avg_vol_series=avg_vol)
+        print(f"  (no characteristics needed for momentum)")
+    else:
+        print(f"  Pre-computing characteristics...")
+        char_data = precompute_all_characteristics(data, window=20)
+        print(f"  Done.")
 
-    if entry_date not in next(iter(char_data.values()), pd.DataFrame()).index:
-        available = sorted(set(d for s in char_data for d in char_data[s].index))
-        closest = [d for d in available if d >= entry_date]
-        if not closest:
-            print(f"  No trading data found on or after {entry_date.date()}")
-            sys.exit(1)
-        entry_date = closest[0]
-        print(f"  Adjusted to nearest trading day: {entry_date.date()}")
+        if entry_date not in next(iter(char_data.values()), pd.DataFrame()).index:
+            available = sorted(set(d for s in char_data for d in char_data[s].index))
+            closest = [d for d in available if d >= entry_date]
+            if not closest:
+                print(f"  No trading data found on or after {entry_date.date()}")
+                sys.exit(1)
+            entry_date = closest[0]
+            print(f"  Adjusted to nearest trading day: {entry_date.date()}")
 
-    sig = generate_signals(data, char_data, entry_date)
+        sig = generate_signals(data, char_data, entry_date)
+
     if sig.empty:
         print(f"\n  No signals generated on {entry_date.date()}.")
         sys.exit(1)
 
     # Compute regime at entry date
-    all_dates_fwd = sorted(set(d for s in char_data for d in char_data[s].index))
-    mult = compute_regime_multiplier(entry_date, data, all_dates_fwd)
-    # Map multiplier back to regime label
-    all_prices = [data[s].loc[entry_date, "close"] for s in data if entry_date in data[s].index]
-    idx_fwd = all_dates_fwd.index(entry_date) if entry_date in all_dates_fwd else -1
-    if idx_fwd >= 20 and all_prices:
-        past_date = all_dates_fwd[idx_fwd - 20]
-        past_prices = [data[s].loc[past_date, "close"] for s in data if past_date in data[s].index]
-        ret_20d = (np.mean(all_prices) / np.mean(past_prices) - 1) * 100 if past_prices else 0
+    if strategy == "momentum":
+        all_dates_set = set()
+        for s in data:
+            for d in data[s].index:
+                all_dates_set.add(d)
+        all_dates_fwd = sorted(all_dates_set)
+        char_data = {}
+        regime = {"trend_label": "Unknown", "trend_20d": 0, "action": "Unknown", "max_positions": 10}
     else:
-        ret_20d = 0
-    regime = _classify_regime(ret_20d)
+        all_dates_fwd = sorted(set(d for s in char_data for d in char_data[s].index))
+        mult = compute_regime_multiplier(entry_date, data, all_dates_fwd)
+        all_prices = [data[s].loc[entry_date, "close"] for s in data if entry_date in data[s].index]
+        idx_fwd = all_dates_fwd.index(entry_date) if entry_date in all_dates_fwd else -1
+        if idx_fwd >= 20 and all_prices:
+            past_date = all_dates_fwd[idx_fwd - 20]
+            past_prices = [data[s].loc[past_date, "close"] for s in data if past_date in data[s].index]
+            ret_20d = (np.mean(all_prices) / np.mean(past_prices) - 1) * 100 if past_prices else 0
+        else:
+            ret_20d = 0
+        regime = _classify_regime(ret_20d)
 
     print(f"\n  Signals generated: {len(sig)}")
-    print(f"  Regime: {regime['trend_label']} ({regime['trend_20d']:+.2f}% 20d) | {regime['action']} (max {regime['max_positions']} positions)")
-    print(f"  {'Rank':<5} {'Symbol':<18} {'Close':>8} {'Conviction':>10}")
-    print(f"  {'-'*4:<5} {'-'*17:<18} {'-'*7:>8} {'-'*9:>10}")
-    for _, row in sig.iterrows():
-        print(f"  {row['rank']:<5} {row['symbol']:<18} {row['close']:>8.2f} {row['conviction']:>10.4f}")
+    print(f"  Regime: {regime.get('trend_label', 'N/A')} | {regime.get('action', 'N/A')}")
+
+    if strategy == "momentum":
+        print(f"  {'Rank':<5} {'Symbol':<18} {'Close':>8} {'Momentum':>10}")
+        print(f"  {'-'*4:<5} {'-'*17:<18} {'-'*7:>8} {'-'*9:>10}")
+        for _, row in sig.iterrows():
+            mom_str = f"{row['momentum_12m']*100:+.1f}%" if 'momentum_12m' in row else "N/A"
+            print(f"  {row['rank']:<5} {row['symbol']:<18} {row['close']:>8.2f} {mom_str:>10}")
+    else:
+        print(f"  {'Rank':<5} {'Symbol':<18} {'Close':>8} {'Conviction':>10}")
+        print(f"  {'-'*4:<5} {'-'*17:<18} {'-'*7:>8} {'-'*9:>10}")
+        for _, row in sig.iterrows():
+            print(f"  {row['rank']:<5} {row['symbol']:<18} {row['close']:>8.2f} {row['conviction']:>10.4f}")
 
     horizon_data = build_horizon_results(data, sig, entry_date, horizons)
 
@@ -149,10 +173,12 @@ def main():
                         help="Forward horizons in trading days (default: 5 10 20)")
     parser.add_argument("--capital", type=float, default=10_000_000,
                         help="Starting capital (default: 10,000,000)")
+    parser.add_argument("--strategy", "-s", default="contrarian", choices=["contrarian", "momentum"],
+                        help="Strategy to check (default: contrarian)")
     parser.add_argument("--output", default=None, help="Save HTML report to file")
     args = parser.parse_args()
 
-    check_forward(args.universe, args.date, args.horizons, args.capital, args.output)
+    check_forward(args.universe, args.date, args.horizons, args.capital, args.output, args.strategy)
 
 
 if __name__ == "__main__":

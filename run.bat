@@ -124,8 +124,11 @@ cls
 echo %BOLD%%WHITE%FORWARD CHECK%RESET%
 echo %DIV%
 echo.
+set /p fc_strategy="Strategy [contrarian/momentum] [contrarian]: "
+if "%fc_strategy%"=="" set fc_strategy=contrarian
 set /p fc_universe="Universe [niftymidcap150]: "
 if "%fc_universe%"=="" set fc_universe=niftymidcap150
+if "%fc_strategy%"=="momentum" if "%fc_universe%"=="niftymidcap150" set fc_universe=nifty500
 set /p fc_date="Date (YYYY-MM-DD) [REQUIRED]: "
 set /p fc_horizons="Horizons in trading days [5 10 20]: "
 if "%fc_horizons%"=="" set fc_horizons=5 10 20
@@ -136,8 +139,8 @@ if "%fc_output%"=="" set fc_output=reports\fwd_report.html
 
 echo.
 :forward_check_run
-echo %YELLOW%Running forward check for %fc_date%...%RESET%
-python forward_check.py --universe "%fc_universe%" --date "%fc_date%" --horizons %fc_horizons% --capital %fc_capital% --output "%fc_output%"
+echo %YELLOW%Running forward check (%fc_strategy%) for %fc_date%...%RESET%
+python forward_check.py --strategy "%fc_strategy%" --universe "%fc_universe%" --date "%fc_date%" --horizons %fc_horizons% --capital %fc_capital% --output "%fc_output%"
 if %ERRORLEVEL% neq 0 (
     echo.
     echo %YELLOW%No signals for %fc_date%. Try previous trading day?%RESET%
