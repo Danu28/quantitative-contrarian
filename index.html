@@ -520,6 +520,8 @@ async function loadSignals() {
   const mLink = document.getElementById('momentum-link');
   const lastScanEl = document.getElementById('last-scan-date');
   let latestDate = '';
+  let cMisses = 0;
+  let mMisses = 0;
 
   for (let i = 0; i < 45; i++) {
     const d = new Date();
@@ -541,7 +543,10 @@ async function loadSignals() {
       mBody.dataset.loaded = '1';
       if (ds > latestDate) latestDate = ds;
     }
+    if (!cJson && cBody.dataset.loaded !== '1') cMisses++;
+    if (!mJson && mBody.dataset.loaded !== '1') mMisses++;
     if (cBody.dataset.loaded === '1' && mBody.dataset.loaded === '1') break;
+    if (cMisses >= 3 && mMisses >= 3) break;
   }
   if (latestDate) lastScanEl.textContent = latestDate;
   if (cBody.dataset.loaded !== '1') cBody.innerHTML = '<div class="signal-empty"><span class="icon">&#9679;</span>No scan data found<div class="sub">Run a contrarian scan first, or wait for the daily workflow</div></div>';
