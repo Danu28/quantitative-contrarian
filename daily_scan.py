@@ -92,6 +92,46 @@ def generate_html(date_str, signals, regime, targets, universe_name, strategy="c
     )
 
 
+def _save_json(json_path: str | None, scan_date, strategy, sig, targets, regime, sector_map):
+    if not json_path:
+        return
+    signals_json = []
+    for _, r in sig.head(50).iterrows():
+        sym = r["symbol"]
+        t = targets.get(sym, {})
+        entry = t.get("entry", r["close"])
+        signals_json.append({
+            "rank": int(r["rank"]),
+            "symbol": sym,
+            "close": round(float(r["close"]), 2),
+            "entry": float(round(entry, 2)),
+            "conviction": round(float(r.get("conviction", 0)), 4),
+            "momentum_pct": round(float(r.get("momentum_12m", 0)) * 100, 1),
+            "target1": round(t.get("target1", 0), 2),
+            "target2": round(t.get("target2", 0), 2),
+            "hard_stop": round(t.get("hard_stop", 0), 2),
+            "trail_trigger": round(t.get("trail_trigger", 0), 2),
+            "trail_stop": round(t.get("trail_stop", 0), 2),
+            "sector": sector_map.get(sym, "") if sector_map else "",
+        })
+    payload = {
+        "date": scan_date.strftime("%Y-%m-%d"),
+        "strategy": strategy,
+        "signal_count": len(sig),
+        "max_positions": regime.get("max_positions", 10) if strategy == "contrarian" else MOM_MAX_POSITIONS,
+        "regime": {
+            "trend_label": regime["trend_label"],
+            "trend_20d": regime["trend_20d"],
+            "action": regime["action"],
+        },
+        "signals": signals_json,
+    }
+    os.makedirs(os.path.dirname(json_path), exist_ok=True)
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2)
+    print(f"  JSON data saved: {json_path}")
+
+
 def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | None = None, strategy: str = "contrarian", json_output: str | None = None):
     config = load_universe(universe_slug_or_path)
     slug = config.get("slug", Path(universe_slug_or_path).stem)
@@ -140,6 +180,7 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
         sig = generate_momentum_signals(data, scan_date, avg_vol_series=avg_vol)
         if sig.empty:
             print(f"\n  No momentum signals on {scan_date.date()}.")
+            _save_json(json_output, scan_date, strategy, sig, {}, regime, get_sector_map(universe_slug_or_path))
             sys.exit(1)
 
         targets = {}
@@ -177,6 +218,7 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
         sig = generate_signals(data, char_data, scan_date)
         if sig.empty:
             print(f"\n  No signals on {scan_date.date()}.")
+            _save_json(json_output, scan_date, strategy, sig, {}, regime, get_sector_map(universe_slug_or_path))
             sys.exit(1)
 
         targets = {}
@@ -214,45 +256,9 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
             f.write(html)
         print(f"  HTML report saved: {output}")
 
-    if json_output or (output and output.endswith(".html")):
-        json_path = json_output or output.replace(".html", ".json")
-        sector_map = get_sector_map(universe_slug_or_path)
-        signals_json = []
-        top_n = sig.head(50)
-        for _, r in top_n.iterrows():
-            sym = r["symbol"]
-            t = targets.get(sym, {})
-            entry = t.get("entry", r["close"])
-            signals_json.append({
-                "rank": int(r["rank"]),
-                "symbol": sym,
-                "close": round(float(r["close"]), 2),
-                "entry": float(round(entry, 2)),
-                "conviction": round(float(r.get("conviction", 0)), 4),
-                "momentum_pct": round(float(r.get("momentum_12m", 0)) * 100, 1),
-                "target1": round(t.get("target1", 0), 2),
-                "target2": round(t.get("target2", 0), 2),
-                "hard_stop": round(t.get("hard_stop", 0), 2),
-                "trail_trigger": round(t.get("trail_trigger", 0), 2),
-                "trail_stop": round(t.get("trail_stop", 0), 2),
-                "sector": sector_map.get(sym, ""),
-            })
-        payload = {
-            "date": scan_date.strftime("%Y-%m-%d"),
-            "strategy": strategy,
-            "signal_count": len(sig),
-            "max_positions": regime.get("max_positions", 10) if strategy == "contrarian" else MOM_MAX_POSITIONS,
-            "regime": {
-                "trend_label": regime["trend_label"],
-                "trend_20d": regime["trend_20d"],
-                "action": regime["action"],
-            },
-            "signals": signals_json,
-        }
-        os.makedirs(os.path.dirname(json_path), exist_ok=True)
-        with open(json_path, "w", encoding="utf-8") as f:
-            json.dump(payload, f, indent=2)
-        print(f"  JSON data saved: {json_path}")
+    json_path = json_output or (output.replace(".html", ".json") if output and output.endswith(".html") else None)
+    if json_path:
+        _save_json(json_path, scan_date, strategy, sig, targets, regime, get_sector_map(universe_slug_or_path))
 
 
 def main():
