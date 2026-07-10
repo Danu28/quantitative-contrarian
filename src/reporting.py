@@ -130,20 +130,20 @@ section h2 {
 }
 table.data-table {
   width: 100%; border-collapse: collapse; font-size: 14px;
-  table-layout: fixed;
+  min-width: 700px;
 }
 table.data-table thead th {
   background: var(--bg); color: var(--muted);
   font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px;
   padding: 12px 14px; text-align: right; border-bottom: 1px solid var(--border);
-  font-weight: 600;
+  font-weight: 600; white-space: nowrap;
 }
 table.data-table thead th:first-child { text-align: left; }
 table.data-table tbody td {
   padding: 10px 14px; text-align: right; border-bottom: 1px solid var(--border);
-  color: var(--text);
+  color: var(--text); white-space: nowrap;
 }
-table.data-table tbody td:first-child { text-align: left; font-weight: 600; }
+table.data-table tbody td:first-child { text-align: left; font-weight: 600; white-space: normal; }
 table.data-table tbody tr:nth-child(even) { background: rgba(0,0,0,0.015); }
 table.data-table tbody tr:hover { background: rgba(46,111,64,0.04); }
 table.data-table tbody td.mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
