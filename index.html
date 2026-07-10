@@ -53,7 +53,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-sans);
 .header-title h1 { font-family: var(--font-serif); font-size: 2.4rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
 .header-title h1 span { color: var(--sage); }
 .header-title p { color: var(--text-secondary); margin-top: 6px; font-size: 0.95rem; }
-.header-meta { text-align: right; font-size: 0.85rem; color: var(--text-secondary); white-space: nowrap; }
+.header-meta { text-align: right; font-size: 0.85rem; color: var(--text-secondary); }
 .header-meta .badge { display: inline-block; background: var(--sage-light); color: var(--sage); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; margin-top: 4px; }
 
 /* Toggle */
@@ -80,11 +80,8 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-sans);
 .strategy-card-header .tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
 .tag-contrarian { background: var(--sage-light); color: var(--sage); }
 .tag-momentum { background: var(--amber-light); color: var(--amber); }
-.strategy-card-body { padding: 16px 24px 20px; }
+.strategy-card-body { padding: 16px 24px 20px; overflow-x: auto; }
 .report-list { list-style: none; }
-.report-list li { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-.report-list li:last-child { border-bottom: none; }
-.report-list .name { color: var(--text); }
 .report-list .name a { color: var(--text); text-decoration: none; }
 .report-list .name a:hover { color: var(--sage); }
 .report-list .meta { font-size: 0.8rem; color: var(--text-secondary); }
@@ -119,21 +116,83 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-sans);
 .bar-fill.pos { background: var(--sage); }
 .bar-fill.neg { background: var(--amber); }
 
+/* Signal Table */
+.signal-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.signal-table thead th { padding: 6px 4px; text-align: right; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); border-bottom: 1px solid var(--border); font-weight: 600; white-space: nowrap; }
+.signal-table thead th:first-child { text-align: left; }
+.signal-table tbody td { padding: 5px 4px; text-align: right; border-bottom: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.78rem; white-space: nowrap; }
+.signal-table tbody td:first-child { text-align: left; font-weight: 600; font-family: var(--font-sans); white-space: normal; }
+.signal-table .pos { color: var(--sage); }
+.signal-table .neg { color: var(--amber); }
+.signal-table .sec { font-family: var(--font-sans); font-size: 0.65rem; color: var(--text-secondary); }
+.signal-empty { padding: 32px 24px; text-align: center; color: var(--text-secondary); font-size: 0.85rem; }
+.signal-empty .icon { font-size: 2rem; margin-bottom: 8px; display: block; opacity: 0.5; }
+.signal-empty .sub { font-size: 0.75rem; margin-top: 4px; color: var(--border); }
+/* Conviction micro-bar */
+.cbar { display: inline-flex; align-items: center; gap: 4px; }
+.cbar .track { width: 32px; height: 4px; border-radius: 2px; background: var(--border); overflow: hidden; }
+.cbar .track .fill { height: 100%; border-radius: 2px; background: var(--sage); }
+.cbar .val { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-secondary); }
+/* Momentum micro-bar */
+.mbar { display: inline-flex; align-items: center; gap: 4px; }
+.mbar .track { width: 40px; height: 4px; border-radius: 2px; background: var(--border); overflow: hidden; }
+.mbar .track .fill { height: 100%; border-radius: 2px; }
+.mbar .track .fill.pos { background: var(--sage); }
+.mbar .track .fill.neg { background: var(--amber); }
+.report-link { display: block; text-align: center; padding: 8px; font-size: 0.78rem; color: var(--sage); text-decoration: none; border-top: 1px solid var(--border); }
+.report-link:hover { background: var(--bg); }
+
 /* Footer */
 .footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-secondary); flex-wrap: wrap; gap: 12px; }
 .footer a { color: var(--text-secondary); text-decoration: none; }
 .footer a:hover { color: var(--sage); }
 
 /* Responsive */
-@media (max-width: 900px) {
+/* Tablet landscape & down */
+@media (max-width: 1024px) {
   .kpi-grid { grid-template-columns: repeat(2, 1fr); }
   .strategy-grid { grid-template-columns: 1fr; }
   .actions-grid { grid-template-columns: 1fr; }
 }
-@media (max-width: 600px) {
-  .kpi-grid { grid-template-columns: 1fr 1fr; }
-  .header-title h1 { font-size: 1.6rem; }
-  .header-meta { text-align: left; }
+/* Tablet portrait & down */
+@media (max-width: 768px) {
+  .container { padding: 28px 16px; }
+  .header { margin-bottom: 32px; gap: 16px; }
+  .header-title h1 { font-size: 1.8rem; }
+  .header-meta { text-align: left; white-space: normal; }
+  .theme-toggle { top: 12px; right: 12px; width: 36px; height: 36px; font-size: 1rem; }
+  .kpi-card { padding: 14px; }
+  .kpi-card .value { font-size: 1.3rem; }
+  .section-title { font-size: 1.15rem; }
+  .strategy-card-header { padding: 16px 18px 10px; }
+  .strategy-card-body { padding: 12px 18px 16px; }
+}
+/* Phone */
+@media (max-width: 480px) {
+  .container { padding: 20px 12px; }
+  .header-title h1 { font-size: 1.4rem; }
+  .header-title p { font-size: 0.8rem; }
+  .kpi-grid { grid-template-columns: 1fr; gap: 10px; margin-bottom: 24px; }
+  .kpi-card .value { font-size: 1.2rem; }
+  .kpi-card .sub { font-size: 0.72rem; }
+  .section { margin-bottom: 24px; }
+  .section-title { font-size: 1rem; }
+  .actions-grid { gap: 10px; }
+  .action-card { padding: 12px 14px; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .action-card .btn { width: 100%; text-align: center; }
+  .signal-table { font-size: 0.7rem; }
+  .signal-table thead th { padding: 4px 2px; font-size: 0.55rem; }
+  .signal-table tbody td { padding: 4px 2px; font-size: 0.68rem; }
+  .strategy-card-header h3 { font-size: 0.95rem; }
+}
+/* Tiny phone */
+@media (max-width: 360px) {
+  .container { padding: 14px 8px; }
+  .header-title h1 { font-size: 1.2rem; }
+  .kpi-card { padding: 10px; }
+  .strategy-card-header { padding: 12px 12px 8px; }
+  .strategy-card-body { padding: 8px 12px 12px; }
+  .data-table { font-size: 0.78rem; }
 }
 
 /* Misc */
@@ -154,7 +213,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-sans);
       <p>Institutional-grade trading signal dashboard &middot; NSE India</p>
     </div>
     <div class="header-meta">
-      <div>Last scan: <strong>2026-07-08</strong></div>
+      <div>Last scan: <strong id="last-scan-date">...</strong></div>
       <div class="badge">&#9679; All systems nominal</div>
     </div>
   </header>
@@ -185,7 +244,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-sans);
 
   <!-- Strategy Reports -->
   <section class="section">
-    <h2 class="section-title">Strategy Reports <span class="count">(latest)</span></h2>
+    <h2 class="section-title">Top Signals <span class="count">(latest scan)</span></h2>
     <div class="strategy-grid">
       <!-- Contrarian -->
       <div class="strategy-card">
@@ -193,22 +252,10 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-sans);
           <h3>Volatility Contrarian</h3>
           <span class="tag tag-contrarian">Contrarian</span>
         </div>
-        <div class="strategy-card-body">
-          <ul class="report-list">
-            <li>
-              <span class="name"><a href="../reports/daily-scan-2026-07-06.html">Daily Scan &mdash; Jul 06, 2026</a></span>
-              <span class="meta">12.6 KB</span>
-            </li>
-            <li>
-              <span class="name"><a href="../reports/daily_report.html">Daily Report (latest)</a></span>
-              <span class="meta">16.8 KB</span>
-            </li>
-            <li>
-              <span class="name"><a href="../reports/fwd_report.html">Forward Check</a></span>
-              <span class="meta">17.1 KB</span>
-            </li>
-          </ul>
+        <div class="strategy-card-body" id="contrarian-body">
+          <div class="signal-empty"><span class="icon">&#9203;</span>Loading signals...</div>
         </div>
+        <a class="report-link" id="contrarian-link" href="#" style="display:none">View full report &#8599;</a>
       </div>
       <!-- Momentum -->
       <div class="strategy-card">
@@ -216,21 +263,10 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-sans);
           <h3>12-Month Momentum</h3>
           <span class="tag tag-momentum">Momentum</span>
         </div>
-        <div class="strategy-card-body">
-          <ul class="report-list">
-            <li>
-              <span class="name"><a href="../reports/momentum_scan_2026-07-08.html">Momentum Scan &mdash; Jul 08, 2026</a></span>
-              <span class="meta">103.9 KB</span>
-            </li>
-            <li>
-              <span class="name"><span style="color: var(--text-secondary)">No other reports yet</span></span>
-              <span class="meta">&mdash;</span>
-            </li>
-          </ul>
-          <div style="margin-top: 12px; font-size: 0.8rem; color: var(--text-secondary); background: var(--bg); padding: 10px 14px; border-radius: 6px;">
-            <strong>Today&rsquo;s Top Picks:</strong> NATIONALUM (+90%), CUMMINSIND (+67%), BHARATFORG (+63%), NYKAA (+60%), LTF (+54%)
-          </div>
+        <div class="strategy-card-body" id="momentum-body">
+          <div class="signal-empty"><span class="icon">&#9203;</span>Loading signals...</div>
         </div>
+        <a class="report-link" id="momentum-link" href="#" style="display:none">View full report &#8599;</a>
       </div>
     </div>
   </section>
@@ -421,6 +457,97 @@ function toggleTheme() {
 }
 const saved = localStorage.getItem('theme');
 if (saved) document.documentElement.setAttribute('data-theme', saved);
+
+function escapeH(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function renderContrarianSignals(data, bodyEl, linkEl) {
+  const sigs = data.signals || [];
+  const r = data.regime || {};
+  const trend = r.trend_20d || 0;
+  const trendCls = trend > 3 ? 'pos' : trend < -3 ? 'neg' : '';
+  if (sigs.length === 0) {
+    bodyEl.innerHTML = '<div class="signal-empty"><span class="icon">&#9679;</span>No contrarian signals today<div class="sub">Market: ' + escapeH(r.trend_label || 'Unknown') + ' (' + (trend > 0 ? '+' : '') + trend.toFixed(2) + '%)</div></div>';
+    return;
+  }
+  const top = sigs.slice(0, 10);
+  let h = '<table class="signal-table"><thead><tr><th>Symbol</th><th>Entry</th><th>T1</th><th>Stop</th><th>Trail</th><th>Conv</th></tr></thead><tbody>';
+  for (const r of top) {
+    const pct = Math.min(r.conviction * 100, 100);
+    h += '<tr><td>' + escapeH(r.symbol) + '<span class="sec"> ' + escapeH(r.sector || '') + '</span></td>'
+      + '<td>' + r.entry.toFixed(2) + '</td>'
+      + '<td class="pos">' + r.target1.toFixed(2) + '</td>'
+      + '<td class="neg">' + r.hard_stop.toFixed(2) + '</td>'
+      + '<td>' + r.trail_stop.toFixed(2) + '</td>'
+      + '<td><div class="cbar"><div class="track"><div class="fill" style="width:' + pct + '%"></div></div><span class="val">' + pct.toFixed(0) + '%</span></div></td>'
+      + '</tr>';
+  }
+  h += '</tbody></table>';
+  bodyEl.innerHTML = h;
+  linkEl.style.display = 'block';
+  linkEl.href = 'contrarian-scan-' + data.date + '.html';
+}
+
+function renderMomentumSignals(data, bodyEl, linkEl) {
+  const sigs = data.signals || [];
+  const r = data.regime || {};
+  const trend = r.trend_20d || 0;
+  if (sigs.length === 0) {
+    bodyEl.innerHTML = '<div class="signal-empty"><span class="icon">&#9679;</span>No momentum signals today<div class="sub">Market: ' + escapeH(r.trend_label || 'Unknown') + ' (' + (trend > 0 ? '+' : '') + trend.toFixed(2) + '%)</div></div>';
+    return;
+  }
+  const top = sigs.slice(0, 10);
+  let h = '<table class="signal-table"><thead><tr><th>Symbol</th><th>Close</th><th>Momentum</th><th>Entry</th><th>Stop</th></tr></thead><tbody>';
+  for (const r of top) {
+    const mCls = r.momentum_pct > 0 ? 'pos' : 'neg';
+    const mag = Math.min(Math.abs(r.momentum_pct) / 60 * 100, 100);
+    h += '<tr><td>' + escapeH(r.symbol) + '<span class="sec"> ' + escapeH(r.sector || '') + '</span></td>'
+      + '<td>' + r.close.toFixed(2) + '</td>'
+      + '<td class="' + mCls + '"><div class="mbar"><span>' + (r.momentum_pct > 0 ? '+' : '') + r.momentum_pct.toFixed(1) + '%</span><div class="track"><div class="fill ' + mCls + '" style="width:' + mag + '%"></div></div></div></td>'
+      + '<td>' + r.entry.toFixed(2) + '</td>'
+      + '<td class="neg">' + r.hard_stop.toFixed(2) + '</td>'
+      + '</tr>';
+  }
+  h += '</tbody></table>';
+  bodyEl.innerHTML = h;
+  linkEl.style.display = 'block';
+  linkEl.href = 'momentum-scan-' + data.date + '.html';
+}
+
+async function loadSignals() {
+  const cBody = document.getElementById('contrarian-body');
+  const mBody = document.getElementById('momentum-body');
+  const cLink = document.getElementById('contrarian-link');
+  const mLink = document.getElementById('momentum-link');
+  const lastScanEl = document.getElementById('last-scan-date');
+  let latestDate = '';
+
+  for (let i = 0; i < 45; i++) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const ds = d.toISOString().slice(0, 10);
+    const cPaths = ['contrarian-scan-' + ds + '.json', '../reports/contrarian-scan-' + ds + '.json'];
+    const mPaths = ['momentum-scan-' + ds + '.json', '../reports/momentum-scan-' + ds + '.json'];
+    const [cJson, mJson] = await Promise.all([
+      fetch(cPaths[0]).then(r => r.ok ? r.json() : fetch(cPaths[1]).then(r => r.ok ? r.json() : null)).catch(() => null),
+      fetch(mPaths[0]).then(r => r.ok ? r.json() : fetch(mPaths[1]).then(r => r.ok ? r.json() : null)).catch(() => null),
+    ]);
+    if (cJson && cBody.dataset.loaded !== '1') {
+      renderContrarianSignals(cJson, cBody, cLink);
+      cBody.dataset.loaded = '1';
+      if (ds > latestDate) latestDate = ds;
+    }
+    if (mJson && mBody.dataset.loaded !== '1') {
+      renderMomentumSignals(mJson, mBody, mLink);
+      mBody.dataset.loaded = '1';
+      if (ds > latestDate) latestDate = ds;
+    }
+    if (cBody.dataset.loaded === '1' && mBody.dataset.loaded === '1') break;
+  }
+  if (latestDate) lastScanEl.textContent = latestDate;
+  if (cBody.dataset.loaded !== '1') cBody.innerHTML = '<div class="signal-empty"><span class="icon">&#9679;</span>No scan data found<div class="sub">Run a contrarian scan first, or wait for the daily workflow</div></div>';
+  if (mBody.dataset.loaded !== '1') mBody.innerHTML = '<div class="signal-empty"><span class="icon">&#9679;</span>No scan data found<div class="sub">Run a momentum scan first, or wait for the daily workflow</div></div>';
+}
+loadSignals();
 </script>
 
 </body>
