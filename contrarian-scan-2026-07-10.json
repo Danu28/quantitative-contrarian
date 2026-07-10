@@ -5,7 +5,7 @@
   "max_positions": 1,
   "regime": {
     "trend_label": "Bull",
-    "trend_20d": 4.36,
+    "trend_20d": 4.33,
     "action": "Skip or 1"
   },
   "signals": []
