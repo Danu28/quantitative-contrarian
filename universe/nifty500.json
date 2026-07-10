@@ -6,2477 +6,2477 @@
   "constituents": [
     {
       "symbol": "360ONE.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "360ONE"
     },
     {
       "symbol": "3MINDIA.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "3MINDIA"
     },
     {
       "symbol": "AADHARHFC.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "AADHARHFC"
     },
     {
       "symbol": "AARTIIND.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "AARTIIND"
     },
     {
       "symbol": "AAVAS.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "AAVAS"
     },
     {
       "symbol": "ABB.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "ABB"
     },
     {
       "symbol": "ABBOTINDIA.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "ABBOTINDIA"
     },
     {
       "symbol": "ABCAPITAL.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "ABCAPITAL"
     },
     {
       "symbol": "ABFRL.NS",
-      "sector": "Unknown",
+      "sector": "Retail",
       "companyName": "ABFRL"
     },
     {
       "symbol": "ABREL.NS",
-      "sector": "Unknown",
+      "sector": "Real Estate",
       "companyName": "ABREL"
     },
     {
       "symbol": "ABSLAMC.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "ABSLAMC"
     },
     {
       "symbol": "ACC.NS",
-      "sector": "Unknown",
+      "sector": "Construction",
       "companyName": "ACC"
     },
     {
       "symbol": "ACE.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "ACE"
     },
     {
       "symbol": "ACMESOLAR.NS",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "companyName": "ACMESOLAR"
     },
     {
       "symbol": "ADANIENSOL.NS",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "companyName": "ADANIENSOL"
     },
     {
       "symbol": "ADANIENT.NS",
-      "sector": "Unknown",
+      "sector": "Metals & Mining",
       "companyName": "ADANIENT"
     },
     {
       "symbol": "ADANIGREEN.NS",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "companyName": "ADANIGREEN"
     },
     {
       "symbol": "ADANIPORTS.NS",
-      "sector": "Unknown",
+      "sector": "Services",
       "companyName": "ADANIPORTS"
     },
     {
       "symbol": "ADANIPOWER.NS",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "companyName": "ADANIPOWER"
     },
     {
       "symbol": "AEGISLOG.NS",
-      "sector": "Unknown",
+      "sector": "Energy",
       "companyName": "AEGISLOG"
     },
     {
       "symbol": "AFCONS.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "AFCONS"
     },
     {
       "symbol": "AFFLE.NS",
-      "sector": "Unknown",
+      "sector": "Communication Services",
       "companyName": "AFFLE"
     },
     {
       "symbol": "AIAENG.NS",
-      "sector": "Unknown",
+      "sector": "Industrial Products",
       "companyName": "AIAENG"
     },
     {
       "symbol": "AIIL.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "AIIL"
     },
     {
       "symbol": "AJANTPHARM.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "AJANTPHARM"
     },
     {
       "symbol": "AKUMS.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "AKUMS"
     },
     {
       "symbol": "ALIVUS.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "ALIVUS"
     },
     {
       "symbol": "ALKEM.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "ALKEM"
     },
     {
       "symbol": "ALKYLAMINE.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "ALKYLAMINE"
     },
     {
       "symbol": "ALOKINDS.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "ALOKINDS"
     },
     {
       "symbol": "AMBER.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "AMBER"
     },
     {
       "symbol": "AMBUJACEM.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "AMBUJACEM"
     },
     {
       "symbol": "ANANDRATHI.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "ANANDRATHI"
     },
     {
       "symbol": "ANANTRAJ.NS",
-      "sector": "Unknown",
+      "sector": "Real Estate",
       "companyName": "ANANTRAJ"
     },
     {
       "symbol": "ANGELONE.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "ANGELONE"
     },
     {
       "symbol": "APARINDS.NS",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "companyName": "APARINDS"
     },
     {
       "symbol": "APLAPOLLO.NS",
-      "sector": "Unknown",
+      "sector": "Industrial Products",
       "companyName": "APLAPOLLO"
     },
     {
       "symbol": "APLLTD.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "APLLTD"
     },
     {
       "symbol": "APOLLOHOSP.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare Services",
       "companyName": "APOLLOHOSP"
     },
     {
       "symbol": "APOLLOTYRE.NS",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "companyName": "APOLLOTYRE"
     },
     {
       "symbol": "APTUS.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "APTUS"
     },
     {
       "symbol": "ARE&M.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "ARE&M"
     },
     {
       "symbol": "ASAHIINDIA.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "ASAHIINDIA"
     },
     {
       "symbol": "ASHOKLEY.NS",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "companyName": "ASHOKLEY"
     },
     {
       "symbol": "ASIANPAINT.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Goods",
       "companyName": "ASIANPAINT"
     },
     {
       "symbol": "ASTERDM.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "ASTERDM"
     },
     {
       "symbol": "ASTRAL.NS",
-      "sector": "Unknown",
+      "sector": "Industrial Products",
       "companyName": "ASTRAL"
     },
     {
       "symbol": "ASTRAZEN.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "ASTRAZEN"
     },
     {
       "symbol": "ATGL.NS",
-      "sector": "Unknown",
+      "sector": "Oil & Gas",
       "companyName": "ATGL"
     },
     {
       "symbol": "ATUL.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "ATUL"
     },
     {
       "symbol": "AUBANK.NS",
-      "sector": "Unknown",
+      "sector": "Banks",
       "companyName": "AUBANK"
     },
     {
       "symbol": "AUROPHARMA.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "AUROPHARMA"
     },
     {
       "symbol": "AWL.NS",
-      "sector": "Unknown",
+      "sector": "FMCG",
       "companyName": "AWL"
     },
     {
       "symbol": "AXISBANK.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "AXISBANK"
     },
     {
       "symbol": "BAJAJ-AUTO.NS",
-      "sector": "Unknown",
+      "sector": "Automobile",
       "companyName": "BAJAJ-AUTO"
     },
     {
       "symbol": "BAJAJFINSV.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "BAJAJFINSV"
     },
     {
       "symbol": "BAJAJHFL.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "BAJAJHFL"
     },
     {
       "symbol": "BAJAJHLDNG.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "BAJAJHLDNG"
     },
     {
       "symbol": "BAJFINANCE.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "BAJFINANCE"
     },
     {
       "symbol": "BALKRISIND.NS",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "companyName": "BALKRISIND"
     },
     {
       "symbol": "BALRAMCHIN.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "BALRAMCHIN"
     },
     {
       "symbol": "BANDHANBNK.NS",
-      "sector": "Unknown",
+      "sector": "Banks",
       "companyName": "BANDHANBNK"
     },
     {
       "symbol": "BANKBARODA.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "BANKBARODA"
     },
     {
       "symbol": "BANKINDIA.NS",
-      "sector": "Unknown",
+      "sector": "Banks",
       "companyName": "BANKINDIA"
     },
     {
       "symbol": "BASF.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "BASF"
     },
     {
       "symbol": "BATAINDIA.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "BATAINDIA"
     },
     {
       "symbol": "BAYERCROP.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "BAYERCROP"
     },
     {
       "symbol": "BBTC.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "BBTC"
     },
     {
       "symbol": "BDL.NS",
-      "sector": "Unknown",
+      "sector": "Aerospace & Defense",
       "companyName": "BDL"
     },
     {
       "symbol": "BEL.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "BEL"
     },
     {
       "symbol": "BEML.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "BEML"
     },
     {
       "symbol": "BERGEPAINT.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Goods",
       "companyName": "BERGEPAINT"
     },
     {
       "symbol": "BHARATFORG.NS",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "companyName": "BHARATFORG"
     },
     {
       "symbol": "BHARTIARTL.NS",
-      "sector": "Unknown",
+      "sector": "Telecommunication",
       "companyName": "BHARTIARTL"
     },
     {
       "symbol": "BHARTIHEXA.NS",
-      "sector": "Unknown",
+      "sector": "Telecom",
       "companyName": "BHARTIHEXA"
     },
     {
       "symbol": "BHEL.NS",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "companyName": "BHEL"
     },
     {
       "symbol": "BIKAJI.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "BIKAJI"
     },
     {
       "symbol": "BIOCON.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "BIOCON"
     },
     {
       "symbol": "BLS.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "BLS"
     },
     {
       "symbol": "BLUEDART.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "BLUEDART"
     },
     {
       "symbol": "BLUESTARCO.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Goods",
       "companyName": "BLUESTARCO"
     },
     {
       "symbol": "BOSCHLTD.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "BOSCHLTD"
     },
     {
       "symbol": "BPCL.NS",
-      "sector": "Unknown",
+      "sector": "Energy",
       "companyName": "BPCL"
     },
     {
       "symbol": "BRIGADE.NS",
-      "sector": "Unknown",
+      "sector": "Real Estate",
       "companyName": "BRIGADE"
     },
     {
       "symbol": "BRITANNIA.NS",
-      "sector": "Unknown",
+      "sector": "Fast Moving Consumer Goods",
       "companyName": "BRITANNIA"
     },
     {
       "symbol": "BSE.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "BSE"
     },
     {
       "symbol": "BSOFT.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "BSOFT"
     },
     {
       "symbol": "CAMPUS.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "CAMPUS"
     },
     {
       "symbol": "CAMS.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "CAMS"
     },
     {
       "symbol": "CANBK.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "CANBK"
     },
     {
       "symbol": "CANFINHOME.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "CANFINHOME"
     },
     {
       "symbol": "CAPLIPOINT.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "CAPLIPOINT"
     },
     {
       "symbol": "CARBORUNIV.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "CARBORUNIV"
     },
     {
       "symbol": "CASTROLIND.NS",
-      "sector": "Unknown",
+      "sector": "Energy",
       "companyName": "CASTROLIND"
     },
     {
       "symbol": "CCL.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "CCL"
     },
     {
       "symbol": "CDSL.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "CDSL"
     },
     {
       "symbol": "CEATLTD.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "CEATLTD"
     },
     {
       "symbol": "CENTRALBK.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "CENTRALBK"
     },
     {
       "symbol": "CENTURYPLY.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "CENTURYPLY"
     },
     {
       "symbol": "CERA.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "CERA"
     },
     {
       "symbol": "CESC.NS",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "companyName": "CESC"
     },
     {
       "symbol": "CGCL.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "CGCL"
     },
     {
       "symbol": "CGPOWER.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "CGPOWER"
     },
     {
       "symbol": "CHALET.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "CHALET"
     },
     {
       "symbol": "CHAMBLFERT.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "CHAMBLFERT"
     },
     {
       "symbol": "CHENNPETRO.NS",
-      "sector": "Unknown",
+      "sector": "Energy",
       "companyName": "CHENNPETRO"
     },
     {
       "symbol": "CHOLAFIN.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "CHOLAFIN"
     },
     {
       "symbol": "CHOLAHLDNG.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "CHOLAHLDNG"
     },
     {
       "symbol": "CIPLA.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "CIPLA"
     },
     {
       "symbol": "CLEAN.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "CLEAN"
     },
     {
       "symbol": "COALINDIA.NS",
-      "sector": "Unknown",
+      "sector": "Energy",
       "companyName": "COALINDIA"
     },
     {
       "symbol": "COCHINSHIP.NS",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "companyName": "COCHINSHIP"
     },
     {
       "symbol": "COFORGE.NS",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "companyName": "COFORGE"
     },
     {
       "symbol": "COHANCE.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "COHANCE"
     },
     {
       "symbol": "COLPAL.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Goods",
       "companyName": "COLPAL"
     },
     {
       "symbol": "CONCOR.NS",
-      "sector": "Unknown",
+      "sector": "Logistics & Cargo",
       "companyName": "CONCOR"
     },
     {
       "symbol": "CONCORDBIO.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "CONCORDBIO"
     },
     {
       "symbol": "COROMANDEL.NS",
-      "sector": "Unknown",
+      "sector": "Chemicals",
       "companyName": "COROMANDEL"
     },
     {
       "symbol": "CRAFTSMAN.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "CRAFTSMAN"
     },
     {
       "symbol": "CREDITACC.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "CREDITACC"
     },
     {
       "symbol": "CRISIL.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "CRISIL"
     },
     {
       "symbol": "CROMPTON.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "CROMPTON"
     },
     {
       "symbol": "CUB.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "CUB"
     },
     {
       "symbol": "CUMMINSIND.NS",
-      "sector": "Unknown",
+      "sector": "Industrial Products",
       "companyName": "CUMMINSIND"
     },
     {
       "symbol": "CYIENT.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "CYIENT"
     },
     {
       "symbol": "DABUR.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "DABUR"
     },
     {
       "symbol": "DALBHARAT.NS",
-      "sector": "Unknown",
+      "sector": "Construction",
       "companyName": "DALBHARAT"
     },
     {
       "symbol": "DATAPATTNS.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "DATAPATTNS"
     },
     {
       "symbol": "DBREALTY.NS",
-      "sector": "Unknown",
+      "sector": "Real Estate",
       "companyName": "DBREALTY"
     },
     {
       "symbol": "DCMSHRIRAM.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "DCMSHRIRAM"
     },
     {
       "symbol": "DEEPAKFERT.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "DEEPAKFERT"
     },
     {
       "symbol": "DEEPAKNTR.NS",
-      "sector": "Unknown",
+      "sector": "Chemicals",
       "companyName": "DEEPAKNTR"
     },
     {
       "symbol": "DELHIVERY.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "DELHIVERY"
     },
     {
       "symbol": "DEVYANI.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "DEVYANI"
     },
     {
       "symbol": "DIVISLAB.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "DIVISLAB"
     },
     {
       "symbol": "DIXON.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Goods",
       "companyName": "DIXON"
     },
     {
       "symbol": "DLF.NS",
-      "sector": "Unknown",
+      "sector": "Real Estate",
       "companyName": "DLF"
     },
     {
       "symbol": "DMART.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "DMART"
     },
     {
       "symbol": "DOMS.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "DOMS"
     },
     {
       "symbol": "DRREDDY.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "DRREDDY"
     },
     {
       "symbol": "ECLERX.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "ECLERX"
     },
     {
       "symbol": "EICHERMOT.NS",
-      "sector": "Unknown",
+      "sector": "Automobile",
       "companyName": "EICHERMOT"
     },
     {
       "symbol": "EIDPARRY.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "EIDPARRY"
     },
     {
       "symbol": "EIHOTEL.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "EIHOTEL"
     },
     {
       "symbol": "ELECON.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "ELECON"
     },
     {
       "symbol": "ELGIEQUIP.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "ELGIEQUIP"
     },
     {
       "symbol": "EMAMILTD.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Goods",
       "companyName": "EMAMILTD"
     },
     {
       "symbol": "EMCURE.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "EMCURE"
     },
     {
       "symbol": "ENDURANCE.NS",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "companyName": "ENDURANCE"
     },
     {
       "symbol": "ENGINERSIN.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "ENGINERSIN"
     },
     {
       "symbol": "ERIS.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "ERIS"
     },
     {
       "symbol": "ESCORTS.NS",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "companyName": "ESCORTS"
     },
     {
       "symbol": "ETERNAL.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "ETERNAL"
     },
     {
       "symbol": "EXIDEIND.NS",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "companyName": "EXIDEIND"
     },
     {
       "symbol": "FACT.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "FACT"
     },
     {
       "symbol": "FEDERALBNK.NS",
-      "sector": "Unknown",
+      "sector": "Banks",
       "companyName": "FEDERALBNK"
     },
     {
       "symbol": "FINCABLES.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "FINCABLES"
     },
     {
       "symbol": "FINPIPE.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "FINPIPE"
     },
     {
       "symbol": "FIRSTCRY.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "FIRSTCRY"
     },
     {
       "symbol": "FIVESTAR.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "FIVESTAR"
     },
     {
       "symbol": "FLUOROCHEM.NS",
-      "sector": "Unknown",
+      "sector": "Chemicals",
       "companyName": "FLUOROCHEM"
     },
     {
       "symbol": "FORTIS.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare Services",
       "companyName": "FORTIS"
     },
     {
       "symbol": "FSL.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "FSL"
     },
     {
       "symbol": "GAIL.NS",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "companyName": "GAIL"
     },
     {
       "symbol": "GESHIP.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "GESHIP"
     },
     {
       "symbol": "GICRE.NS",
-      "sector": "Unknown",
+      "sector": "Insurance",
       "companyName": "GICRE"
     },
     {
       "symbol": "GILLETTE.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "GILLETTE"
     },
     {
       "symbol": "GLAND.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "GLAND"
     },
     {
       "symbol": "GLAXO.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "GLAXO"
     },
     {
       "symbol": "GLENMARK.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "GLENMARK"
     },
     {
       "symbol": "GMDCLTD.NS",
-      "sector": "Unknown",
+      "sector": "Energy",
       "companyName": "GMDCLTD"
     },
     {
       "symbol": "GMRAIRPORT.NS",
-      "sector": "Unknown",
+      "sector": "Transport",
       "companyName": "GMRAIRPORT"
     },
     {
       "symbol": "GNFC.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "GNFC"
     },
     {
       "symbol": "GODFRYPHLP.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "GODFRYPHLP"
     },
     {
       "symbol": "GODIGIT.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "GODIGIT"
     },
     {
       "symbol": "GODREJAGRO.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "GODREJAGRO"
     },
     {
       "symbol": "GODREJCP.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "GODREJCP"
     },
     {
       "symbol": "GODREJIND.NS",
-      "sector": "Unknown",
+      "sector": "Diversified",
       "companyName": "GODREJIND"
     },
     {
       "symbol": "GODREJPROP.NS",
-      "sector": "Unknown",
+      "sector": "Realty",
       "companyName": "GODREJPROP"
     },
     {
       "symbol": "GPIL.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "GPIL"
     },
     {
       "symbol": "GPPL.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "GPPL"
     },
     {
       "symbol": "GRANULES.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "GRANULES"
     },
     {
       "symbol": "GRAPHITE.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "GRAPHITE"
     },
     {
       "symbol": "GRASIM.NS",
-      "sector": "Unknown",
+      "sector": "Construction Materials",
       "companyName": "GRASIM"
     },
     {
       "symbol": "GRAVITA.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "GRAVITA"
     },
     {
       "symbol": "GRSE.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "GRSE"
     },
     {
       "symbol": "GUJENERGY.NS",
-      "sector": "Unknown",
+      "sector": "Oil & Gas",
       "companyName": "GUJENERGY"
     },
     {
       "symbol": "GVT&D.NS",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "companyName": "GVT&D"
     },
     {
       "symbol": "HAL.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "HAL"
     },
     {
       "symbol": "HAPPSTMNDS.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "HAPPSTMNDS"
     },
     {
       "symbol": "HAVELLS.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "HAVELLS"
     },
     {
       "symbol": "HBLENGINE.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "HBLENGINE"
     },
     {
       "symbol": "HCLTECH.NS",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "companyName": "HCLTECH"
     },
     {
       "symbol": "HDFCAMC.NS",
-      "sector": "Unknown",
+      "sector": "Capital Markets",
       "companyName": "HDFCAMC"
     },
     {
       "symbol": "HDFCBANK.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "HDFCBANK"
     },
     {
       "symbol": "HDFCLIFE.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "HDFCLIFE"
     },
     {
       "symbol": "HEG.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "HEG"
     },
     {
       "symbol": "HEROMOTOCO.NS",
-      "sector": "Unknown",
+      "sector": "Automobile",
       "companyName": "HEROMOTOCO"
     },
     {
       "symbol": "HFCL.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "HFCL"
     },
     {
       "symbol": "HINDALCO.NS",
-      "sector": "Unknown",
+      "sector": "Metals & Mining",
       "companyName": "HINDALCO"
     },
     {
       "symbol": "HINDCOPPER.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "HINDCOPPER"
     },
     {
       "symbol": "HINDPETRO.NS",
-      "sector": "Unknown",
+      "sector": "Petroleum Products",
       "companyName": "HINDPETRO"
     },
     {
       "symbol": "HINDUNILVR.NS",
-      "sector": "Unknown",
+      "sector": "Fast Moving Consumer Goods",
       "companyName": "HINDUNILVR"
     },
     {
       "symbol": "HINDZINC.NS",
-      "sector": "Unknown",
+      "sector": "Metals & Mining",
       "companyName": "HINDZINC"
     },
     {
       "symbol": "HOMEFIRST.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "HOMEFIRST"
     },
     {
       "symbol": "HONASA.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "HONASA"
     },
     {
       "symbol": "HONAUT.NS",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "companyName": "HONAUT"
     },
     {
       "symbol": "HSCL.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "HSCL"
     },
     {
       "symbol": "HUDCO.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "HUDCO"
     },
     {
       "symbol": "HYUNDAI.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "HYUNDAI"
     },
     {
       "symbol": "ICICIBANK.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "ICICIBANK"
     },
     {
       "symbol": "ICICIGI.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "ICICIGI"
     },
     {
       "symbol": "ICICIPRULI.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "ICICIPRULI"
     },
     {
       "symbol": "IDBI.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "IDBI"
     },
     {
       "symbol": "IDEA.NS",
-      "sector": "Unknown",
+      "sector": "Telecom",
       "companyName": "IDEA"
     },
     {
       "symbol": "IDFCFIRSTB.NS",
-      "sector": "Unknown",
+      "sector": "Banks",
       "companyName": "IDFCFIRSTB"
     },
     {
       "symbol": "IEX.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "IEX"
     },
     {
       "symbol": "IFCI.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "IFCI"
     },
     {
       "symbol": "IGIL.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "IGIL"
     },
     {
       "symbol": "IGL.NS",
-      "sector": "Unknown",
+      "sector": "Oil & Gas",
       "companyName": "IGL"
     },
     {
       "symbol": "IIFL.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "IIFL"
     },
     {
       "symbol": "IKS.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "IKS"
     },
     {
       "symbol": "INDGN.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "INDGN"
     },
     {
       "symbol": "INDHOTEL.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "INDHOTEL"
     },
     {
       "symbol": "INDIACEM.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "INDIACEM"
     },
     {
       "symbol": "INDIAMART.NS",
-      "sector": "Unknown",
+      "sector": "Communication Services",
       "companyName": "INDIAMART"
     },
     {
       "symbol": "INDIANB.NS",
-      "sector": "Unknown",
+      "sector": "Banks",
       "companyName": "INDIANB"
     },
     {
       "symbol": "INDIGO.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "INDIGO"
     },
     {
       "symbol": "INDUSINDBK.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "INDUSINDBK"
     },
     {
       "symbol": "INDUSTOWER.NS",
-      "sector": "Unknown",
+      "sector": "Telecom",
       "companyName": "INDUSTOWER"
     },
     {
       "symbol": "INFY.NS",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "companyName": "INFY"
     },
     {
       "symbol": "INOXINDIA.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "INOXINDIA"
     },
     {
       "symbol": "INOXWIND.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "INOXWIND"
     },
     {
       "symbol": "INTELLECT.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "INTELLECT"
     },
     {
       "symbol": "IOB.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "IOB"
     },
     {
       "symbol": "IOC.NS",
-      "sector": "Unknown",
+      "sector": "Energy",
       "companyName": "IOC"
     },
     {
       "symbol": "IPCALAB.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "IPCALAB"
     },
     {
       "symbol": "IRB.NS",
-      "sector": "Unknown",
+      "sector": "Construction",
       "companyName": "IRB"
     },
     {
       "symbol": "IRCON.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "IRCON"
     },
     {
       "symbol": "IRCTC.NS",
-      "sector": "Unknown",
+      "sector": "Leisure Services",
       "companyName": "IRCTC"
     },
     {
       "symbol": "IREDA.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "IREDA"
     },
     {
       "symbol": "IRFC.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "IRFC"
     },
     {
       "symbol": "ITC.NS",
-      "sector": "Unknown",
+      "sector": "Fast Moving Consumer Goods",
       "companyName": "ITC"
     },
     {
       "symbol": "ITI.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "ITI"
     },
     {
       "symbol": "J&KBANK.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "J&KBANK"
     },
     {
       "symbol": "JBCHEPHARM.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "JBCHEPHARM"
     },
     {
       "symbol": "JBMA.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "JBMA"
     },
     {
       "symbol": "JINDALSAW.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "JINDALSAW"
     },
     {
       "symbol": "JINDALSTEL.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "JINDALSTEL"
     },
     {
       "symbol": "JIOFIN.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "JIOFIN"
     },
     {
       "symbol": "JKCEMENT.NS",
-      "sector": "Unknown",
+      "sector": "Construction",
       "companyName": "JKCEMENT"
     },
     {
       "symbol": "JKTYRE.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "JKTYRE"
     },
     {
       "symbol": "JMFINANCIL.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "JMFINANCIL"
     },
     {
       "symbol": "JPPOWER.NS",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "companyName": "JPPOWER"
     },
     {
       "symbol": "JSL.NS",
-      "sector": "Unknown",
+      "sector": "Metals & Mining",
       "companyName": "JSL"
     },
     {
       "symbol": "JSWENERGY.NS",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "companyName": "JSWENERGY"
     },
     {
       "symbol": "JSWHL.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "JSWHL"
     },
     {
       "symbol": "JSWINFRA.NS",
-      "sector": "Unknown",
+      "sector": "Transport",
       "companyName": "JSWINFRA"
     },
     {
       "symbol": "JSWSTEEL.NS",
-      "sector": "Unknown",
+      "sector": "Metals & Mining",
       "companyName": "JSWSTEEL"
     },
     {
       "symbol": "JUBLFOOD.NS",
-      "sector": "Unknown",
+      "sector": "Leisure Services",
       "companyName": "JUBLFOOD"
     },
     {
       "symbol": "JUBLINGREA.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "JUBLINGREA"
     },
     {
       "symbol": "JUBLPHARMA.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "JUBLPHARMA"
     },
     {
       "symbol": "JUSTDIAL.NS",
-      "sector": "Unknown",
+      "sector": "Communication Services",
       "companyName": "JUSTDIAL"
     },
     {
       "symbol": "JWL.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "JWL"
     },
     {
       "symbol": "JYOTHYLAB.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "JYOTHYLAB"
     },
     {
       "symbol": "JYOTICNC.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "JYOTICNC"
     },
     {
       "symbol": "KAJARIACER.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "KAJARIACER"
     },
     {
       "symbol": "KALYANKJIL.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Goods",
       "companyName": "KALYANKJIL"
     },
     {
       "symbol": "KANSAINER.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "KANSAINER"
     },
     {
       "symbol": "KARURVYSYA.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "KARURVYSYA"
     },
     {
       "symbol": "KAYNES.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "KAYNES"
     },
     {
       "symbol": "KEC.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "KEC"
     },
     {
       "symbol": "KEI.NS",
-      "sector": "Unknown",
+      "sector": "Industrial Products",
       "companyName": "KEI"
     },
     {
       "symbol": "KFINTECH.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "KFINTECH"
     },
     {
       "symbol": "KIMS.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "KIMS"
     },
     {
       "symbol": "KIRLOSBROS.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "KIRLOSBROS"
     },
     {
       "symbol": "KIRLOSENG.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "KIRLOSENG"
     },
     {
       "symbol": "KNRCON.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "KNRCON"
     },
     {
       "symbol": "KOTAKBANK.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "KOTAKBANK"
     },
     {
       "symbol": "KPIL.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "KPIL"
     },
     {
       "symbol": "KPITTECH.NS",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "companyName": "KPITTECH"
     },
     {
       "symbol": "KPRMILL.NS",
-      "sector": "Unknown",
+      "sector": "Textiles",
       "companyName": "KPRMILL"
     },
     {
       "symbol": "LALPATHLAB.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "LALPATHLAB"
     },
     {
       "symbol": "LATENTVIEW.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "LATENTVIEW"
     },
     {
       "symbol": "LAURUSLABS.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "LAURUSLABS"
     },
     {
       "symbol": "LEMONTREE.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "LEMONTREE"
     },
     {
       "symbol": "LICHSGFIN.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "LICHSGFIN"
     },
     {
       "symbol": "LICI.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "LICI"
     },
     {
       "symbol": "LINDEINDIA.NS",
-      "sector": "Unknown",
+      "sector": "Chemicals",
       "companyName": "LINDEINDIA"
     },
     {
       "symbol": "LLOYDSME.NS",
-      "sector": "Unknown",
+      "sector": "Metals & Mining",
       "companyName": "LLOYDSME"
     },
     {
       "symbol": "LODHA.NS",
-      "sector": "Unknown",
+      "sector": "Real Estate",
       "companyName": "LODHA"
     },
     {
       "symbol": "LT.NS",
-      "sector": "Unknown",
+      "sector": "Construction",
       "companyName": "LT"
     },
     {
       "symbol": "LTF.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "LTF"
     },
     {
       "symbol": "LTFOODS.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "LTFOODS"
     },
     {
       "symbol": "LTTS.NS",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "companyName": "LTTS"
     },
     {
       "symbol": "LUPIN.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "LUPIN"
     },
     {
       "symbol": "M&M.NS",
-      "sector": "Unknown",
+      "sector": "Automobile",
       "companyName": "M&M"
     },
     {
       "symbol": "M&MFIN.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "M&MFIN"
     },
     {
       "symbol": "MAHABANK.NS",
-      "sector": "Unknown",
+      "sector": "Banks",
       "companyName": "MAHABANK"
     },
     {
       "symbol": "MAHSEAMLES.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "MAHSEAMLES"
     },
     {
       "symbol": "MANAPPURAM.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "MANAPPURAM"
     },
     {
       "symbol": "MANKIND.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "MANKIND"
     },
     {
       "symbol": "MANYAVAR.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "MANYAVAR"
     },
     {
       "symbol": "MAPMYINDIA.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "MAPMYINDIA"
     },
     {
       "symbol": "MARICO.NS",
-      "sector": "Unknown",
+      "sector": "FMCG",
       "companyName": "MARICO"
     },
     {
       "symbol": "MARUTI.NS",
-      "sector": "Unknown",
+      "sector": "Automobile",
       "companyName": "MARUTI"
     },
     {
       "symbol": "MASTEK.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "MASTEK"
     },
     {
       "symbol": "MAXHEALTH.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare Services",
       "companyName": "MAXHEALTH"
     },
     {
       "symbol": "MAZDOCK.NS",
-      "sector": "Unknown",
+      "sector": "Aerospace & Defense",
       "companyName": "MAZDOCK"
     },
     {
       "symbol": "MCX.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "MCX"
     },
     {
       "symbol": "MEDANTA.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare Services",
       "companyName": "MEDANTA"
     },
     {
       "symbol": "METROPOLIS.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "METROPOLIS"
     },
     {
       "symbol": "MFSL.NS",
-      "sector": "Unknown",
+      "sector": "Insurance",
       "companyName": "MFSL"
     },
     {
       "symbol": "MGL.NS",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "companyName": "MGL"
     },
     {
       "symbol": "MINDACORP.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "MINDACORP"
     },
     {
       "symbol": "MMTC.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "MMTC"
     },
     {
       "symbol": "MOTHERSON.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "MOTHERSON"
     },
     {
       "symbol": "MOTILALOFS.NS",
-      "sector": "Unknown",
+      "sector": "Capital Markets",
       "companyName": "MOTILALOFS"
     },
     {
       "symbol": "MPHASIS.NS",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "companyName": "MPHASIS"
     },
     {
       "symbol": "MRF.NS",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "companyName": "MRF"
     },
     {
       "symbol": "MRPL.NS",
-      "sector": "Unknown",
+      "sector": "Petroleum Products",
       "companyName": "MRPL"
     },
     {
       "symbol": "MSUMI.NS",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "companyName": "MSUMI"
     },
     {
       "symbol": "MUTHOOTFIN.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "MUTHOOTFIN"
     },
     {
       "symbol": "NAM-INDIA.NS",
-      "sector": "Unknown",
+      "sector": "Capital Markets",
       "companyName": "NAM-INDIA"
     },
     {
       "symbol": "NATCOPHARM.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "NATCOPHARM"
     },
     {
       "symbol": "NATIONALUM.NS",
-      "sector": "Unknown",
+      "sector": "Metals & Mining",
       "companyName": "NATIONALUM"
     },
     {
       "symbol": "NAUKRI.NS",
-      "sector": "Unknown",
+      "sector": "Communication Services",
       "companyName": "NAUKRI"
     },
     {
       "symbol": "NAVA.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "NAVA"
     },
     {
       "symbol": "NAVINFLUOR.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "NAVINFLUOR"
     },
     {
       "symbol": "NBCC.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "NBCC"
     },
     {
       "symbol": "NCC.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "NCC"
     },
     {
       "symbol": "NESTLEIND.NS",
-      "sector": "Unknown",
+      "sector": "Fast Moving Consumer Goods",
       "companyName": "NESTLEIND"
     },
     {
       "symbol": "NETWEB.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "NETWEB"
     },
     {
       "symbol": "NETWORK18.NS",
-      "sector": "Unknown",
+      "sector": "Communication Services",
       "companyName": "NETWORK18"
     },
     {
       "symbol": "NEULANDLAB.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "NEULANDLAB"
     },
     {
       "symbol": "NEWGEN.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "NEWGEN"
     },
     {
       "symbol": "NH.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "NH"
     },
     {
       "symbol": "NHPC.NS",
-      "sector": "Unknown",
+      "sector": "Power",
       "companyName": "NHPC"
     },
     {
       "symbol": "NIACL.NS",
-      "sector": "Unknown",
+      "sector": "Insurance",
       "companyName": "NIACL"
     },
     {
       "symbol": "NIVABUPA.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "NIVABUPA"
     },
     {
       "symbol": "NLCINDIA.NS",
-      "sector": "Unknown",
+      "sector": "Power",
       "companyName": "NLCINDIA"
     },
     {
       "symbol": "NMDC.NS",
-      "sector": "Unknown",
+      "sector": "Metals & Mining",
       "companyName": "NMDC"
     },
     {
       "symbol": "NSLNISP.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "NSLNISP"
     },
     {
       "symbol": "NTPC.NS",
-      "sector": "Unknown",
+      "sector": "Power",
       "companyName": "NTPC"
     },
     {
       "symbol": "NTPCGREEN.NS",
-      "sector": "Unknown",
+      "sector": "Power",
       "companyName": "NTPCGREEN"
     },
     {
       "symbol": "NUVAMA.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "NUVAMA"
     },
     {
       "symbol": "NYKAA.NS",
-      "sector": "Unknown",
+      "sector": "Retail",
       "companyName": "NYKAA"
     },
     {
       "symbol": "OBEROIRLTY.NS",
-      "sector": "Unknown",
+      "sector": "Realty",
       "companyName": "OBEROIRLTY"
     },
     {
       "symbol": "OFSS.NS",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "companyName": "OFSS"
     },
     {
       "symbol": "OIL.NS",
-      "sector": "Unknown",
+      "sector": "Oil & Gas",
       "companyName": "OIL"
     },
     {
       "symbol": "OLAELEC.NS",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "companyName": "OLAELEC"
     },
     {
       "symbol": "OLECTRA.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "OLECTRA"
     },
     {
       "symbol": "ONGC.NS",
-      "sector": "Unknown",
+      "sector": "Energy",
       "companyName": "ONGC"
     },
     {
       "symbol": "PAGEIND.NS",
-      "sector": "Unknown",
+      "sector": "Textiles",
       "companyName": "PAGEIND"
     },
     {
       "symbol": "PATANJALI.NS",
-      "sector": "Unknown",
+      "sector": "FMCG",
       "companyName": "PATANJALI"
     },
     {
       "symbol": "PAYTM.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "PAYTM"
     },
     {
       "symbol": "PCBL.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "PCBL"
     },
     {
       "symbol": "PERSISTENT.NS",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "companyName": "PERSISTENT"
     },
     {
       "symbol": "PETRONET.NS",
-      "sector": "Unknown",
+      "sector": "Oil & Gas",
       "companyName": "PETRONET"
     },
     {
       "symbol": "PFC.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "PFC"
     },
     {
       "symbol": "PFIZER.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "PFIZER"
     },
     {
       "symbol": "PGEL.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "PGEL"
     },
     {
       "symbol": "PHOENIXLTD.NS",
-      "sector": "Unknown",
+      "sector": "Realty",
       "companyName": "PHOENIXLTD"
     },
     {
       "symbol": "PIDILITIND.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "PIDILITIND"
     },
     {
       "symbol": "PIIND.NS",
-      "sector": "Unknown",
+      "sector": "Chemicals",
       "companyName": "PIIND"
     },
     {
       "symbol": "PNB.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "PNB"
     },
     {
       "symbol": "PNBHOUSING.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "PNBHOUSING"
     },
     {
       "symbol": "PNCINFRA.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "PNCINFRA"
     },
     {
       "symbol": "POLICYBZR.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "POLICYBZR"
     },
     {
       "symbol": "POLYCAB.NS",
-      "sector": "Unknown",
+      "sector": "Industrial Products",
       "companyName": "POLYCAB"
     },
     {
       "symbol": "POLYMED.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "POLYMED"
     },
     {
       "symbol": "POONAWALLA.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "POONAWALLA"
     },
     {
       "symbol": "POWERGRID.NS",
-      "sector": "Unknown",
+      "sector": "Power",
       "companyName": "POWERGRID"
     },
     {
       "symbol": "POWERINDIA.NS",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "companyName": "POWERINDIA"
     },
     {
       "symbol": "PPLPHARMA.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "PPLPHARMA"
     },
     {
       "symbol": "PRAJIND.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "PRAJIND"
     },
     {
       "symbol": "PREMIERENE.NS",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "companyName": "PREMIERENE"
     },
     {
       "symbol": "PRESTIGE.NS",
-      "sector": "Unknown",
+      "sector": "Realty",
       "companyName": "PRESTIGE"
     },
     {
       "symbol": "PTCIL.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "PTCIL"
     },
     {
       "symbol": "PVRINOX.NS",
-      "sector": "Unknown",
+      "sector": "Communication Services",
       "companyName": "PVRINOX"
     },
     {
       "symbol": "RADICO.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "RADICO"
     },
     {
       "symbol": "RAILTEL.NS",
-      "sector": "Unknown",
+      "sector": "Communication Services",
       "companyName": "RAILTEL"
     },
     {
       "symbol": "RAINBOW.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "RAINBOW"
     },
     {
       "symbol": "RAMCOCEM.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "RAMCOCEM"
     },
     {
       "symbol": "RAYMOND.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "RAYMOND"
     },
     {
       "symbol": "RAYMONDLSL.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "RAYMONDLSL"
     },
     {
       "symbol": "RBLBANK.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "RBLBANK"
     },
     {
       "symbol": "RCF.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "RCF"
     },
     {
       "symbol": "RECLTD.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "RECLTD"
     },
     {
       "symbol": "REDINGTON.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "REDINGTON"
     },
     {
       "symbol": "RELIANCE.NS",
-      "sector": "Unknown",
+      "sector": "Energy",
       "companyName": "RELIANCE"
     },
     {
       "symbol": "RENUKA.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "RENUKA"
     },
     {
       "symbol": "RHIM.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "RHIM"
     },
     {
       "symbol": "RITES.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "RITES"
     },
     {
       "symbol": "RKFORGE.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "RKFORGE"
     },
     {
       "symbol": "ROUTE.NS",
-      "sector": "Unknown",
+      "sector": "Communication Services",
       "companyName": "ROUTE"
     },
     {
       "symbol": "RPOWER.NS",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "companyName": "RPOWER"
     },
     {
       "symbol": "RRKABEL.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "RRKABEL"
     },
     {
       "symbol": "RTNINDIA.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "RTNINDIA"
     },
     {
       "symbol": "RVNL.NS",
-      "sector": "Unknown",
+      "sector": "Construction",
       "companyName": "RVNL"
     },
     {
       "symbol": "SAGILITY.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "SAGILITY"
     },
     {
       "symbol": "SAIL.NS",
-      "sector": "Unknown",
+      "sector": "Metals & Mining",
       "companyName": "SAIL"
     },
     {
       "symbol": "SAILIFE.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "SAILIFE"
     },
     {
       "symbol": "SAMMAANCAP.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "SAMMAANCAP"
     },
     {
       "symbol": "SAPPHIRE.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "SAPPHIRE"
     },
     {
       "symbol": "SARDAEN.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "SARDAEN"
     },
     {
       "symbol": "SAREGAMA.NS",
-      "sector": "Unknown",
+      "sector": "Communication Services",
       "companyName": "SAREGAMA"
     },
     {
       "symbol": "SBFC.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "SBFC"
     },
     {
       "symbol": "SBICARD.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "SBICARD"
     },
     {
       "symbol": "SBILIFE.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "SBILIFE"
     },
     {
       "symbol": "SBIN.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "SBIN"
     },
     {
       "symbol": "SCHAEFFLER.NS",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "companyName": "SCHAEFFLER"
     },
     {
       "symbol": "SCHNEIDER.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "SCHNEIDER"
     },
     {
       "symbol": "SCI.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "SCI"
     },
     {
       "symbol": "SHREECEM.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "SHREECEM"
     },
     {
       "symbol": "SHRIRAMFIN.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "SHRIRAMFIN"
     },
     {
       "symbol": "SHYAMMETL.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "SHYAMMETL"
     },
     {
       "symbol": "SIEMENS.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "SIEMENS"
     },
     {
       "symbol": "SIGNATURE.NS",
-      "sector": "Unknown",
+      "sector": "Real Estate",
       "companyName": "SIGNATURE"
     },
     {
       "symbol": "SJVN.NS",
-      "sector": "Unknown",
+      "sector": "Power",
       "companyName": "SJVN"
     },
     {
       "symbol": "SKFINDIA.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "SKFINDIA"
     },
     {
       "symbol": "SOBHA.NS",
-      "sector": "Unknown",
+      "sector": "Real Estate",
       "companyName": "SOBHA"
     },
     {
       "symbol": "SOLARINDS.NS",
-      "sector": "Unknown",
+      "sector": "Aerospace & Defense",
       "companyName": "SOLARINDS"
     },
     {
       "symbol": "SONACOMS.NS",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "companyName": "SONACOMS"
     },
     {
       "symbol": "SONATSOFTW.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "SONATSOFTW"
     },
     {
       "symbol": "SRF.NS",
-      "sector": "Unknown",
+      "sector": "Chemicals",
       "companyName": "SRF"
     },
     {
       "symbol": "STARHEALTH.NS",
-      "sector": "Unknown",
+      "sector": "Insurance",
       "companyName": "STARHEALTH"
     },
     {
       "symbol": "SUMICHEM.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "SUMICHEM"
     },
     {
       "symbol": "SUNDARMFIN.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "SUNDARMFIN"
     },
     {
       "symbol": "SUNDRMFAST.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "SUNDRMFAST"
     },
     {
       "symbol": "SUNPHARMA.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "SUNPHARMA"
     },
     {
       "symbol": "SUNTV.NS",
-      "sector": "Unknown",
+      "sector": "Media",
       "companyName": "SUNTV"
     },
     {
       "symbol": "SUPREMEIND.NS",
-      "sector": "Unknown",
+      "sector": "Industrial Products",
       "companyName": "SUPREMEIND"
     },
     {
       "symbol": "SUZLON.NS",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "companyName": "SUZLON"
     },
     {
       "symbol": "SWIGGY.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "SWIGGY"
     },
     {
       "symbol": "SWSOLAR.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "SWSOLAR"
     },
     {
       "symbol": "SYNGENE.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "SYNGENE"
     },
     {
       "symbol": "SYRMA.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "SYRMA"
     },
     {
       "symbol": "TANLA.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "TANLA"
     },
     {
       "symbol": "TARIL.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "TARIL"
     },
     {
       "symbol": "TATACHEM.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "TATACHEM"
     },
     {
       "symbol": "TATACOMM.NS",
-      "sector": "Unknown",
+      "sector": "Telecom",
       "companyName": "TATACOMM"
     },
     {
       "symbol": "TATACONSUM.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "TATACONSUM"
     },
     {
       "symbol": "TATAELXSI.NS",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "companyName": "TATAELXSI"
     },
     {
       "symbol": "TATAINVEST.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "TATAINVEST"
     },
     {
       "symbol": "TATAPOWER.NS",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "companyName": "TATAPOWER"
     },
     {
       "symbol": "TATASTEEL.NS",
-      "sector": "Unknown",
+      "sector": "Metals & Mining",
       "companyName": "TATASTEEL"
     },
     {
       "symbol": "TATATECH.NS",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "companyName": "TATATECH"
     },
     {
       "symbol": "TBOTEK.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "TBOTEK"
     },
     {
       "symbol": "TCS.NS",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "companyName": "TCS"
     },
     {
       "symbol": "TECHM.NS",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "companyName": "TECHM"
     },
     {
       "symbol": "TECHNOE.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "TECHNOE"
     },
     {
       "symbol": "TEJASNET.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "TEJASNET"
     },
     {
       "symbol": "THERMAX.NS",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "companyName": "THERMAX"
     },
     {
       "symbol": "TIINDIA.NS",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "companyName": "TIINDIA"
     },
     {
       "symbol": "TIMKEN.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "TIMKEN"
     },
     {
       "symbol": "TITAGARH.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "TITAGARH"
     },
     {
       "symbol": "TITAN.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Goods",
       "companyName": "TITAN"
     },
     {
       "symbol": "TORNTPHARM.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "TORNTPHARM"
     },
     {
       "symbol": "TORNTPOWER.NS",
-      "sector": "Unknown",
+      "sector": "Power",
       "companyName": "TORNTPOWER"
     },
     {
       "symbol": "TRENT.NS",
-      "sector": "Unknown",
+      "sector": "Retail",
       "companyName": "TRENT"
     },
     {
       "symbol": "TRIDENT.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "TRIDENT"
     },
     {
       "symbol": "TRITURBINE.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "TRITURBINE"
     },
     {
       "symbol": "TRIVENI.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "TRIVENI"
     },
     {
       "symbol": "TTML.NS",
-      "sector": "Unknown",
+      "sector": "Communication Services",
       "companyName": "TTML"
     },
     {
       "symbol": "TVSMOTOR.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "TVSMOTOR"
     },
     {
       "symbol": "UBL.NS",
-      "sector": "Unknown",
+      "sector": "Beverages",
       "companyName": "UBL"
     },
     {
       "symbol": "UCOBANK.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "UCOBANK"
     },
     {
       "symbol": "ULTRACEMCO.NS",
-      "sector": "Unknown",
+      "sector": "Construction Materials",
       "companyName": "ULTRACEMCO"
     },
     {
       "symbol": "UNIONBANK.NS",
-      "sector": "Unknown",
+      "sector": "Banks",
       "companyName": "UNIONBANK"
     },
     {
       "symbol": "UNITDSPR.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "UNITDSPR"
     },
     {
       "symbol": "UNOMINDA.NS",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "companyName": "UNOMINDA"
     },
     {
       "symbol": "UPL.NS",
-      "sector": "Unknown",
+      "sector": "Chemicals",
       "companyName": "UPL"
     },
     {
       "symbol": "USHAMART.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "USHAMART"
     },
     {
       "symbol": "UTIAMC.NS",
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "companyName": "UTIAMC"
     },
     {
       "symbol": "VBL.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Defensive",
       "companyName": "VBL"
     },
     {
       "symbol": "VEDL.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "VEDL"
     },
     {
       "symbol": "VGUARD.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "VGUARD"
     },
     {
       "symbol": "VIJAYA.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "VIJAYA"
     },
     {
       "symbol": "VMM.NS",
-      "sector": "Unknown",
+      "sector": "Retail",
       "companyName": "VMM"
     },
     {
       "symbol": "VOLTAS.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Goods",
       "companyName": "VOLTAS"
     },
     {
       "symbol": "VTL.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "VTL"
     },
     {
       "symbol": "WAAREEENER.NS",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "companyName": "WAAREEENER"
     },
     {
       "symbol": "WELCORP.NS",
-      "sector": "Unknown",
+      "sector": "Basic Materials",
       "companyName": "WELCORP"
     },
     {
       "symbol": "WELSPUNLIV.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "WELSPUNLIV"
     },
     {
       "symbol": "WESTLIFE.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "WESTLIFE"
     },
     {
       "symbol": "WHIRLPOOL.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "WHIRLPOOL"
     },
     {
       "symbol": "WIPRO.NS",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "companyName": "WIPRO"
     },
     {
       "symbol": "WOCKPHARMA.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "WOCKPHARMA"
     },
     {
       "symbol": "YESBANK.NS",
-      "sector": "Unknown",
+      "sector": "Banks",
       "companyName": "YESBANK"
     },
     {
       "symbol": "ZEEL.NS",
-      "sector": "Unknown",
+      "sector": "Communication Services",
       "companyName": "ZEEL"
     },
     {
       "symbol": "ZENSARTECH.NS",
-      "sector": "Unknown",
+      "sector": "Technology",
       "companyName": "ZENSARTECH"
     },
     {
       "symbol": "ZENTEC.NS",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "companyName": "ZENTEC"
     },
     {
       "symbol": "ZFCVINDIA.NS",
-      "sector": "Unknown",
+      "sector": "Consumer Cyclical",
       "companyName": "ZFCVINDIA"
     },
     {
       "symbol": "ZYDUSLIFE.NS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "companyName": "ZYDUSLIFE"
     }
   ]
