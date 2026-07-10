@@ -115,14 +115,11 @@ jobs:
           path: ./reports
           merge-multiple: true
 
-      - name: Ensure index.html exists
+      - name: Copy dashboard to reports
         run: |
-          # The index.html is committed in the repo; just verify it's there
-          if [ ! -f reports/index.html ]; then
-            echo "ERROR: reports/index.html not found"
-            exit 1
-          fi
-          echo "index.html found"
+          # Copy committed dashboard into reports/ for deployment
+          cp docs/index.html reports/index.html
+          echo "Dashboard copied. Files in reports/:"
           ls -la reports/
 
       - name: Deploy to GitHub Pages
