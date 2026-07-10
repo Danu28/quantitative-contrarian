@@ -25,9 +25,11 @@ from src.config import (
     MOM_STOP_LOSS, MOM_TRAIL_ACTIVATE, MOM_TRAIL_DISTANCE,
     MOM_MIN_VOLUME, MOM_SECTOR_MAX,
 )
+import json
+
 from src.db import DB_PATH, load_data, load_universe, get_sector_map
 from src.features import precompute_all_characteristics
-from src.reporting import daily_scan_html
+from src.reporting import daily_scan_html, momentum_scan_html
 
 NIFTY_INDEX_TICKER = "^NSEI"
 
@@ -75,7 +77,13 @@ def compute_regime() -> dict:
     }
 
 
-def generate_html(date_str, signals, regime, targets, universe_name):
+def generate_html(date_str, signals, regime, targets, universe_name, strategy="contrarian"):
+    if strategy == "momentum":
+        return momentum_scan_html(
+            date_str, signals, regime, targets, universe_name,
+            mom_stop_loss=MOM_STOP_LOSS, mom_trail_activate=MOM_TRAIL_ACTIVATE,
+            mom_trail_distance=MOM_TRAIL_DISTANCE, max_positions=MOM_MAX_POSITIONS,
+        )
     return daily_scan_html(
         date_str, signals, regime, targets, universe_name,
         profit_target_1=PROFIT_TARGET_1, profit_target_2=PROFIT_TARGET_2,
@@ -84,7 +92,7 @@ def generate_html(date_str, signals, regime, targets, universe_name):
     )
 
 
-def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | None = None, strategy: str = "contrarian"):
+def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | None = None, strategy: str = "contrarian", json_output: str | None = None):
     config = load_universe(universe_slug_or_path)
     slug = config.get("slug", Path(universe_slug_or_path).stem)
     universe_name = config.get("name", slug)
@@ -201,10 +209,50 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
     print(f"{'='*70}\n")
     if output:
         os.makedirs(os.path.dirname(output), exist_ok=True)
-        html = generate_html(scan_date.strftime("%Y-%m-%d"), sig, regime, targets, universe_name)
+        html = generate_html(scan_date.strftime("%Y-%m-%d"), sig, regime, targets, universe_name, strategy)
         with open(output, "w", encoding="utf-8") as f:
             f.write(html)
         print(f"  HTML report saved: {output}")
+
+    if json_output or (output and output.endswith(".html")):
+        json_path = json_output or output.replace(".html", ".json")
+        sector_map = get_sector_map(universe_slug_or_path)
+        signals_json = []
+        top_n = sig.head(50)
+        for _, r in top_n.iterrows():
+            sym = r["symbol"]
+            t = targets.get(sym, {})
+            entry = t.get("entry", r["close"])
+            signals_json.append({
+                "rank": int(r["rank"]),
+                "symbol": sym,
+                "close": round(float(r["close"]), 2),
+                "entry": float(round(entry, 2)),
+                "conviction": round(float(r.get("conviction", 0)), 4),
+                "momentum_pct": round(float(r.get("momentum_12m", 0)) * 100, 1),
+                "target1": round(t.get("target1", 0), 2),
+                "target2": round(t.get("target2", 0), 2),
+                "hard_stop": round(t.get("hard_stop", 0), 2),
+                "trail_trigger": round(t.get("trail_trigger", 0), 2),
+                "trail_stop": round(t.get("trail_stop", 0), 2),
+                "sector": sector_map.get(sym, ""),
+            })
+        payload = {
+            "date": scan_date.strftime("%Y-%m-%d"),
+            "strategy": strategy,
+            "signal_count": len(sig),
+            "max_positions": regime.get("max_positions", 10) if strategy == "contrarian" else MOM_MAX_POSITIONS,
+            "regime": {
+                "trend_label": regime["trend_label"],
+                "trend_20d": regime["trend_20d"],
+                "action": regime["action"],
+            },
+            "signals": signals_json,
+        }
+        os.makedirs(os.path.dirname(json_path), exist_ok=True)
+        with open(json_path, "w", encoding="utf-8") as f:
+            json.dump(payload, f, indent=2)
+        print(f"  JSON data saved: {json_path}")
 
 
 def main():
@@ -215,10 +263,12 @@ def main():
                         help="Override date (YYYY-MM-DD). Default: today")
     parser.add_argument("--output", default=None,
                         help="Save HTML report to file")
+    parser.add_argument("--json-output", default=None,
+                        help="Save JSON signal data to file (default: derived from --output)")
     parser.add_argument("--strategy", "-s", default="contrarian", choices=["contrarian", "momentum"],
                         help="Strategy to scan for (default: contrarian)")
     args = parser.parse_args()
-    scan(args.universe, args.date, args.output, args.strategy)
+    scan(args.universe, args.date, args.output, args.strategy, args.json_output)
 
 
 if __name__ == "__main__":

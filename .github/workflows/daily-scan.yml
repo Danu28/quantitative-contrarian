@@ -45,13 +45,11 @@ jobs:
         id: contrarian
         run: |
           TODAY=$(date +%Y-%m-%d)
+          if [ -n "${{ inputs.date }}" ]; then TODAY=${{ inputs.date }}; fi
           FILENAME="contrarian-scan-${TODAY}.html"
-          ARGS="--strategy contrarian --universe ${{ inputs.contrarian_universe || 'niftymidcap150' }} --output reports/${FILENAME}"
-          if [ -n "${{ inputs.date }}" ]; then
-            ARGS="$ARGS --date ${{ inputs.date }}"
-            TODAY="${{ inputs.date }}"
-            FILENAME="contrarian-scan-${TODAY}.html"
-          fi
+          JSONNAME="contrarian-scan-${TODAY}.json"
+          ARGS="--strategy contrarian --universe ${{ inputs.contrarian_universe || 'niftymidcap150' }} --output reports/${FILENAME} --json-output reports/${JSONNAME}"
+          [ -n "${{ inputs.date }}" ] && ARGS="$ARGS --date ${TODAY}"
           python daily_scan.py $ARGS || echo "Contrarian scan had no signals"
           echo "contrarian_path=reports/${FILENAME}" >> $GITHUB_OUTPUT
 
@@ -59,7 +57,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: contrarian-report
-          path: reports/contrarian-scan-*.html
+          path: |
+            reports/contrarian-scan-*.html
+            reports/contrarian-scan-*.json
           retention-days: 7
 
   momentum-scan:
@@ -84,13 +84,11 @@ jobs:
         id: momentum
         run: |
           TODAY=$(date +%Y-%m-%d)
+          if [ -n "${{ inputs.date }}" ]; then TODAY=${{ inputs.date }}; fi
           FILENAME="momentum-scan-${TODAY}.html"
-          ARGS="--strategy momentum --universe ${{ inputs.momentum_universe || 'nifty500' }} --output reports/${FILENAME}"
-          if [ -n "${{ inputs.date }}" ]; then
-            ARGS="$ARGS --date ${{ inputs.date }}"
-            TODAY="${{ inputs.date }}"
-            FILENAME="momentum-scan-${TODAY}.html"
-          fi
+          JSONNAME="momentum-scan-${TODAY}.json"
+          ARGS="--strategy momentum --universe ${{ inputs.momentum_universe || 'nifty500' }} --output reports/${FILENAME} --json-output reports/${JSONNAME}"
+          [ -n "${{ inputs.date }}" ] && ARGS="$ARGS --date ${TODAY}"
           python daily_scan.py $ARGS || echo "Momentum scan had no signals"
           echo "momentum_path=reports/${FILENAME}" >> $GITHUB_OUTPUT
 
@@ -98,7 +96,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: momentum-report
-          path: reports/momentum-scan-*.html
+          path: |
+            reports/momentum-scan-*.html
+            reports/momentum-scan-*.json
           retention-days: 7
 
   deploy:

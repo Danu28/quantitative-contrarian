@@ -57,10 +57,6 @@ header {
   display: grid; grid-template-columns: 1fr auto;
   gap: 16px; margin-bottom: 28px; align-items: start;
 }
-@media (max-width: 640px) {
-  header { grid-template-columns: 1fr; }
-  header .meta { text-align: left; }
-}
 header h1 {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 28px; font-weight: 700; color: var(--slate);
@@ -157,6 +153,23 @@ table.data-table td.negative { color: var(--negative); font-weight: 600; }
 .micro-bar .fill { height: 100%; border-radius: 3px; transition: width 0.6s; }
 .micro-bar .fill.positive { background: var(--positive); }
 .micro-bar .fill.negative { background: var(--negative); }
+.trend-bar {
+  display: flex; align-items: center; gap: 6px; margin-top: 8px;
+}
+.trend-bar .track {
+  flex: 1; max-width: 120px; height: 4px; border-radius: 2px;
+  background: var(--border); overflow: hidden; position: relative;
+}
+.trend-bar .track .fill {
+  height: 100%; border-radius: 2px; transition: width 0.6s;
+}
+.trend-bar .track .fill.bullish { background: var(--positive); }
+.trend-bar .track .fill.bearish { background: var(--negative); }
+.trend-bar .track .fill.sideways { background: var(--amber); }
+.trend-bar .label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--muted);
+}
 .badge {
   display: inline-block; padding: 2px 10px; border-radius: 12px;
   font-size: 11px; font-weight: 600; letter-spacing: 0.3px;
@@ -175,10 +188,37 @@ footer {
   margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--border);
   font-size: 12px; color: var(--muted); text-align: center;
 }
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+  header { grid-template-columns: 1fr; }
+  header .meta { text-align: left; }
   .exec-summary { grid-template-columns: 1fr; }
   .kpi-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  body { padding: 14px; }
   header h1 { font-size: 22px; }
+  header .meta { font-size: 12px; }
+  section h2 { font-size: 17px; padding: 0 10px 6px 10px; }
+  .exec-summary .context-card { padding: 14px 16px; }
+  .kpi-card { padding: 12px; }
+  .kpi-card .kpi-value { font-size: 18px; }
+  table.data-table { font-size: 12px; min-width: 600px; }
+  table.data-table thead th { padding: 8px 8px; font-size: 10px; }
+  table.data-table tbody td { padding: 6px 8px; }
+  table.data-table tbody td.mono { font-size: 11px; }
+  .legend { padding: 10px 14px; font-size: 12px; }
+  .trend-bar .track { max-width: 80px; }
+}
+@media (max-width: 400px) {
+  body { padding: 10px; }
+  header h1 { font-size: 18px; }
+  section h2 { font-size: 15px; }
+  .exec-summary .context-card .stat .value { font-size: 16px; }
+  table.data-table { font-size: 11px; min-width: 500px; }
+  table.data-table thead th { padding: 5px 4px; font-size: 9px; letter-spacing: 0.4px; }
+  table.data-table tbody td { padding: 4px 4px; }
+  table.data-table tbody td.mono { font-size: 10px; }
+  .kpi-card .kpi-value { font-size: 16px; }
 }
 @media print {
   body { background: #fff; padding: 0; }
@@ -295,7 +335,7 @@ Entry/exit prices include slippage (0.1%) + brokerage (0.05%). Entry occurs at F
     </div>
   </div>
   <div style="font-size:13px;color:var(--text-secondary);margin-top:8px">{regime_note} &middot; Index ATR {regime.get("atr_pct",0)}%</div>
-</div>
+  </div>
 
 <div class="exec-summary">
   <div class="context-card">
@@ -304,6 +344,10 @@ Entry/exit prices include slippage (0.1%) + brokerage (0.05%). Entry occurs at F
       <div class="stat"><span class="label">Index</span><span class="value">^NSEI @ {regime.get("index_price",0):,.0f}</span></div>
       <div class="stat"><span class="label">Trend 20d</span><span class="value {trend_cls}">{regime.get("trend_label","?")} ({regime.get("trend_20d",0):+.2f}%)</span></div>
       <div class="stat"><span class="label">Volatility</span><span class="value">ATR {regime.get("atr_pct",0)}%</span></div>
+    </div>
+    <div class="trend-bar">
+      <span class="label">Momentum</span>
+      <div class="track"><div class="fill {trend_cls}" style="width:{min(max((regime.get("trend_20d",0)+10)/20*100,0),100):.0f}%"></div></div>
     </div>
   </div>
   <div class="kpi-grid">
@@ -339,6 +383,145 @@ Time Stop = 20 trading days
 </section>
 
 <footer>Daily Scan Report · AI Quantitative Researcher</footer>
+</div></body></html>"""
+
+
+def momentum_scan_html(
+    date_str: str,
+    signals: pd.DataFrame,
+    regime: dict,
+    targets: dict,
+    universe_name: str,
+    mom_stop_loss: float = -0.15,
+    mom_trail_activate: float = 0.20,
+    mom_trail_distance: float = 0.15,
+    max_positions: int = 10,
+) -> str:
+    now = pd.Timestamp.now().strftime("%Y-%m-%d %H:%M")
+    trend_cls = regime.get("trend_label", "sideways").lower()
+    signal_count = len(signals)
+    crash_mode = regime.get("trend_20d", 0) < -8
+
+    target_rows = ""
+    for _, r in signals.iterrows():
+        sym = r["symbol"]
+        t = targets.get(sym, {})
+        ep = t.get("entry", r["close"])
+        mom_pct = r.get("momentum_12m", 0) * 100
+        ret_stop = (t.get("hard_stop", ep) / ep - 1) * 100
+        ret_trail = (t.get("trail_stop", ep) / ep - 1) * 100
+        m_cls = "positive" if mom_pct > 0 else "negative"
+        mom_bar_pct = min(abs(mom_pct) / 60 * 100, 100)
+        target_rows += f"""<tr>
+          <td style="font-weight:600">{sym}</td>
+          <td class="mono">{r.get("close", 0):.2f}</td>
+          <td class="mono {m_cls}">{mom_pct:+.1f}% <div class="micro-bar" style="width:36px;height:4px;display:inline-block;vertical-align:middle;margin-left:4px"><div class="fill {m_cls}" style="width:{mom_bar_pct:.0f}%"></div></div></td>
+          <td class="mono">{ep:.2f}</td>
+          <td class="mono negative">{t.get("hard_stop", 0):.2f}</td>
+          <td class="mono negative">{ret_stop:+.1f}%</td>
+          <td class="mono">{t.get("trail_trigger", 0):.2f}</td>
+          <td class="mono">{t.get("trail_stop", 0):.2f}</td>
+          <td class="mono negative">{ret_trail:+.1f}%</td>
+        </tr>"""
+
+    regime_action = regime.get("action", "Full deploy")
+    regime_note = regime.get("regime_note", "")
+    regime_label = regime.get("trend_label", "Unknown")
+    max_pos_from_regime = max_positions
+    entries_today = min(signal_count, max_pos_from_regime)
+
+    action_cls = "positive"
+    if "Skip" in regime_action or "Reduce" in regime_action:
+        action_cls = "negative"
+    elif "Full" in regime_action:
+        action_cls = "positive"
+
+    crash_warning = ""
+    if crash_mode:
+        crash_warning = """<div style="background:rgba(220,38,38,0.1);border:1px solid var(--negative);border-radius:8px;padding:12px 16px;margin-bottom:16px;color:var(--negative);font-weight:600;font-size:14px">
+  ⚠ CRASH MODE: Momentum strategy deactivated. Hold cash. 20d return is below -8%.
+</div>"""
+
+    exit_legend = f"HardStop = {abs(mom_stop_loss)*100:.0f}% &ensp;·&ensp; Trailing = activate at +{mom_trail_activate*100:.0f}%, trail {abs(mom_trail_distance)*100:.0f}% from high &ensp;·&ensp; Monthly rebalance (21 trading days)"
+
+    return f"""<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Momentum Scan — {date_str}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>{TEMPLATE_CSS}</style>
+</head><body>
+<button class="theme-toggle" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Toggle Theme</button>
+<div class="container">
+<header><div><h1>Momentum Scan</h1><div class="meta">Scan: {date_str} · {universe_name} · Run: {now}</div>
+<div class="meta" style="color:var(--amber);font-size:13px;margin-top:4px">
+Entry/exit prices include slippage (0.1%) + brokerage (0.05%). Rebalanced monthly.
+</div>
+</div></header>
+
+{crash_warning}
+
+<div style="background:var(--surface);border:2px solid var(--{'sage' if not crash_mode else 'negative'});border-radius:12px;padding:16px 20px;margin-bottom:20px;box-shadow:var(--shadow)">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+    <div>
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Regime</span>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text)">{regime_label} ({regime.get("trend_20d",0):+.2f}%)</div>
+    </div>
+    <div style="text-align:right">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Recommendation</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--{'negative' if crash_mode else 'sage'})">{'HOLD CASH' if crash_mode else regime_action}</div>
+    </div>
+    <div style="text-align:right">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Max Positions</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--text)">{max_pos_from_regime if not crash_mode else 0}</div>
+    </div>
+    <div style="text-align:right">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Enter Today</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--text)">{0 if crash_mode else entries_today}</div>
+    </div>
+  </div>
+  <div style="font-size:13px;color:var(--text-secondary);margin-top:8px">{regime_note} &middot; Index ATR {regime.get("atr_pct",0)}%</div>
+</div>
+
+<div class="exec-summary">
+  <div class="context-card">
+    <h3>Market Context</h3>
+    <div class="stat-row">
+      <div class="stat"><span class="label">Index</span><span class="value">^NSEI @ {regime.get("index_price",0):,.0f}</span></div>
+      <div class="stat"><span class="label">Trend 20d</span><span class="value {trend_cls}">{regime.get("trend_label","?")} ({regime.get("trend_20d",0):+.2f}%)</span></div>
+      <div class="stat"><span class="label">Volatility</span><span class="value">ATR {regime.get("atr_pct",0)}%</span></div>
+    </div>
+    <div class="trend-bar">
+      <span class="label">Momentum</span>
+      <div class="track"><div class="fill {trend_cls}" style="width:{min(max((regime.get("trend_20d",0)+10)/20*100,0),100):.0f}%"></div></div>
+    </div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi-card"><span class="kpi-label">Signals</span><span class="kpi-value">{signal_count}</span><span class="kpi-sub">entering {0 if crash_mode else entries_today} of {signal_count}</span></div>
+    <div class="kpi-card"><span class="kpi-label">Universe</span><span class="kpi-value" style="font-size:16px">{universe_name}</span><span class="kpi-sub">{regime.get("n_stocks","?")} stocks</span></div>
+  </div>
+</div>
+
+<section><h2>Momentum Ranks with Exit Levels</h2>
+<div class="data-table-wrap">
+<table class="data-table">
+<thead><tr>
+  <th scope="col">Symbol</th><th scope="col">Close</th><th scope="col">Momentum</th>
+  <th scope="col">Entry*</th><th scope="col">HardStop</th><th scope="col">StopRet</th>
+  <th scope="col">TrailTrig</th><th scope="col">TrailStop</th><th scope="col">TrailRet</th>
+</tr></thead>
+<tbody>{target_rows}</tbody>
+</table></div>
+<div class="legend">
+<strong>Exit Rules:</strong> {exit_legend}
+</div>
+<div class="legend" style="margin-top:8px;color:var(--muted);font-size:12px">
+*All prices include transaction costs (slippage + brokerage). Entry occurs at monthly rebalance.
+</div>
+</section>
+
+<footer>Momentum Scan Report · AI Quantitative Researcher</footer>
 </div></body></html>"""
 
 
