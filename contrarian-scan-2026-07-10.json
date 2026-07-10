@@ -1,12 +1,27 @@
 {
   "date": "2026-07-10",
   "strategy": "contrarian",
-  "signal_count": 0,
+  "signal_count": 1,
   "max_positions": 1,
   "regime": {
     "trend_label": "Bull",
-    "trend_20d": 4.34,
+    "trend_20d": 4.44,
     "action": "Skip or 1"
   },
-  "signals": []
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "GUJENERGY.NS",
+      "close": 289.95,
+      "entry": 290.38,
+      "conviction": 0.5116,
+      "momentum_pct": 0.0,
+      "target1": 324.74,
+      "target2": 342.14,
+      "hard_stop": 266.75,
+      "trail_trigger": 319.42,
+      "trail_stop": 280.67,
+      "sector": "Oil & Gas"
+    }
+  ]
 }
