@@ -13,7 +13,7 @@ on:
       momentum_universe:
         description: "Momentum universe slug"
         required: false
-        default: "nifty500"
+        default: "niftymidcap150"
       date:
         description: "Date (YYYY-MM-DD) or leave empty for today"
         required: false
@@ -87,7 +87,7 @@ jobs:
           if [ -n "${{ inputs.date }}" ]; then TODAY=${{ inputs.date }}; fi
           FILENAME="momentum-scan-${TODAY}.html"
           JSONNAME="momentum-scan-${TODAY}.json"
-          ARGS="--strategy momentum --universe ${{ inputs.momentum_universe || 'nifty500' }} --output reports/${FILENAME} --json-output reports/${JSONNAME}"
+          ARGS="--strategy momentum --universe ${{ inputs.momentum_universe || 'niftymidcap150' }} --output reports/${FILENAME} --json-output reports/${JSONNAME}"
           [ -n "${{ inputs.date }}" ] && ARGS="$ARGS --date ${TODAY}"
           python daily_scan.py $ARGS || echo "Momentum scan had no signals"
           echo "momentum_path=reports/${FILENAME}" >> $GITHUB_OUTPUT

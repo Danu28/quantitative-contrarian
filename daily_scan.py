@@ -4,7 +4,7 @@ Usage:
     python daily_scan.py                                          # NIFTY 50, contrarian, today
     python daily_scan.py --universe niftymidcap150                # Midcap 150, today
     python daily_scan.py --strategy momentum                      # Momentum strategy
-    python daily_scan.py --strategy momentum --universe nifty500  # Momentum on Nifty500
+    python daily_scan.py --strategy momentum --universe niftymidcap150  # Momentum on Midcap150
     python daily_scan.py --date 2026-06-01 --output report.html
 """
 from __future__ import annotations

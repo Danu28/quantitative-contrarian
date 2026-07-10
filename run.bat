@@ -86,8 +86,8 @@ cls
 echo %BOLD%%WHITE%MOMENTUM SCAN%RESET%
 echo %DIV%
 echo.
-set /p ms_universe="Universe [nifty500]: "
-if "%ms_universe%"=="" set ms_universe=nifty500
+set /p ms_universe="Universe [niftymidcap150]: "
+if "%ms_universe%"=="" set ms_universe=niftymidcap150
 set /p ms_date="Date (YYYY-MM-DD) [today]: "
 
 if "%ms_date%"=="" (
@@ -128,7 +128,7 @@ set /p fc_strategy="Strategy [contrarian/momentum] [contrarian]: "
 if "%fc_strategy%"=="" set fc_strategy=contrarian
 set /p fc_universe="Universe [niftymidcap150]: "
 if "%fc_universe%"=="" set fc_universe=niftymidcap150
-if "%fc_strategy%"=="momentum" if "%fc_universe%"=="niftymidcap150" set fc_universe=nifty500
+rem No override — both strategies use niftymidcap150
 set /p fc_date="Date (YYYY-MM-DD) [REQUIRED]: "
 set /p fc_horizons="Horizons in trading days [5 10 20]: "
 if "%fc_horizons%"=="" set fc_horizons=5 10 20
@@ -197,8 +197,8 @@ echo %DIV%
 echo.
 set /p ra_universe="Contrarian universe [niftymidcap150]: "
 if "%ra_universe%"=="" set ra_universe=niftymidcap150
-set /p ra_mom_universe="Momentum universe [nifty500]: "
-if "%ra_mom_universe%"=="" set ra_mom_universe=nifty500
+set /p ra_mom_universe="Momentum universe [niftymidcap150]: "
+if "%ra_mom_universe%"=="" set ra_mom_universe=niftymidcap150
 set /p ra_date="Date (YYYY-MM-DD) [today]: "
 set /p ra_years="Backtest years [3]: "
 if "%ra_years%"=="" set ra_years=3
