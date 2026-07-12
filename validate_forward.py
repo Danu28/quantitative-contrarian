@@ -10,10 +10,10 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from src.backtest import generate_signals, compute_regime_multiplier, find_trading_dates, build_horizon_results
-from src.db import DB_PATH, load_data, load_universe
+from src.backtest import generate_signals, find_trading_dates, build_horizon_results
+from src.db import load_symbol_data
 from src.features import precompute_all_characteristics
-from src.reporting import _classify_regime
+from src.reporting import TEMPLATE_CSS, _classify_regime
 
 
 def build_portfolio(signals, horizon_data, horizon, regime, capital):
@@ -133,165 +133,40 @@ def generate_html(
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Forward Validation — {universe_name}</title>
+<style>{TEMPLATE_CSS}</style>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
-  :root {{
-    --bg: #F8F9FA;
-    --surface: #FFFFFF;
-    --text: #1E293B;
-    --text-secondary: #64748B;
-    --border: #E2E8F0;
-    --accent-1: #2E6F40;
-    --accent-2: #0F172A;
-    --accent-3: #D97706;
-    --red: #DC2626;
-    --shadow: 0 4px 20px -2px rgba(0,0,0,0.05);
-    --radius: 12px;
-    --card-pad: 24px;
-  }}
-
-  [data-theme="dark"] {{
-    --bg: #121314;
-    --surface: #1A1B1E;
-    --text: #E2E8F0;
-    --text-secondary: #94A3B8;
-    --border: #2A2B2D;
-    --shadow: 0 4px 20px -2px rgba(0,0,0,0.4);
-  }}
-
-  * {{ margin:0; padding:0; box-sizing:border-box; }}
-  body {{
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-    padding: 24px;
-  }}
-
-  .container {{ max-width: 1200px; margin: 0 auto; }}
-
-  header {{
-    display: grid; grid-template-columns: 1fr auto;
-    gap: 16px; margin-bottom: 32px; align-items: start;
-  }}
-  @media (max-width: 640px) {{
-    header {{ grid-template-columns: 1fr; }}
-    header .meta {{ text-align: left; }}
-  }}
-  header h1 {{
-    font-family: 'Playfair Display', serif;
-    font-weight: 600; font-size: 2rem; line-height: 1.2;
-  }}
-  header .sub {{ color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px; }}
-  header .meta {{ text-align: right; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.8; }}
-  header .meta div {{ white-space: nowrap; }}
-
-  .theme-toggle {{
-    position: fixed; top: 16px; right: 16px; z-index: 100;
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 8px; padding: 8px 12px; cursor: pointer;
-    font-size: 0.85rem; color: var(--text);
-  }}
-
-  .card {{
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: var(--card-pad);
-    box-shadow: var(--shadow);
-  }}
-  .card h2 {{
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem; font-weight: 600; margin-bottom: 12px;
-    color: var(--text-secondary);
-  }}
-
-  .kpi-grid {{
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
-    margin-bottom: 32px;
-  }}
-  @media (max-width: 700px) {{ .kpi-grid {{ grid-template-columns: repeat(2, 1fr); }} }}
-  @media (max-width: 400px) {{ .kpi-grid {{ grid-template-columns: 1fr; }} }}
-  .kpi {{
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 20px; text-align: center;
-    box-shadow: var(--shadow);
-  }}
-  .kpi .value {{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.8rem; font-weight: 500;
-  }}
-  .kpi .label {{
-    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;
-    color: var(--text-secondary); margin-top: 4px;
-  }}
-  .pos {{ color: var(--accent-1); }}
-  .neg {{ color: var(--red); }}
-
-  .table-wrap {{ overflow-x: auto; margin-top: 4px; }}
-
-  table {{
-    width: 100%; border-collapse: collapse; font-size: 0.9rem;
-  }}
-  th {{
-    padding: 10px 12px; font-weight: 600;
-    border-bottom: 2px solid var(--border); color: var(--text-secondary);
-    font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;
-    text-align: left;
-  }}
-  th.num, td.num {{ font-family: 'JetBrains Mono', monospace; text-align: right; }}
-  td {{
-    padding: 10px 12px; border-bottom: 1px solid var(--border);
-  }}
-
-  .bar {{ width: 100%; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }}
-  .bar-fill {{ height: 100%; border-radius: 4px; transition: width 0.6s ease; }}
-
-  .regime-dot {{ display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; }}
-  .r-crash {{ background: #DC2626; }}
-  .r-bear {{ background: #F97316; }}
-  .r-sideways {{ background: var(--accent-3); }}
-  .r-bull {{ background: var(--accent-1); }}
-  .r-strong-bull {{ background: #059669; }}
-
-  .verdict-card {{
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 24px;
-    box-shadow: var(--shadow); margin-top: 24px;
-  }}
-  .verdict-card h2 {{ font-family: 'Playfair Display', serif; margin-bottom: 16px; }}
-  .gate-row {{
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 8px 0; border-bottom: 1px solid var(--border);
-  }}
-  .gate-row:last-child {{ border-bottom: none; }}
-  .gate-status {{
-    font-family: 'JetBrains Mono', monospace; font-weight: 500;
-    padding: 2px 10px; border-radius: 4px; font-size: 0.85rem;
-  }}
-  .gate-pass {{ color: var(--accent-1); background: rgba(46,111,64,0.1); }}
-  .gate-fail {{ color: var(--red); background: rgba(220,38,38,0.1); }}
-
-  .recommendation {{
-    text-align: center; padding: 20px; margin-top: 24px;
-    border-radius: var(--radius); font-size: 1.2rem; font-weight: 600;
-    background: {rec_color}; color: #fff;
-  }}
-
-  .section {{ margin-bottom: 32px; }}
-  .section-title {{
-    font-family: 'Playfair Display', serif;
-    font-size: 1.3rem; font-weight: 600; margin-bottom: 16px;
-    padding: 0 var(--card-pad) 8px var(--card-pad);
-    border-bottom: 2px solid var(--accent-1);
-  }}
-
-  .table-wrap {{ overflow-x: auto; }}
-
-  @media print {{
-    body {{ padding: 0; background: #fff; }}
-    .card, .kpi, .verdict-card {{ box-shadow: none; break-inside: avoid; }}
-    .theme-toggle {{ display: none; }}
-  }}
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: var(--shadow); }
+  .card h2 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; color: var(--muted); }
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+  @media (max-width: 700px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 400px) { .kpi-grid { grid-template-columns: 1fr; } }
+  .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; box-shadow: var(--shadow); }
+  .kpi .value { font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; font-weight: 500; }
+  .kpi .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-top: 4px; }
+  .pos { color: var(--positive); }
+  .neg { color: var(--negative); }
+  .table-wrap { overflow-x: auto; }
+  th.num, td.num { font-family: 'JetBrains Mono', monospace; text-align: right; }
+  .bar { width: 100%; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+  .regime-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; }
+  .r-crash { background: #DC2626; }
+  .r-bear { background: #F97316; }
+  .r-sideways { background: var(--amber); }
+  .r-bull { background: var(--positive); }
+  .r-strong-bull { background: #059669; }
+  .verdict-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: var(--shadow); margin-top: 24px; }
+  .verdict-card h2 { font-family: 'Playfair Display', serif; margin-bottom: 16px; }
+  .gate-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .gate-row:last-child { border-bottom: none; }
+  .gate-status { font-family: 'JetBrains Mono', monospace; font-weight: 500; padding: 2px 10px; border-radius: 4px; font-size: 0.85rem; }
+  .gate-pass { color: var(--positive); background: rgba(46,111,64,0.1); }
+  .gate-fail { color: var(--negative); background: rgba(220,38,38,0.1); }
+  .section { margin-bottom: 32px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 600; margin-bottom: 16px; padding: 0 24px 8px 24px; border-bottom: 2px solid var(--positive); }
+  .table-wrap { overflow-x: auto; }
+  .recommendation {{ text-align: center; padding: 20px; margin-top: 24px; border-radius: 12px; font-size: 1.2rem; font-weight: 600; background: {rec_color}; color: #fff; }}
+  @media print {{ body {{ padding: 0; background: #fff; }} .card, .kpi, .verdict-card {{ box-shadow: none; break-inside: avoid; }} .theme-toggle {{ display: none; }} }}
 </style>
 </head>
 <body>
@@ -446,22 +321,8 @@ def validate(universe_slug: str, years: int = 3, horizon: int = 21, capital: flo
     print(f"  Sampling: every {sample_interval} trading days")
     print(f"{'='*70}")
 
-    config = load_universe(universe_slug)
-    symbols = config["symbols"]
-
     print(f"\n  Loading data...")
-    df_all = load_data(universe_slug)
-    cutoff = pd.Timestamp.now() - pd.DateOffset(years=365 * years)
-    df_all = df_all[df_all["date"] >= cutoff]
-
-    data: dict[str, pd.DataFrame] = {}
-    for sym in symbols:
-        sub = df_all[df_all["symbol"] == sym].copy()
-        if sub.empty:
-            continue
-        sub = sub.set_index("date")
-        sub.index = pd.DatetimeIndex(sub.index)
-        data[sym] = sub
+    data = load_symbol_data(universe_slug, years=years)
     print(f"  Loaded {len(data)} stocks")
 
     print(f"  Pre-computing characteristics...")

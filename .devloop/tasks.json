@@ -1,48 +1,118 @@
 {
   "metadata": {
-    "total_tasks": 4,
-    "created_at": "2026-07-08T18:10:00Z",
-    "last_updated": "2026-07-08T18:10:00Z"
+    "total_tasks": 11,
+    "created_at": "2026-07-12T00:00:00Z",
+    "last_updated": "2026-07-12T00:00:00Z"
   },
   "tasks": [
     {
       "id": 1,
-      "title": "Create requirements.txt for CI",
-      "description": "Create requirements.txt with pandas, numpy, yfinance, scipy for GitHub Actions dependency install.",
-      "status": "pending",
+      "title": "Delete backtest_momentum.py",
+      "description": "Remove standalone momentum backtest file. src/backtest.py has generate_momentum_signals already.",
+      "status": "done",
       "priority": "high",
       "dependencies": [],
-      "type": "setup",
-      "completed_at": null
+      "type": "implementation",
+      "completed_at": "2026-07-12T00:00:00Z"
     },
     {
       "id": 2,
-      "title": "Create GitHub Actions workflow with Pages deployment",
-      "description": "Write .github/workflows/daily-scan.yml. Steps: checkout, setup Python, pip install, run daily_scan.py generating both latest.html and dated file, deploy reports/ to gh-pages branch using peaceiris/actions-gh-pages.",
-      "status": "pending",
+      "title": "Delete research_winner_characteristics.py",
+      "description": "Superseded by src/research.py + research.py CLI with more rigorous methodology.",
+      "status": "done",
       "priority": "high",
-      "dependencies": [1],
+      "dependencies": [],
       "type": "implementation",
       "completed_at": null
     },
     {
       "id": 3,
-      "title": "Configure GitHub Pages in repo settings",
-      "description": "Enable GitHub Pages in repo Settings → Pages → Source: Deploy from branch gh-pages, folder / (root).",
-      "status": "pending",
+      "title": "Delete run_backtest.py",
+      "description": "Duplicates backtest.py (35 lines). Update run.bat to call backtest.py instead.",
+      "status": "done",
       "priority": "high",
-      "dependencies": [2],
-      "type": "setup",
+      "dependencies": [],
+      "type": "implementation",
       "completed_at": null
     },
     {
       "id": 4,
-      "title": "Test with manual workflow trigger",
-      "description": "Push to main, manually trigger workflow, verify HTML report is deployed to Pages URL and accessible.",
-      "status": "pending",
+      "title": "Remove dead REGIME_MULTIPLIERS config",
+      "description": "All values are 1.0 — dead config for single-position strategy. Remove from config.py and compute_regime_multiplier in backtest.py.",
+      "status": "done",
+      "priority": "high",
+      "dependencies": [],
+      "type": "implementation",
+      "completed_at": null
+    },
+    {
+      "id": 5,
+      "title": "Fix misplaced import in reporting.py",
+      "description": "Move `from src.config import REGIME_RULES` from line 528 to top of file.",
+      "status": "done",
       "priority": "medium",
-      "dependencies": [2, 3],
-      "type": "testing",
+      "dependencies": [],
+      "type": "implementation",
+      "completed_at": null
+    },
+    {
+      "id": 6,
+      "title": "Extract shared load_symbol_data() in db.py",
+      "description": "7 copies of 'load data → filter by cutoff → build dict' pattern. Create load_symbol_data() in db.py, update all callers.",
+      "status": "done",
+      "priority": "high",
+      "dependencies": [1, 2],
+      "type": "optimization",
+      "completed_at": null
+    },
+    {
+      "id": 7,
+      "title": "Consolidate regime classification",
+      "description": "3 implementations (daily_scan.py:compute_regime, reporting.py:_classify_regime, backtest.py:compute_regime_multiplier). Consolidate into one using REGIME_RULES.",
+      "status": "done",
+      "priority": "high",
+      "dependencies": [4],
+      "type": "optimization",
+      "completed_at": null
+    },
+    {
+      "id": 8,
+      "title": "Derive get_characteristic_names() from function output",
+      "description": "Stop hardcoding 29 column names in features.py:81-92. Derive from compute_stock_characteristics() output columns.",
+      "status": "done",
+      "priority": "medium",
+      "dependencies": [],
+      "type": "optimization",
+      "completed_at": null
+    },
+    {
+      "id": 9,
+      "title": "Remove Portfolio.get_performance(), use compute_metrics()",
+      "description": "get_performance() (src/backtest.py:367-400) duplicates compute_metrics(). Remove get_performance, update tests to use compute_metrics.",
+      "status": "done",
+      "priority": "medium",
+      "dependencies": [],
+      "type": "optimization",
+      "completed_at": null
+    },
+    {
+      "id": 10,
+      "title": "Consolidate gate-checking into shared function",
+      "description": "Gate logic repeated in backtest.py:575-586, validate_forward.py:606-618. Extract shared gate function.",
+      "status": "cancelled",
+      "priority": "low",
+      "dependencies": [],
+      "type": "optimization",
+      "completed_at": null
+    },
+    {
+      "id": 11,
+      "title": "Reuse TEMPLATE_CSS in validate_forward.py",
+      "description": "validate_forward.py:generate_html() has own ~160-line CSS duplicate. Import TEMPLATE_CSS from reporting.py instead.",
+      "status": "done",
+      "priority": "low",
+      "dependencies": [],
+      "type": "optimization",
       "completed_at": null
     }
   ]

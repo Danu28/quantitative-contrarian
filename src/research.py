@@ -7,7 +7,7 @@ import pandas as pd
 import yfinance as yf
 from scipy.stats import mannwhitneyu
 
-from src.db import DB_PATH, load_data, load_universe
+from src.db import DB_PATH, load_symbol_data
 from src.features import (
     extract_characteristics,
     get_characteristic_names,
@@ -22,20 +22,7 @@ def load_data_from_sqlite(
     years: int = 3,
     db_path: str | Path = DB_PATH,
 ) -> dict[str, pd.DataFrame]:
-    config = load_universe(universe_slug_or_path)
-    symbols = config["symbols"]
-    df_all = load_data(universe_slug_or_path, db_path=db_path)
-    cutoff = pd.Timestamp.now() - pd.DateOffset(years=365 * years)
-    df_all = df_all[df_all["date"] >= cutoff]
-    data: dict[str, pd.DataFrame] = {}
-    for sym in symbols:
-        sub = df_all[df_all["symbol"] == sym].copy()
-        if sub.empty:
-            continue
-        sub = sub.set_index("date")
-        sub.index = pd.DatetimeIndex(sub.index)
-        data[sym] = sub
-    return data
+    return load_symbol_data(universe_slug_or_path, years=years, db_path=db_path)
 
 
 def fetch_index_data(years: int = 10) -> pd.DataFrame:

@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import pandas as pd
 
+from src.config import REGIME_RULES
+
 TEMPLATE_CSS = """
 :root {
   --bg: #F8F9FA;
@@ -524,8 +526,6 @@ Entry/exit prices include slippage (0.1%) + brokerage (0.05%). Rebalanced monthl
 <footer>Momentum Scan Report · AI Quantitative Researcher</footer>
 </div></body></html>"""
 
-
-from src.config import REGIME_RULES
 
 
 def _classify_regime(ret_20d: float) -> dict:

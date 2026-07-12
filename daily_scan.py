@@ -21,15 +21,15 @@ from src.backtest import generate_signals, generate_momentum_signals, compute_mo
 from src.config import (
     HARD_STOP, PROFIT_TARGET_1, PROFIT_TARGET_2,
     SLIPPAGE, BROKERAGE, TRAIL_ACTIVATE, TRAIL_DISTANCE,
-    REGIME_RULES, MOM_MAX_POSITIONS, MOM_MIN_POSITIONS,
+    MOM_MAX_POSITIONS, MOM_MIN_POSITIONS,
     MOM_STOP_LOSS, MOM_TRAIL_ACTIVATE, MOM_TRAIL_DISTANCE,
     MOM_MIN_VOLUME, MOM_SECTOR_MAX,
 )
 import json
 
-from src.db import DB_PATH, load_data, load_universe, get_sector_map
+from src.db import load_symbol_data, load_universe, get_sector_map
 from src.features import precompute_all_characteristics
-from src.reporting import daily_scan_html, momentum_scan_html
+from src.reporting import _classify_regime, daily_scan_html, momentum_scan_html
 
 NIFTY_INDEX_TICKER = "^NSEI"
 
@@ -53,27 +53,16 @@ def compute_regime() -> dict:
     atr = (df["high"] - df["low"]).rolling(20).mean().iloc[-1]
     atr_pct = atr / price * 100 if price > 0 else 0
     ret_pct = ret_20d * 100
-
-    label = "Unknown"
-    max_pos = 1
-    action = "Skip"
-    note = ""
-    for lo, hi, lbl, mp, act, nt in REGIME_RULES:
-        if lo <= ret_pct < hi:
-            label = lbl
-            max_pos = mp
-            action = act
-            note = nt
-            break
+    reg = _classify_regime(ret_pct)
 
     return {
         "index_price": round(price, 2),
         "trend_20d": round(ret_pct, 2),
-        "trend_label": label,
+        "trend_label": reg.get("trend_label", "Unknown"),
         "atr_pct": round(atr_pct, 2),
-        "max_positions": max_pos,
-        "action": action,
-        "regime_note": note,
+        "max_positions": reg.get("max_positions", 1),
+        "action": reg.get("action", "Skip"),
+        "regime_note": reg.get("regime_note", ""),
     }
 
 
@@ -161,15 +150,7 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
         print(f"  *** CRASH MODE: Momentum strategy deactivated. Hold cash. ***")
 
     print(f"  Loading data...")
-    df_all = load_data(universe_slug_or_path)
-    data: dict[str, pd.DataFrame] = {}
-    for sym in symbols:
-        sub = df_all[df_all["symbol"] == sym].copy()
-        if sub.empty:
-            continue
-        sub = sub.set_index("date")
-        sub.index = pd.DatetimeIndex(sub.index)
-        data[sym] = sub
+    data = load_symbol_data(universe_slug_or_path)
     print(f"  Loaded {len(data)}/{len(symbols)} stocks")
 
     if strategy == "momentum":

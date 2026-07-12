@@ -179,7 +179,7 @@ if "%bt_capital%"=="" set bt_capital=10000000
 
 echo.
 echo %YELLOW%Running backtest (may take a while)...%RESET%
-python run_backtest.py --universe "%bt_universe%" --years %bt_years% --horizons %bt_horizons% --capital %bt_capital%
+python backtest.py --universe "%bt_universe%" --years %bt_years% --horizons %bt_horizons% --capital %bt_capital%
 if %ERRORLEVEL% neq 0 (
     echo %RED%Backtest failed!%RESET%
     pause
@@ -245,7 +245,7 @@ if %ERRORLEVEL% neq 0 (
 
 echo.
 echo %BOLD%%YELLOW%Phase 4/4: Backtest%RESET%
-python run_backtest.py --universe "%ra_universe%" --years %ra_years%
+python backtest.py --universe "%ra_universe%" --years %ra_years%
 if %ERRORLEVEL% neq 0 (
     echo %RED%Backtest failed.%RESET%
     pause
