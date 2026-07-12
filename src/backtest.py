@@ -7,7 +7,7 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
-from src.db import DB_PATH, load_data, load_universe, get_sector_map
+from src.db import DB_PATH, load_data, load_symbol_data, load_universe, get_sector_map
 from src.features import precompute_all_characteristics
 from src.config import (
     CAPITAL, SLIPPAGE, BROKERAGE, MAX_POSITIONS, MIN_POSITIONS,
@@ -15,7 +15,7 @@ from src.config import (
     TRAIL_DISTANCE, TIME_STOP_DAYS, MAX_DAILY_LOSS, MAX_DRAWDOWN_DISABLE,
     REGIME_NORMAL, REGIME_REDUCED, ENTRY_DRAWDOWN, ENTRY_VOLUME_RATIO,
     ENTRY_PRICE_VS_LOW, ENTRY_PRICE_VS_HIGH_MAX, HORIZON,
-    REGIME_MULTIPLIERS, MAX_SECTOR_POSITIONS,
+    MAX_SECTOR_POSITIONS,
     MOM_MAX_POSITIONS, MOM_MIN_POSITIONS, MOM_STOP_LOSS,
     MOM_TRAIL_ACTIVATE, MOM_TRAIL_DISTANCE, MOM_MIN_VOLUME,
     MOM_LOOKBACK, MOM_CRASH_THRESHOLD, MOM_MAX_PRICE, MOM_MIN_PRICE,
@@ -364,41 +364,6 @@ class Portfolio:
             return pd.DataFrame()
         return pd.DataFrame(self.trades)
 
-    def get_performance(self) -> dict:
-        if not self.equity_curve:
-            return {"status": "insufficient_data"}
-        eq = pd.DataFrame(self.equity_curve).set_index("date")
-        if len(eq) < 2:
-            return {"status": "insufficient_data"}
-        total_ret = eq["equity"].iloc[-1] / eq["equity"].iloc[0] - 1
-        days = (eq.index[-1] - eq.index[0]).days
-        cagr = (1 + total_ret) ** (365 / max(days, 1)) - 1
-        returns = eq["equity"].pct_change().dropna()
-        vol = returns.std() * np.sqrt(252)
-        rf = 0.065
-        sharpe = (returns.mean() * 252 - rf) / vol if vol > 0 else 0
-        cummax = eq["equity"].cummax()
-        dd = (eq["equity"] - cummax) / cummax
-        mdd = dd.min()
-        downside = returns[returns < 0].std() * np.sqrt(252)
-        sortino = (returns.mean() * 252 - rf) / downside if downside > 0 and (returns < 0).sum() > 1 else 0
-        trades_df = self.get_trades_summary()
-        win_rate = 0
-        profit_factor = 0
-        if not trades_df.empty:
-            win_rate = (trades_df["pnl_pct"] > 0).sum() / len(trades_df) * 100
-            pos_sum = trades_df[trades_df["pnl_pct"] > 0]["pnl_pct"].sum()
-            neg_sum = abs(trades_df[trades_df["pnl_pct"] < 0]["pnl_pct"].sum())
-            profit_factor = pos_sum / neg_sum if neg_sum > 0 else float("inf")
-        return {
-            "total_return_pct": total_ret * 100, "cagr_pct": cagr * 100,
-            "volatility_pct": vol * 100, "sharpe": sharpe, "sortino": sortino,
-            "max_drawdown_pct": mdd * 100, "total_trades": len(trades_df),
-            "win_rate_pct": win_rate, "profit_factor": profit_factor,
-            "final_equity": eq["equity"].iloc[-1], "peak_equity": self.peak_equity,
-            "num_positions": len(self.positions), "disabled": self.disabled,
-        }
-
 
 @dataclass
 class BacktestConfig:
@@ -466,21 +431,6 @@ def compute_metrics(eq: pd.DataFrame, trades: pd.DataFrame, capital: float) -> d
 
 
 def compute_regime_multiplier(date: pd.Timestamp, data: dict[str, pd.DataFrame], all_dates: list[pd.Timestamp]) -> float:
-    idx = all_dates.index(date) if date in all_dates else -1
-    if idx < 20:
-        return REGIME_NORMAL
-    past_date = all_dates[idx - 20]
-    returns_20d = [
-        data[s].loc[date, "close"] / data[s].loc[past_date, "close"] - 1
-        for s in data
-        if date in data[s].index and past_date in data[s].index
-    ]
-    if not returns_20d:
-        return REGIME_NORMAL
-    ret_20d = np.mean(returns_20d) * 100
-    for lo, hi, mult in REGIME_MULTIPLIERS:
-        if lo <= ret_20d < hi:
-            return mult
     return REGIME_NORMAL
 
 
@@ -602,16 +552,7 @@ def run_backtest(
     sector_map = get_sector_map(universe_slug_or_path)
     print(f"Loading data for {len(symbols)} stocks...")
     df_all = load_data(universe_slug_or_path, db_path=db_path)
-    cutoff = pd.Timestamp.now() - pd.DateOffset(days=365 * years)
-    df_all = df_all[df_all["date"] >= cutoff]
-    data: dict[str, pd.DataFrame] = {}
-    for sym in symbols:
-        sub = df_all[df_all["symbol"] == sym].copy()
-        if sub.empty:
-            continue
-        sub = sub.set_index("date")
-        sub.index = pd.DatetimeIndex(sub.index)
-        data[sym] = sub
+    data = load_symbol_data(universe_slug_or_path, years=years, db_path=db_path)
 
     # Data quality filter: drop stocks with insufficient history
     # NOTE: This uses current index constituents, not historical ones.

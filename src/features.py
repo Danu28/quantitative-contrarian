@@ -3,6 +3,18 @@ from __future__ import annotations
 import pandas as pd
 import numpy as np
 
+_CHAR_NAMES = (
+    "return_over_window", "ret_1d", "ret_3d", "ret_5d",
+    "max_return", "max_drawdown", "volatility",
+    "avg_true_range_pct", "price_vs_high", "price_vs_low",
+    "price_vs_ma10", "price_vs_ma20", "ma_slope_5", "ma_slope_10",
+    "skewness", "kurtosis", "up_day_ratio", "avg_up_day", "avg_down_day",
+    "gap_frequency", "serial_corr_1", "serial_corr_2",
+    "volume_vs_ma5", "volume_vs_ma10", "volume_trend_5",
+    "avg_volume", "volume_coef_var", "volatility_trend",
+    "volatility_contraction",
+)
+
 
 def compute_stock_characteristics(df: pd.DataFrame, window: int = 20) -> pd.DataFrame:
     close = df["close"]
@@ -79,17 +91,7 @@ def compute_stock_characteristics(df: pd.DataFrame, window: int = 20) -> pd.Data
 
 
 def get_characteristic_names() -> list[str]:
-    return [
-        "return_over_window", "ret_1d", "ret_3d", "ret_5d",
-        "max_return", "max_drawdown", "volatility",
-        "avg_true_range_pct", "price_vs_high", "price_vs_low",
-        "price_vs_ma10", "price_vs_ma20", "ma_slope_5", "ma_slope_10",
-        "skewness", "kurtosis", "up_day_ratio", "avg_up_day", "avg_down_day",
-        "gap_frequency", "serial_corr_1", "serial_corr_2",
-        "volume_vs_ma5", "volume_vs_ma10", "volume_trend_5",
-        "avg_volume", "volume_coef_var", "volatility_trend",
-        "volatility_contraction",
-    ]
+    return list(_CHAR_NAMES)
 
 
 def precompute_all_characteristics(

@@ -46,14 +46,6 @@ ENTRY_PRICE_VS_LOW = 1.05
 ENTRY_PRICE_VS_HIGH_MAX = 0.98
 HORIZON = 20
 
-# Regime thresholds (20d_return_min, 20d_return_max, multiplier)
-REGIME_MULTIPLIERS = [
-    (8,    float("inf"), 1.0),    # Strong Bull: 1 position
-    (3,    8,             1.0),    # Bull: 1 position
-    (-3,   3,             1.0),    # Sideways: 1 position
-    (float("-inf"), -3,   1.0),    # Bear/Crash: 1 position
-]
-
 # Sector concentration
 MAX_SECTOR_POSITIONS = 2
 

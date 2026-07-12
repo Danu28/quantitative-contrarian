@@ -8,8 +8,8 @@ from pathlib import Path
 import pandas as pd
 
 import numpy as np
-from src.backtest import generate_signals, generate_momentum_signals, compute_momentum_stops, compute_regime_multiplier, find_trading_dates, build_horizon_results
-from src.db import DB_PATH, load_data, load_universe
+from src.backtest import generate_signals, generate_momentum_signals, compute_momentum_stops, find_trading_dates, build_horizon_results
+from src.db import load_symbol_data, load_universe
 from src.features import precompute_all_characteristics
 from src.reporting import forward_check_html, _classify_regime
 
@@ -33,15 +33,7 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
     print(f"{'='*70}")
 
     print(f"\n  Loading data from SQLite...")
-    df_all = load_data(universe_slug_or_path)
-    data: dict[str, pd.DataFrame] = {}
-    for sym in symbols:
-        sub = df_all[df_all["symbol"] == sym].copy()
-        if sub.empty:
-            continue
-        sub = sub.set_index("date")
-        sub.index = pd.DatetimeIndex(sub.index)
-        data[sym] = sub
+    data = load_symbol_data(universe_slug_or_path)
     print(f"  Loaded {len(data)} stocks")
 
     if strategy == "momentum":
@@ -80,7 +72,6 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
         regime = {"trend_label": "Unknown", "trend_20d": 0, "action": "Unknown", "max_positions": 10}
     else:
         all_dates_fwd = sorted(set(d for s in char_data for d in char_data[s].index))
-        mult = compute_regime_multiplier(entry_date, data, all_dates_fwd)
         all_prices = [data[s].loc[entry_date, "close"] for s in data if entry_date in data[s].index]
         idx_fwd = all_dates_fwd.index(entry_date) if entry_date in all_dates_fwd else -1
         if idx_fwd >= 20 and all_prices:

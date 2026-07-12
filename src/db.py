@@ -345,3 +345,25 @@ def load_data(
     df["date"] = pd.to_datetime(df["date"])
     conn.close()
     return df
+
+
+def load_symbol_data(
+    universe_slug_or_path: str,
+    years: int | None = None,
+    db_path: str | Path = DB_PATH,
+) -> dict[str, pd.DataFrame]:
+    config = load_universe(universe_slug_or_path)
+    symbols = config["symbols"]
+    df_all = load_data(universe_slug_or_path, db_path=db_path)
+    if years is not None:
+        cutoff = pd.Timestamp.now() - pd.DateOffset(days=365 * years)
+        df_all = df_all[df_all["date"] >= cutoff]
+    data: dict[str, pd.DataFrame] = {}
+    for sym in symbols:
+        sub = df_all[df_all["symbol"] == sym].copy()
+        if sub.empty:
+            continue
+        sub = sub.set_index("date")
+        sub.index = pd.DatetimeIndex(sub.index)
+        data[sym] = sub
+    return data

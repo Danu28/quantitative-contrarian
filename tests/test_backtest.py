@@ -405,20 +405,29 @@ class TestSectorConcentration:
 class TestGetPerformance:
     def test_returns_dict_with_expected_keys(self, simple_data):
         pf = Portfolio(100_000)
+        pf.positions["STOCK1.NS"] = {
+            "entry_price": 100, "entry_date": simple_data["STOCK1.NS"].index[0],
+            "shares": 100, "high_since_entry": 100,
+            "first_target_hit": False, "trading_days": 5,
+        }
+        pf.exit_position("STOCK1.NS", 110, simple_data["STOCK1.NS"].index[5], "time_stop")
         for date in simple_data["STOCK1.NS"].index[:10]:
             prices = {"STOCK1.NS": simple_data["STOCK1.NS"].loc[date, "close"]}
             pf.process_day(pd.DataFrame(), prices, date, REGIME_NORMAL)
-        perf = pf.get_performance()
+        eq = pd.DataFrame(pf.equity_curve).set_index("date") if pf.equity_curve else pd.DataFrame()
+        trades = pf.get_trades_summary()
+        perf = compute_metrics(eq, trades, 100_000)
         expected = {"total_return_pct", "cagr_pct", "volatility_pct", "sharpe",
                     "sortino", "max_drawdown_pct", "total_trades", "win_rate_pct",
-                    "profit_factor", "final_equity", "peak_equity", "num_positions",
-                    "disabled"}
+                    "profit_factor", "final_equity", "peak_equity"}
         assert expected.issubset(set(perf.keys()))
 
     def test_returns_insufficient_data_with_few_points(self, simple_data):
         pf = Portfolio(100_000)
         pf.process_day(pd.DataFrame(), {"STOCK1.NS": 100}, simple_data["STOCK1.NS"].index[0], REGIME_NORMAL)
-        perf = pf.get_performance()
+        eq = pd.DataFrame(pf.equity_curve).set_index("date") if pf.equity_curve else pd.DataFrame()
+        trades = pf.get_trades_summary()
+        perf = compute_metrics(eq, trades, 100_000)
         assert perf.get("status") == "insufficient_data"
 
 
