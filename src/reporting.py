@@ -231,18 +231,6 @@ footer {
 """
 
 
-def _signal_rows_html(signals: pd.DataFrame) -> str:
-    rows = ""
-    for _, r in signals.iterrows():
-        conv = r.get("conviction", 0)
-        conv_pct = min(conv * 100, 100)
-        rows += f"""<tr>
-          <td>{r['rank']}</td>
-          <td class="mono">{r['close']:.2f}</td>
-          <td class="mono">{r['conviction']:.4f}</td>
-          <td><div class="micro-bar"><div class="fill positive" style="width:{conv_pct:.0f}%"></div></div></td>
-        </tr>"""
-    return rows
 
 
 def daily_scan_html(

@@ -27,7 +27,6 @@ MAX_DRAWDOWN_DISABLE = 0.15
 
 # Regime position sizing (all 1.0 for single-position strategy)
 REGIME_NORMAL = 1.0
-REGIME_REDUCED = 1.0
 
 # Regime rules: (20d_return_min, 20d_return_max, label, max_positions, action, note)
 # Single source of truth for regime classification across daily_scan.py and reporting.py
@@ -57,7 +56,6 @@ MOM_TRAIL_ACTIVATE = 0.20
 MOM_TRAIL_DISTANCE = 0.15
 MOM_MIN_VOLUME = 500_000
 MOM_LOOKBACK = 252
-MOM_CRASH_THRESHOLD = -0.08
 MOM_MAX_PRICE = 100_000
 MOM_MIN_PRICE = 20
 MOM_SECTOR_MAX = 3
