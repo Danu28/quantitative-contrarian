@@ -2,10 +2,6 @@ from __future__ import annotations
 
 import argparse
 import os
-import sys
-from collections import defaultdict
-from datetime import datetime, timedelta
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -14,6 +10,41 @@ from src.backtest import generate_signals, find_trading_dates, build_horizon_res
 from src.db import load_symbol_data
 from src.features import precompute_all_characteristics
 from src.reporting import TEMPLATE_CSS, _classify_regime
+
+_VALIDATE_EXTRA_CSS = """
+<style>
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: var(--shadow); }
+  .card h2 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; color: var(--muted); }
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+  @media (max-width: 700px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 400px) { .kpi-grid { grid-template-columns: 1fr; } }
+  .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; box-shadow: var(--shadow); }
+  .kpi .value { font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; font-weight: 500; }
+  .kpi .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-top: 4px; }
+  .pos { color: var(--positive); }
+  .neg { color: var(--negative); }
+  .table-wrap { overflow-x: auto; }
+  th.num, td.num { font-family: 'JetBrains Mono', monospace; text-align: right; }
+  .bar { width: 100%; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+  .regime-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; }
+  .r-crash { background: #DC2626; }
+  .r-bear { background: #F97316; }
+  .r-sideways { background: var(--amber); }
+  .r-bull { background: var(--positive); }
+  .r-strong-bull { background: #059669; }
+  .verdict-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: var(--shadow); margin-top: 24px; }
+  .verdict-card h2 { font-family: 'Playfair Display', serif; margin-bottom: 16px; }
+  .gate-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .gate-row:last-child { border-bottom: none; }
+  .gate-status { font-family: 'JetBrains Mono', monospace; font-weight: 500; padding: 2px 10px; border-radius: 4px; font-size: 0.85rem; }
+  .gate-pass { color: var(--positive); background: rgba(46,111,64,0.1); }
+  .gate-fail { color: var(--negative); background: rgba(220,38,38,0.1); }
+  .section { margin-bottom: 32px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 600; margin-bottom: 16px; padding: 0 24px 8px 24px; border-bottom: 2px solid var(--positive); }
+  .table-wrap { overflow-x: auto; }
+</style>
+"""
 
 
 def build_portfolio(signals, horizon_data, horizon, regime, capital):
@@ -134,37 +165,7 @@ def generate_html(
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Forward Validation — {universe_name}</title>
 <style>{TEMPLATE_CSS}</style>
-<style>
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: var(--shadow); }
-  .card h2 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; color: var(--muted); }
-  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
-  @media (max-width: 700px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 400px) { .kpi-grid { grid-template-columns: 1fr; } }
-  .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; box-shadow: var(--shadow); }
-  .kpi .value { font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; font-weight: 500; }
-  .kpi .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-top: 4px; }
-  .pos { color: var(--positive); }
-  .neg { color: var(--negative); }
-  .table-wrap { overflow-x: auto; }
-  th.num, td.num { font-family: 'JetBrains Mono', monospace; text-align: right; }
-  .bar { width: 100%; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
-  .bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
-  .regime-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; }
-  .r-crash { background: #DC2626; }
-  .r-bear { background: #F97316; }
-  .r-sideways { background: var(--amber); }
-  .r-bull { background: var(--positive); }
-  .r-strong-bull { background: #059669; }
-  .verdict-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: var(--shadow); margin-top: 24px; }
-  .verdict-card h2 { font-family: 'Playfair Display', serif; margin-bottom: 16px; }
-  .gate-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
-  .gate-row:last-child { border-bottom: none; }
-  .gate-status { font-family: 'JetBrains Mono', monospace; font-weight: 500; padding: 2px 10px; border-radius: 4px; font-size: 0.85rem; }
-  .gate-pass { color: var(--positive); background: rgba(46,111,64,0.1); }
-  .gate-fail { color: var(--negative); background: rgba(220,38,38,0.1); }
-  .section { margin-bottom: 32px; }
-  .section-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 600; margin-bottom: 16px; padding: 0 24px 8px 24px; border-bottom: 2px solid var(--positive); }
-  .table-wrap { overflow-x: auto; }
+{_VALIDATE_EXTRA_CSS}
   .recommendation {{ text-align: center; padding: 20px; margin-top: 24px; border-radius: 12px; font-size: 1.2rem; font-weight: 600; background: {rec_color}; color: #fff; }}
   @media print {{ body {{ padding: 0; background: #fff; }} .card, .kpi, .verdict-card {{ box-shadow: none; break-inside: avoid; }} .theme-toggle {{ display: none; }} }}
 </style>

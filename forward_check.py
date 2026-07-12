@@ -14,10 +14,6 @@ from src.features import precompute_all_characteristics
 from src.reporting import forward_check_html, _classify_regime
 
 
-def generate_html(entry_date, sig, horizon_data, horizons, capital, regime=None):
-    return forward_check_html(entry_date, sig, horizon_data, horizons, capital, regime=regime)
-
-
 def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20), capital=10_000_000, output=None, strategy="contrarian"):
     config = load_universe(universe_slug_or_path)
     universe_name = config.get("name", universe_slug_or_path)
@@ -149,7 +145,7 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
     if output:
 
         os.makedirs(os.path.dirname(output), exist_ok=True)
-        html = generate_html(entry_date, sig, horizon_data, horizons, capital, regime=regime)
+        html = forward_check_html(entry_date, sig, horizon_data, horizons, capital, regime=regime)
         with open(output, "w", encoding="utf-8") as f:
             f.write(html)
         print(f"\n  HTML report saved: {output}")

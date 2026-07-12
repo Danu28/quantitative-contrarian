@@ -37,48 +37,7 @@ ENTRY_COST_MULT = 1 + SLIPPAGE + BROKERAGE
 EXIT_COST_MULT = 1 - SLIPPAGE - BROKERAGE
 
 
-def compute_regime() -> dict:
-    df = yf.download(NIFTY_INDEX_TICKER, period="6mo", progress=False, auto_adjust=True)
-    if df.empty:
-        return {"index_price": 0, "trend_20d": 0, "trend_label": "Unknown", "atr_pct": 0,
-                "max_positions": 1, "action": "Unknown", "regime_note": ""}
-    df.index = pd.to_datetime(df.index).tz_localize(None)
-    if isinstance(df.columns, pd.MultiIndex):
-        df.columns = [c[0].lower() for c in df.columns]
-    else:
-        df.columns = [str(c).lower() for c in df.columns]
-    close = df["close"]
-    price = close.iloc[-1]
-    ret_20d = close.iloc[-1] / close.iloc[-min(21, len(close))] - 1 if len(close) >= 21 else 0
-    atr = (df["high"] - df["low"]).rolling(20).mean().iloc[-1]
-    atr_pct = atr / price * 100 if price > 0 else 0
-    ret_pct = ret_20d * 100
-    reg = _classify_regime(ret_pct)
 
-    return {
-        "index_price": round(price, 2),
-        "trend_20d": round(ret_pct, 2),
-        "trend_label": reg.get("trend_label", "Unknown"),
-        "atr_pct": round(atr_pct, 2),
-        "max_positions": reg.get("max_positions", 1),
-        "action": reg.get("action", "Skip"),
-        "regime_note": reg.get("regime_note", ""),
-    }
-
-
-def generate_html(date_str, signals, regime, targets, universe_name, strategy="contrarian"):
-    if strategy == "momentum":
-        return momentum_scan_html(
-            date_str, signals, regime, targets, universe_name,
-            mom_stop_loss=MOM_STOP_LOSS, mom_trail_activate=MOM_TRAIL_ACTIVATE,
-            mom_trail_distance=MOM_TRAIL_DISTANCE, max_positions=MOM_MAX_POSITIONS,
-        )
-    return daily_scan_html(
-        date_str, signals, regime, targets, universe_name,
-        profit_target_1=PROFIT_TARGET_1, profit_target_2=PROFIT_TARGET_2,
-        hard_stop=HARD_STOP, trail_activate=TRAIL_ACTIVATE,
-        trail_distance=TRAIL_DISTANCE, max_positions=regime.get("max_positions", 3),
-    )
 
 
 def _save_json(json_path: str | None, scan_date, strategy, sig, targets, regime, sector_map):
@@ -142,7 +101,24 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
     print(f"{'='*70}")
 
     print(f"\n  Market Regime...")
-    regime = compute_regime()
+    _df = yf.download(NIFTY_INDEX_TICKER, period="6mo", progress=False, auto_adjust=True)
+    if not _df.empty:
+        _df.index = pd.to_datetime(_df.index).tz_localize(None)
+        if isinstance(_df.columns, pd.MultiIndex):
+            _df.columns = [c[0].lower() for c in _df.columns]
+        else:
+            _df.columns = [str(c).lower() for c in _df.columns]
+        _close = _df["close"]; _price = _close.iloc[-1]
+        _ret_20d = _close.iloc[-1] / _close.iloc[-min(21, len(_close))] - 1 if len(_close) >= 21 else 0
+        _atr_pct = ((_df["high"] - _df["low"]).rolling(20).mean().iloc[-1]) / _price * 100 if _price > 0 else 0
+        _reg = _classify_regime(_ret_20d * 100)
+        regime = {"index_price": round(_price, 2), "trend_20d": round(_ret_20d * 100, 2),
+                  "trend_label": _reg.get("trend_label", "Unknown"), "atr_pct": round(_atr_pct, 2),
+                  "max_positions": _reg.get("max_positions", 1), "action": _reg.get("action", "Skip"),
+                  "regime_note": _reg.get("regime_note", "")}
+    else:
+        regime = {"index_price": 0, "trend_20d": 0, "trend_label": "Unknown", "atr_pct": 0,
+                  "max_positions": 1, "action": "Unknown", "regime_note": ""}
     crash_mode = regime["trend_20d"] < -8
     print(f"  {NIFTY_INDEX_TICKER} @ {regime['index_price']} | {regime['trend_label']} ({regime['trend_20d']:+.2f}% 20d) | ATR {regime['atr_pct']}%")
     print(f"  >>> RECOMMENDATION: {regime['action']} (max {regime['max_positions']} positions) — {regime['regime_note']}")
@@ -232,7 +208,20 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
     print(f"{'='*70}\n")
     if output:
         os.makedirs(os.path.dirname(output), exist_ok=True)
-        html = generate_html(scan_date.strftime("%Y-%m-%d"), sig, regime, targets, universe_name, strategy)
+        date_str = scan_date.strftime("%Y-%m-%d")
+        if strategy == "momentum":
+            html = momentum_scan_html(
+                date_str, sig, regime, targets, universe_name,
+                mom_stop_loss=MOM_STOP_LOSS, mom_trail_activate=MOM_TRAIL_ACTIVATE,
+                mom_trail_distance=MOM_TRAIL_DISTANCE, max_positions=MOM_MAX_POSITIONS,
+            )
+        else:
+            html = daily_scan_html(
+                date_str, sig, regime, targets, universe_name,
+                profit_target_1=PROFIT_TARGET_1, profit_target_2=PROFIT_TARGET_2,
+                hard_stop=HARD_STOP, trail_activate=TRAIL_ACTIVATE,
+                trail_distance=TRAIL_DISTANCE, max_positions=regime.get("max_positions", 3),
+            )
         with open(output, "w", encoding="utf-8") as f:
             f.write(html)
         print(f"  HTML report saved: {output}")

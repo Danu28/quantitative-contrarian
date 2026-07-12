@@ -13,12 +13,12 @@ from src.config import (
     CAPITAL, SLIPPAGE, BROKERAGE, MAX_POSITIONS, MIN_POSITIONS,
     HARD_STOP, PROFIT_TARGET_1, PROFIT_TARGET_2, TRAIL_ACTIVATE,
     TRAIL_DISTANCE, TIME_STOP_DAYS, MAX_DAILY_LOSS, MAX_DRAWDOWN_DISABLE,
-    REGIME_NORMAL, REGIME_REDUCED, ENTRY_DRAWDOWN, ENTRY_VOLUME_RATIO,
+    REGIME_NORMAL, ENTRY_DRAWDOWN, ENTRY_VOLUME_RATIO,
     ENTRY_PRICE_VS_LOW, ENTRY_PRICE_VS_HIGH_MAX, HORIZON,
     MAX_SECTOR_POSITIONS,
     MOM_MAX_POSITIONS, MOM_MIN_POSITIONS, MOM_STOP_LOSS,
     MOM_TRAIL_ACTIVATE, MOM_TRAIL_DISTANCE, MOM_MIN_VOLUME,
-    MOM_LOOKBACK, MOM_CRASH_THRESHOLD, MOM_MAX_PRICE, MOM_MIN_PRICE,
+    MOM_LOOKBACK, MOM_MAX_PRICE, MOM_MIN_PRICE,
     MOM_SECTOR_MAX,
 )
 
@@ -552,7 +552,10 @@ def run_backtest(
     sector_map = get_sector_map(universe_slug_or_path)
     print(f"Loading data for {len(symbols)} stocks...")
     df_all = load_data(universe_slug_or_path, db_path=db_path)
-    data = load_symbol_data(universe_slug_or_path, years=years, db_path=db_path)
+    if years is not None:
+        cutoff = pd.Timestamp.now() - pd.DateOffset(days=365 * years)
+        df_all = df_all[df_all["date"] >= cutoff]
+    data = load_symbol_data(universe_slug_or_path, years=years, db_path=db_path, df_all=df_all)
 
     # Data quality filter: drop stocks with insufficient history
     # NOTE: This uses current index constituents, not historical ones.
@@ -631,3 +634,20 @@ def build_horizon_results(
                             "status": "ok"})
         horizon_data[h] = {"dates": dates, "exit_date": exit_date, "results": results, "df": pd.DataFrame(results)}
     return horizon_data
+
+
+def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="Run backtest on any universe")
+    parser.add_argument("--universe", "-u", default="nifty50", help="Universe slug or path to JSON")
+    parser.add_argument("--capital", type=float, default=CAPITAL, help="Starting capital")
+    parser.add_argument("--horizons", nargs="+", type=int, default=[5, 10, 21], help="Horizons in trading days")
+    parser.add_argument("--years", type=int, default=3, help="Years of data")
+    parser.add_argument("--db", default=str(DB_PATH), help="SQLite DB path")
+    args = parser.parse_args()
+    results = run_backtest(args.universe, years=args.years, capital=args.capital, horizons=args.horizons, db_path=args.db)
+    print_report(results, BacktestConfig(capital=args.capital, horizons=args.horizons, years=args.years))
+
+
+if __name__ == "__main__":
+    main()
