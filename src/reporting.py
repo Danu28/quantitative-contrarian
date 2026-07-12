@@ -554,7 +554,7 @@ def forward_check_html(
         signal_rows += f"""<tr>
           <td style="font-weight:600">{r['symbol']}</td>
           <td class="mono">{r['close']:.2f}</td>
-          <td class="mono">{r['conviction']:.4f}</td>
+          <td class="mono">{r.get('conviction', 0):.4f}</td>
           <td><div class="micro-bar"><div class="fill positive" style="width:{conv_pct:.0f}%"></div></div></td>
         </tr>"""
 
