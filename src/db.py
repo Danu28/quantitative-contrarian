@@ -347,10 +347,12 @@ def load_symbol_data(
     universe_slug_or_path: str,
     years: int | None = None,
     db_path: str | Path = DB_PATH,
+    df_all: pd.DataFrame | None = None,
 ) -> dict[str, pd.DataFrame]:
     config = load_universe(universe_slug_or_path)
     symbols = config["symbols"]
-    df_all = load_data(universe_slug_or_path, db_path=db_path)
+    if df_all is None:
+        df_all = load_data(universe_slug_or_path, db_path=db_path)
     if years is not None:
         cutoff = pd.Timestamp.now() - pd.DateOffset(days=365 * years)
         df_all = df_all[df_all["date"] >= cutoff]

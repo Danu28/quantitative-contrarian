@@ -552,7 +552,10 @@ def run_backtest(
     sector_map = get_sector_map(universe_slug_or_path)
     print(f"Loading data for {len(symbols)} stocks...")
     df_all = load_data(universe_slug_or_path, db_path=db_path)
-    data = load_symbol_data(universe_slug_or_path, years=years, db_path=db_path)
+    if years is not None:
+        cutoff = pd.Timestamp.now() - pd.DateOffset(days=365 * years)
+        df_all = df_all[df_all["date"] >= cutoff]
+    data = load_symbol_data(universe_slug_or_path, years=years, db_path=db_path, df_all=df_all)
 
     # Data quality filter: drop stocks with insufficient history
     # NOTE: This uses current index constituents, not historical ones.
