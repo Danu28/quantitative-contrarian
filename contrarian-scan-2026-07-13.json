@@ -1,0 +1,12 @@
+{
+  "date": "2026-07-13",
+  "strategy": "contrarian",
+  "signal_count": 0,
+  "max_positions": 1,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": 2.25,
+    "action": "Full deploy"
+  },
+  "signals": []
+}
