@@ -89,7 +89,7 @@ def _save_json(json_path: str | None, scan_date, strategy, sig, targets, regime,
     print(f"  JSON data saved: {json_path}")
 
 
-def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | None = None, strategy: str = "contrarian", json_output: str | None = None):
+def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | None = None, strategy: str = "contrarian", json_output: str | None = None, top: int = 0):
     config = load_universe(universe_slug_or_path)
     slug = config.get("slug", Path(universe_slug_or_path).stem)
     universe_name = config.get("name", slug)
@@ -202,6 +202,9 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
             print(f"\n  No factor signals on {scan_date.date()}.")
             _save_json(json_output, scan_date, strategy, sig, {}, regime, get_sector_map(universe_slug_or_path))
             sys.exit(1)
+
+        if top > 0:
+            sig = sig.head(top)
 
         bear_skip = regime.get("trend_label", "") == "Bear"
         if bear_skip:
@@ -322,8 +325,10 @@ def main():
                         help="Save JSON signal data to file (default: derived from --output)")
     parser.add_argument("--strategy", "-s", default="contrarian", choices=["contrarian", "momentum", "factor"],
                         help="Strategy to scan for (default: contrarian)")
+    parser.add_argument("--top", type=int, default=0,
+                        help="Only show top N ranked stocks (0 = all)")
     args = parser.parse_args()
-    scan(args.universe, args.date, args.output, args.strategy, args.json_output)
+    scan(args.universe, args.date, args.output, args.strategy, args.json_output, top=args.top)
 
 
 if __name__ == "__main__":

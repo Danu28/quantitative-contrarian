@@ -18,7 +18,7 @@ from src.factors import (
 from src.reporting import forward_check_html, _classify_regime
 
 
-def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20), capital=10_000_000, output=None, strategy="contrarian"):
+def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20), capital=10_000_000, output=None, strategy="contrarian", top=0):
     config = load_universe(universe_slug_or_path)
     universe_name = config.get("name", universe_slug_or_path)
     symbols = config["symbols"]
@@ -89,6 +89,10 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
     if sig.empty:
         print(f"\n  No signals generated on {entry_date.date()}.")
         sys.exit(1)
+
+    if top > 0:
+        sig = sig.head(top)
+        print(f"  Limited to top {top} signals")
 
     # Compute regime at entry date
     if strategy == "momentum":
@@ -195,10 +199,12 @@ def main():
                         help="Starting capital (default: 10,000,000)")
     parser.add_argument("--strategy", "-s", default="contrarian", choices=["contrarian", "momentum", "factor"],
                         help="Strategy to check (default: contrarian)")
+    parser.add_argument("--top", type=int, default=0,
+                        help="Only trade top N ranked stocks (0 = all)")
     parser.add_argument("--output", default=None, help="Save HTML report to file")
     args = parser.parse_args()
 
-    check_forward(args.universe, args.date, args.horizons, args.capital, args.output, args.strategy)
+    check_forward(args.universe, args.date, args.horizons, args.capital, args.output, args.strategy, args.top)
 
 
 if __name__ == "__main__":
