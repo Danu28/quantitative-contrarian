@@ -90,9 +90,8 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
         print(f"\n  No signals generated on {entry_date.date()}.")
         sys.exit(1)
 
-    if top > 0:
-        sig = sig.head(top)
-        print(f"  Limited to top {top} signals")
+    sig = sig.head(top)
+    print(f"  Limited to top {top} signals")
 
     # Compute regime at entry date
     if strategy == "momentum":
@@ -199,8 +198,8 @@ def main():
                         help="Starting capital (default: 10,000,000)")
     parser.add_argument("--strategy", "-s", default="contrarian", choices=["contrarian", "momentum", "factor"],
                         help="Strategy to check (default: contrarian)")
-    parser.add_argument("--top", type=int, default=0,
-                        help="Only trade top N ranked stocks (0 = all)")
+    parser.add_argument("--top", type=int, default=3,
+                        help="Only trade top N ranked stocks (default: 3)")
     parser.add_argument("--output", default=None, help="Save HTML report to file")
     args = parser.parse_args()
 
