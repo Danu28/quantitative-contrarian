@@ -11,6 +11,10 @@ import numpy as np
 from src.backtest import generate_signals, generate_momentum_signals, compute_momentum_stops, find_trading_dates, build_horizon_results
 from src.db import load_symbol_data, load_universe
 from src.features import precompute_all_characteristics
+from src.factors import (
+    compute_cross_sectional_factors, train_factor_weights,
+    generate_factor_signals, extract_factor_snapshot,
+)
 from src.reporting import forward_check_html, _classify_regime
 
 
@@ -37,6 +41,35 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
         avg_vol = all_vol.mean() if not all_vol.empty else None
         sig = generate_momentum_signals(data, entry_date, avg_vol_series=avg_vol)
         print(f"  (no characteristics needed for momentum)")
+    elif strategy == "factor":
+        print(f"  Computing factor features (63 features)...")
+        factor_data = compute_cross_sectional_factors(data)
+
+        available = sorted(set(d for s in factor_data for d in factor_data[s].index))
+        if entry_date not in available:
+            closest = [d for d in available if d >= entry_date]
+            if not closest:
+                print(f"  No trading data found on or after {entry_date.date()}")
+                sys.exit(1)
+            entry_date = closest[0]
+            print(f"  Adjusted to nearest trading day: {entry_date.date()}")
+
+        print(f"  Training factor weights...")
+        all_rows = []
+        for sym, df in data.items():
+            close = df["close"]
+            fwd = close.shift(-10) / close - 1
+            temp = pd.DataFrame({"symbol": sym, "date": df.index.values, "fwd_return": fwd.values})
+            all_rows.append(temp)
+        combined = pd.concat(all_rows).dropna(subset=["fwd_return"])
+        combined = combined[combined["date"] <= entry_date]
+        factor_df = extract_factor_snapshot(factor_data, combined)
+        for col in factor_df.select_dtypes(include=[np.number]).columns:
+            factor_df[col] = factor_df[col].replace([np.inf, -np.inf], np.nan)
+
+        weights, selected = train_factor_weights(factor_df)
+        print(f"  Using {len(selected)} features")
+        sig = generate_factor_signals(data, factor_data, entry_date, weights)
     else:
         print(f"  Pre-computing characteristics...")
         char_data = precompute_all_characteristics(data, window=20)
@@ -64,10 +97,9 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
             for d in data[s].index:
                 all_dates_set.add(d)
         all_dates_fwd = sorted(all_dates_set)
-        char_data = {}
         regime = {"trend_label": "Unknown", "trend_20d": 0, "action": "Unknown", "max_positions": 10}
     else:
-        all_dates_fwd = sorted(set(d for s in char_data for d in char_data[s].index))
+        all_dates_fwd = sorted(set(d for s in data for d in data[s].index))
         all_prices = [data[s].loc[entry_date, "close"] for s in data if entry_date in data[s].index]
         idx_fwd = all_dates_fwd.index(entry_date) if entry_date in all_dates_fwd else -1
         if idx_fwd >= 20 and all_prices:
@@ -143,8 +175,9 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
         print(f"{line} {avg:>+7.2f}%")
     print(f"\n  Entry Date: {entry_date.date()}  |  Signals: {len(sig)}")
     if output:
-
-        os.makedirs(os.path.dirname(output), exist_ok=True)
+        out_dir = os.path.dirname(output)
+        if out_dir:
+            os.makedirs(out_dir, exist_ok=True)
         html = forward_check_html(entry_date, sig, horizon_data, horizons, capital, regime=regime)
         with open(output, "w", encoding="utf-8") as f:
             f.write(html)
@@ -160,7 +193,7 @@ def main():
                         help="Forward horizons in trading days (default: 5 10 20)")
     parser.add_argument("--capital", type=float, default=10_000_000,
                         help="Starting capital (default: 10,000,000)")
-    parser.add_argument("--strategy", "-s", default="contrarian", choices=["contrarian", "momentum"],
+    parser.add_argument("--strategy", "-s", default="contrarian", choices=["contrarian", "momentum", "factor"],
                         help="Strategy to check (default: contrarian)")
     parser.add_argument("--output", default=None, help="Save HTML report to file")
     args = parser.parse_args()

@@ -517,16 +517,19 @@ def generate_factor_signals(
     feature_names = [f for f in weights if f in next(iter(factor_data.values())).columns]
     if not feature_names:
         return pd.DataFrame()
+    common = [f for f in feature_names if all(f in factor_data[s].columns for s in factor_data if date in factor_data[s].index)]
+    if not common:
+        return pd.DataFrame()
     rows = []
     for sym in factor_data:
         if sym not in data or date not in data[sym].index or date not in factor_data[sym].index:
             continue
         rows.append({"symbol": sym, "close": data[sym].loc[date, "close"],
-                     **{f: factor_data[sym].loc[date, f] for f in feature_names}})
+                     **{f: factor_data[sym].loc[date, f] for f in common}})
     if not rows:
         return pd.DataFrame()
     df = pd.DataFrame(rows).set_index("symbol")
-    feat_df = df[feature_names].apply(pd.to_numeric, errors="coerce")
+    feat_df = df[common].apply(pd.to_numeric, errors="coerce")
     feat_df = feat_df.replace([np.inf, -np.inf], np.nan)
     ranked = feat_df.rank(pct=True)
     score = sum(ranked[feat] * w for feat, w in weights.items()) / sum(abs(w) for w in weights.values())
