@@ -2,18 +2,9 @@ name: Daily Scan
 
 on:
   schedule:
-    # 3:30 AM UTC = 9:00 AM IST (UTC+5:30, year-round)
     - cron: "30 3 * * *"
   workflow_dispatch:
     inputs:
-      contrarian_universe:
-        description: "Contrarian universe slug"
-        required: false
-        default: "niftymidcap150"
-      momentum_universe:
-        description: "Momentum universe slug"
-        required: false
-        default: "niftymidcap150"
       date:
         description: "Date (YYYY-MM-DD) or leave empty for today"
         required: false
@@ -23,84 +14,6 @@ permissions:
   contents: write
 
 jobs:
-  contrarian-scan:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: pip
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Create reports directory
-        run: mkdir -p reports
-
-      - name: Run contrarian scan
-        id: contrarian
-        run: |
-          TODAY=$(date +%Y-%m-%d)
-          if [ -n "${{ inputs.date }}" ]; then TODAY=${{ inputs.date }}; fi
-          FILENAME="contrarian-scan-${TODAY}.html"
-          JSONNAME="contrarian-scan-${TODAY}.json"
-          ARGS="--strategy contrarian --universe ${{ inputs.contrarian_universe || 'niftymidcap150' }} --output reports/${FILENAME} --json-output reports/${JSONNAME}"
-          [ -n "${{ inputs.date }}" ] && ARGS="$ARGS --date ${TODAY}"
-          python daily_scan.py $ARGS || echo "Contrarian scan had no signals"
-          echo "contrarian_path=reports/${FILENAME}" >> $GITHUB_OUTPUT
-
-      - name: Upload contrarian report
-        uses: actions/upload-artifact@v4
-        with:
-          name: contrarian-report
-          path: |
-            reports/contrarian-scan-*.html
-            reports/contrarian-scan-*.json
-          retention-days: 7
-
-  momentum-scan:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: pip
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Create reports directory
-        run: mkdir -p reports
-
-      - name: Run momentum scan
-        id: momentum
-        run: |
-          TODAY=$(date +%Y-%m-%d)
-          if [ -n "${{ inputs.date }}" ]; then TODAY=${{ inputs.date }}; fi
-          FILENAME="momentum-scan-${TODAY}.html"
-          JSONNAME="momentum-scan-${TODAY}.json"
-          ARGS="--strategy momentum --universe ${{ inputs.momentum_universe || 'niftymidcap150' }} --output reports/${FILENAME} --json-output reports/${JSONNAME}"
-          [ -n "${{ inputs.date }}" ] && ARGS="$ARGS --date ${TODAY}"
-          python daily_scan.py $ARGS || echo "Momentum scan had no signals"
-          echo "momentum_path=reports/${FILENAME}" >> $GITHUB_OUTPUT
-
-      - name: Upload momentum report
-        uses: actions/upload-artifact@v4
-        with:
-          name: momentum-report
-          path: |
-            reports/momentum-scan-*.html
-            reports/momentum-scan-*.json
-          retention-days: 7
-
   factor-scan:
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -141,7 +54,7 @@ jobs:
           retention-days: 7
 
   deploy:
-    needs: [contrarian-scan, momentum-scan, factor-scan]
+    needs: [factor-scan]
     runs-on: ubuntu-latest
     if: always()
 
@@ -156,7 +69,6 @@ jobs:
 
       - name: Copy factor report as index
         run: |
-          # Use the latest factor scan HTML as the landing page
           LATEST=$(ls -t reports/factor-scan-*.html 2>/dev/null | head -1)
           if [ -n "$LATEST" ]; then
             cp "$LATEST" reports/index.html
