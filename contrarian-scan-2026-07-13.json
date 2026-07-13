@@ -1,12 +1,55 @@
 {
   "date": "2026-07-13",
   "strategy": "contrarian",
-  "signal_count": 0,
+  "signal_count": 3,
   "max_positions": 1,
   "regime": {
     "trend_label": "Sideways",
-    "trend_20d": 2.25,
+    "trend_20d": 2.46,
     "action": "Full deploy"
   },
-  "signals": []
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "MAHABANK.NS",
+      "close": 82.59,
+      "entry": 82.71,
+      "conviction": 0.7933,
+      "momentum_pct": 0.0,
+      "target1": 92.5,
+      "target2": 97.46,
+      "hard_stop": 75.98,
+      "trail_trigger": 90.99,
+      "trail_stop": 79.95,
+      "sector": "Banks"
+    },
+    {
+      "rank": 2,
+      "symbol": "NLCINDIA.NS",
+      "close": 304.5,
+      "entry": 304.96,
+      "conviction": 0.5142,
+      "momentum_pct": 0.0,
+      "target1": 341.04,
+      "target2": 359.31,
+      "hard_stop": 280.14,
+      "trail_trigger": 335.45,
+      "trail_stop": 294.76,
+      "sector": "Power"
+    },
+    {
+      "rank": 3,
+      "symbol": "LINDEINDIA.NS",
+      "close": 7125.5,
+      "entry": 7136.19,
+      "conviction": 0.2041,
+      "momentum_pct": 0.0,
+      "target1": 7980.54,
+      "target2": 8408.07,
+      "hard_stop": 6555.45,
+      "trail_trigger": 7849.81,
+      "trail_stop": 6897.47,
+      "sector": "Chemicals"
+    }
+  ]
 }
