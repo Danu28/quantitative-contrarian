@@ -1,27 +1,34 @@
 # Project Context
 
 ## Requirement
-Eliminate over-engineering across the repo based on ponytail audit findings. Simplify, delete dead code, consolidate duplicates, extract shared patterns.
+Simplify dashboard to show ONLY Factor Model report. Deploy to GitHub Pages at https://danu28.github.io/quantitative-contrarian/
 
-## Audit Findings (ranked)
-1. **delete:** `backtest_momentum.py` — standalone momentum backtest duplicating `src/backtest.py` framework
-2. **delete:** `research_winner_characteristics.py` — superseded by `src/research.py` + `research.py` CLI
-3. **shrink:** 7 copies of "load data → filter by cutoff → build dict". Extract `load_symbol_data()` in `db.py`
-4. **shrink:** `validate_forward.py:generate_html()` embeds own CSS duplicate of `reporting.py:TEMPLATE_CSS`
-5. **yagni:** `REGIME_MULTIPLIERS` in `config.py` — all 1.0, dead config
-6. **shrink:** `Portfolio.get_performance()` duplicates `compute_metrics()`
-7. **stdlib:** Regime classification in 3 places — consolidate
-8. **shrink:** `get_characteristic_names()` hardcodes column names — derive from function output
-9. **shrink:** Gate-checking repeated in 3 places
-10. **shrink:** `run_backtest.py` duplicates `backtest.py`
-11. **shrink:** misplaced import in `reporting.py:528`
+## Deployment Structure
+- GitHub Pages site serves content from `reports/` directory
+- index.html (from docs/index.html) is at site root
+- factor-scan-{date}.json is in same directory as index.html
+- Fetch path: relative `factor-scan-{date}.json` (no leading slash)
 
-## Tech Stack
-- Python 3.10+ (pandas, numpy, yfinance, scipy)
+## What to Remove
+- Contrarian strategy card + JS render function
+- Momentum strategy card + JS render function
+- Backtest summary table
+- Regime reference table
+- Strategy count KPI detail
 
-## Goals
-- Delete dead/superseded files
-- Eliminate duplicated patterns
-- Consolidate regime classification
-- Remove dead config
-- Zero behavioral changes
+## What to Keep
+- Header (simplified)
+- KPI grid (universe, report count, regime)
+- Factor Model card with top 10 picks + scan date
+- Theme toggle
+- File-protocol warning
+
+## Fetch Strategy
+- Single relative path: `factor-scan-{date}.json`
+- Date range: -5 to +44 days from browser's clock
+- No fallback paths needed (same directory on GitHub Pages)
+
+## Local Testing
+Serve from reports/ directory:
+  python -m http.server 8080 -d reports/
+Then open: http://localhost:8080/index.html

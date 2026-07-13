@@ -1,559 +1,587 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quant Scanner · Dashboard</title>
+<html lang="en" data-theme="light">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Factor Scan — 2026-07-13</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
 :root {
   --bg: #F8F9FA;
   --surface: #FFFFFF;
-  --text: #1E293B;
-  --text-secondary: #64748B;
   --slate: #1E293B;
   --sage: #2E6F40;
-  --sage-light: #E8F5E9;
   --navy: #0F172A;
   --amber: #D97706;
-  --amber-light: #FEF3C7;
   --border: #E2E8F0;
+  --muted: #64748B;
+  --text: #1E293B;
+  --text-soft: #475569;
+  --positive: #2E6F40;
+  --negative: #DC2626;
   --shadow: 0 4px 20px -2px rgba(0,0,0,0.05);
-  --radius: 12px;
-  --radius-sm: 8px;
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
 }
-
 [data-theme="dark"] {
   --bg: #121314;
   --surface: #1A1B1E;
-  --text: #E2E8F0;
-  --text-secondary: #94A3B8;
   --slate: #E2E8F0;
   --sage: #4ADE80;
-  --sage-light: #1A2E1A;
   --navy: #38BDF8;
   --amber: #FBBF24;
-  --amber-light: #2A2410;
   --border: #2A2B2D;
+  --muted: #94A3B8;
+  --text: #E2E8F0;
+  --text-soft: #CBD5E1;
+  --positive: #4ADE80;
+  --negative: #F87171;
   --shadow: 0 4px 20px -2px rgba(0,0,0,0.4);
 }
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.6; min-height: 100vh; }
-
-/* Layout */
-.container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
-
-/* Header */
-.header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 48px; gap: 24px; flex-wrap: wrap; }
-.header-title h1 { font-family: var(--font-serif); font-size: 2.4rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
-.header-title h1 span { color: var(--sage); }
-.header-title p { color: var(--text-secondary); margin-top: 6px; font-size: 0.95rem; }
-.header-meta { text-align: right; font-size: 0.85rem; color: var(--text-secondary); }
-.header-meta .badge { display: inline-block; background: var(--sage-light); color: var(--sage); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; margin-top: 4px; }
-
-/* Toggle */
-.theme-toggle { position: fixed; top: 20px; right: 20px; z-index: 100; background: var(--surface); border: 1px solid var(--border); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; transition: 0.2s; }
-.theme-toggle:hover { transform: scale(1.05); }
-
-/* KPI Grid */
-.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
-.kpi-card { background: var(--surface); border-radius: var(--radius); padding: 20px; border: 1px solid var(--border); box-shadow: var(--shadow); }
-.kpi-card .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); font-weight: 600; margin-bottom: 4px; }
-.kpi-card .value { font-family: var(--font-mono); font-size: 1.6rem; font-weight: 500; color: var(--text); }
-.kpi-card .sub { font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px; }
-
-/* Section */
-.section { margin-bottom: 40px; }
-.section-title { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
-.section-title .count { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary); font-weight: 400; }
-
-/* Strategy Cards */
-.strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.strategy-card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); overflow: hidden; }
-.strategy-card-header { padding: 20px 24px 12px; border-bottom: 1px solid var(--border); }
-.strategy-card-header h3 { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 600; }
-.strategy-card-header .tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
-.tag-contrarian { background: var(--sage-light); color: var(--sage); }
-.tag-momentum { background: var(--amber-light); color: var(--amber); }
-.strategy-card-body { padding: 16px 24px 20px; overflow-x: auto; }
-.report-list { list-style: none; }
-.report-list .name a { color: var(--text); text-decoration: none; }
-.report-list .name a:hover { color: var(--sage); }
-.report-list .meta { font-size: 0.8rem; color: var(--text-secondary); }
-.report-list .arrow { color: var(--text-secondary); font-size: 0.8rem; }
-
-/* Actions Card */
-.actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.action-card { background: var(--surface); border-radius: var(--radius-sm); padding: 16px 20px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
-.action-card:hover { border-color: var(--sage); }
-.action-card .info h4 { font-size: 0.9rem; font-weight: 600; }
-.action-card .info p { font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px; }
-.action-card .btn { display: inline-block; padding: 6px 16px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; text-decoration: none; transition: 0.2s; white-space: nowrap; }
-.btn-primary { background: var(--sage); color: #fff; }
-.btn-primary:hover { opacity: 0.85; }
-.btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
-.btn-secondary:hover { border-color: var(--text-secondary); }
-
-/* Quick Stats Table */
-.data-table-wrap { overflow-x: auto; }
-.data-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-.data-table thead th { text-align: left; padding: 10px 16px; font-size: 0.73rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); font-weight: 600; border-bottom: 2px solid var(--border); }
-.data-table tbody td { padding: 10px 16px; border-bottom: 1px solid var(--border); }
-.data-table tbody tr:hover { background: rgba(255,255,255,0.02); }
-.data-table .num { font-family: var(--font-mono); text-align: right; }
-.data-table .pos { color: var(--sage); }
-.data-table .neg { color: var(--amber); }
-
-/* Bar visualization */
-.bar-cell { display: flex; align-items: center; gap: 8px; }
-.bar-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 3px; }
-.bar-fill.pos { background: var(--sage); }
-.bar-fill.neg { background: var(--amber); }
-
-/* Signal Table */
-.signal-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-.signal-table thead th { padding: 6px 4px; text-align: right; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); border-bottom: 1px solid var(--border); font-weight: 600; white-space: nowrap; }
-.signal-table thead th:first-child { text-align: left; }
-.signal-table tbody td { padding: 5px 4px; text-align: right; border-bottom: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.78rem; white-space: nowrap; }
-.signal-table tbody td:first-child { text-align: left; font-weight: 600; font-family: var(--font-sans); white-space: normal; }
-.signal-table .pos { color: var(--sage); }
-.signal-table .neg { color: var(--amber); }
-.signal-table .sec { font-family: var(--font-sans); font-size: 0.65rem; color: var(--text-secondary); }
-.signal-empty { padding: 32px 24px; text-align: center; color: var(--text-secondary); font-size: 0.85rem; }
-.signal-empty .icon { font-size: 2rem; margin-bottom: 8px; display: block; opacity: 0.5; }
-.signal-empty .sub { font-size: 0.75rem; margin-top: 4px; color: var(--border); }
-/* Conviction micro-bar */
-.cbar { display: inline-flex; align-items: center; gap: 4px; }
-.cbar .track { width: 32px; height: 4px; border-radius: 2px; background: var(--border); overflow: hidden; }
-.cbar .track .fill { height: 100%; border-radius: 2px; background: var(--sage); }
-.cbar .val { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-secondary); }
-/* Momentum micro-bar */
-.mbar { display: inline-flex; align-items: center; gap: 4px; }
-.mbar .track { width: 40px; height: 4px; border-radius: 2px; background: var(--border); overflow: hidden; }
-.mbar .track .fill { height: 100%; border-radius: 2px; }
-.mbar .track .fill.pos { background: var(--sage); }
-.mbar .track .fill.neg { background: var(--amber); }
-.report-link { display: block; text-align: center; padding: 8px; font-size: 0.78rem; color: var(--sage); text-decoration: none; border-top: 1px solid var(--border); }
-.report-link:hover { background: var(--bg); }
-
-/* Footer */
-.footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-secondary); flex-wrap: wrap; gap: 12px; }
-.footer a { color: var(--text-secondary); text-decoration: none; }
-.footer a:hover { color: var(--sage); }
-
-/* Responsive */
-/* Tablet landscape & down */
-@media (max-width: 1024px) {
-  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-  .strategy-grid { grid-template-columns: 1fr; }
-  .actions-grid { grid-template-columns: 1fr; }
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 24px;
+  transition: background 0.3s, color 0.3s;
 }
-/* Tablet portrait & down */
-@media (max-width: 768px) {
-  .container { padding: 28px 16px; }
-  .header { margin-bottom: 32px; gap: 16px; }
-  .header-title h1 { font-size: 1.8rem; }
-  .header-meta { text-align: left; white-space: normal; }
-  .theme-toggle { top: 12px; right: 12px; width: 36px; height: 36px; font-size: 1rem; }
-  .kpi-card { padding: 14px; }
-  .kpi-card .value { font-size: 1.3rem; }
-  .section-title { font-size: 1.15rem; }
-  .strategy-card-header { padding: 16px 18px 10px; }
-  .strategy-card-body { padding: 12px 18px 16px; }
+.theme-toggle {
+  position: fixed; top: 16px; right: 16px; z-index: 100;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 14px; cursor: pointer;
+  font-size: 13px; color: var(--text-soft);
+  box-shadow: var(--shadow);
 }
-/* Phone */
-@media (max-width: 480px) {
-  .container { padding: 20px 12px; }
-  .header-title h1 { font-size: 1.4rem; }
-  .header-title p { font-size: 0.8rem; }
-  .kpi-grid { grid-template-columns: 1fr; gap: 10px; margin-bottom: 24px; }
-  .kpi-card .value { font-size: 1.2rem; }
-  .kpi-card .sub { font-size: 0.72rem; }
-  .section { margin-bottom: 24px; }
-  .section-title { font-size: 1rem; }
-  .actions-grid { gap: 10px; }
-  .action-card { padding: 12px 14px; flex-direction: column; align-items: flex-start; gap: 8px; }
-  .action-card .btn { width: 100%; text-align: center; }
-  .signal-table { font-size: 0.7rem; }
-  .signal-table thead th { padding: 4px 2px; font-size: 0.55rem; }
-  .signal-table tbody td { padding: 4px 2px; font-size: 0.68rem; }
-  .strategy-card-header h3 { font-size: 0.95rem; }
+.theme-toggle:hover { border-color: var(--sage); }
+.container { max-width: 1200px; margin: 0 auto; }
+header {
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 16px; margin-bottom: 28px; align-items: start;
 }
-/* Tiny phone */
-@media (max-width: 360px) {
-  .container { padding: 14px 8px; }
-  .header-title h1 { font-size: 1.2rem; }
-  .kpi-card { padding: 10px; }
-  .strategy-card-header { padding: 12px 12px 8px; }
-  .strategy-card-body { padding: 8px 12px 12px; }
-  .data-table { font-size: 0.78rem; }
+header h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 28px; font-weight: 700; color: var(--slate);
+  letter-spacing: -0.3px;
 }
-
-/* Misc */
-.mt-8 { margin-top: 8px; }
-.mb-16 { margin-bottom: 16px; }
+header .meta { color: var(--muted); font-size: 14px; margin-top: 4px; }
+.exec-summary {
+  display: grid; grid-template-columns: 2fr 1fr; gap: 16px;
+  margin-bottom: 28px;
+}
+.exec-summary .context-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px 24px; box-shadow: var(--shadow);
+}
+.exec-summary .context-card h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--muted); margin-bottom: 12px;
+}
+.exec-summary .context-card .stat-row {
+  display: flex; flex-wrap: wrap; gap: 20px 32px;
+}
+.exec-summary .context-card .stat {
+  display: flex; flex-direction: column;
+}
+.exec-summary .context-card .stat .label {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--muted);
+}
+.exec-summary .context-card .stat .value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px; font-weight: 600; color: var(--slate);
+  line-height: 1.3;
+}
+.exec-summary .context-card .stat .value.bullish { color: var(--positive); }
+.exec-summary .context-card .stat .value.bearish { color: var(--negative); }
+.kpi-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+.kpi-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px; box-shadow: var(--shadow);
+  display: flex; flex-direction: column;
+}
+.kpi-card .kpi-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--muted);
+}
+.kpi-card .kpi-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px; font-weight: 700; color: var(--slate);
+  line-height: 1.2; margin-top: 4px;
+}
+.kpi-card .kpi-sub {
+  font-size: 12px; color: var(--text-soft); margin-top: 2px;
+}
+section { margin-bottom: 28px; }
+section h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 20px; font-weight: 600; color: var(--slate);
+  margin-bottom: 14px; padding: 0 14px 8px 14px;
+  border-bottom: 2px solid var(--border);
+}
+.data-table-wrap {
+  overflow-x: auto; border: 1px solid var(--border);
+  border-radius: 10px; background: var(--surface); box-shadow: var(--shadow);
+}
+table.data-table {
+  width: 100%; border-collapse: collapse; font-size: 14px;
+  min-width: 700px;
+}
+table.data-table thead th {
+  background: var(--bg); color: var(--muted);
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px;
+  padding: 12px 14px; text-align: right; border-bottom: 1px solid var(--border);
+  font-weight: 600; white-space: nowrap;
+}
+table.data-table thead th:first-child { text-align: left; }
+table.data-table tbody td {
+  padding: 10px 14px; text-align: right; border-bottom: 1px solid var(--border);
+  color: var(--text); white-space: nowrap;
+}
+table.data-table tbody td:first-child { text-align: left; font-weight: 600; white-space: normal; }
+table.data-table tbody tr:nth-child(even) { background: rgba(0,0,0,0.015); }
+table.data-table tbody tr:hover { background: rgba(46,111,64,0.04); }
+table.data-table tbody td.mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+table.data-table td.positive { color: var(--positive); font-weight: 600; }
+table.data-table td.negative { color: var(--negative); font-weight: 600; }
+.micro-bar {
+  display: inline-block; height: 6px; border-radius: 3px;
+  background: var(--border); width: 60px; vertical-align: middle;
+  margin-right: 6px; overflow: hidden;
+}
+.micro-bar .fill { height: 100%; border-radius: 3px; transition: width 0.6s; }
+.micro-bar .fill.positive { background: var(--positive); }
+.micro-bar .fill.negative { background: var(--negative); }
+.trend-bar {
+  display: flex; align-items: center; gap: 6px; margin-top: 8px;
+}
+.trend-bar .track {
+  flex: 1; max-width: 120px; height: 4px; border-radius: 2px;
+  background: var(--border); overflow: hidden; position: relative;
+}
+.trend-bar .track .fill {
+  height: 100%; border-radius: 2px; transition: width 0.6s;
+}
+.trend-bar .track .fill.bullish { background: var(--positive); }
+.trend-bar .track .fill.bearish { background: var(--negative); }
+.trend-bar .track .fill.sideways { background: var(--amber); }
+.trend-bar .label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--muted);
+}
+.badge {
+  display: inline-block; padding: 2px 10px; border-radius: 12px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.3px;
+}
+.badge.bullish { background: rgba(46,111,64,0.1); color: var(--positive); }
+.badge.bearish { background: rgba(220,38,38,0.1); color: var(--negative); }
+.badge.sideways { background: rgba(217,119,6,0.1); color: var(--amber); }
+.legend {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px 20px; margin-top: 14px;
+  font-size: 13px; color: var(--text-soft); line-height: 1.8;
+  box-shadow: var(--shadow);
+}
+.legend strong { color: var(--text); }
+footer {
+  margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--border);
+  font-size: 12px; color: var(--muted); text-align: center;
+}
+@media (max-width: 900px) {
+  header { grid-template-columns: 1fr; }
+  header .meta { text-align: left; }
+  .exec-summary { grid-template-columns: 1fr; }
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  body { padding: 14px; }
+  header h1 { font-size: 22px; }
+  header .meta { font-size: 12px; }
+  section h2 { font-size: 17px; padding: 0 10px 6px 10px; }
+  .exec-summary .context-card { padding: 14px 16px; }
+  .kpi-card { padding: 12px; }
+  .kpi-card .kpi-value { font-size: 18px; }
+  table.data-table { font-size: 12px; min-width: 600px; }
+  table.data-table thead th { padding: 8px 8px; font-size: 10px; }
+  table.data-table tbody td { padding: 6px 8px; }
+  table.data-table tbody td.mono { font-size: 11px; }
+  .legend { padding: 10px 14px; font-size: 12px; }
+  .trend-bar .track { max-width: 80px; }
+}
+@media (max-width: 400px) {
+  body { padding: 10px; }
+  header h1 { font-size: 18px; }
+  section h2 { font-size: 15px; }
+  .exec-summary .context-card .stat .value { font-size: 16px; }
+  table.data-table { font-size: 11px; min-width: 500px; }
+  table.data-table thead th { padding: 5px 4px; font-size: 9px; letter-spacing: 0.4px; }
+  table.data-table tbody td { padding: 4px 4px; }
+  table.data-table tbody td.mono { font-size: 10px; }
+  .kpi-card .kpi-value { font-size: 16px; }
+}
+@media print {
+  body { background: #fff; padding: 0; }
+  .theme-toggle { display: none; }
+  .container { max-width: 100%; }
+  table.data-table tbody tr:nth-child(even) { background: #f8f9fa; }
+}
 </style>
-</head>
-<body>
-
-<div class="theme-toggle" id="themeToggle" title="Toggle theme" onclick="toggleTheme()">&#9790;</div>
-
+</head><body>
+<button class="theme-toggle" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Toggle Theme</button>
 <div class="container">
-
-  <!-- Header -->
-  <header class="header">
-    <div class="header-title">
-      <h1>Quant <span>Scanner</span></h1>
-      <p>Institutional-grade trading signal dashboard &middot; NSE India</p>
-    </div>
-    <div class="header-meta">
-      <div>Last scan: <strong id="last-scan-date">...</strong></div>
-      <div class="badge">&#9679; All systems nominal</div>
-    </div>
-  </header>
-
-  <!-- KPI Grid -->
-  <div class="kpi-grid">
-    <div class="kpi-card">
-      <div class="label">Universe Coverage</div>
-      <div class="value">196</div>
-      <div class="sub">Nifty 50 + Midcap 150</div>
-    </div>
-    <div class="kpi-card">
-      <div class="label">Strategies</div>
-      <div class="value">2</div>
-      <div class="sub">Contrarian &middot; Momentum</div>
-    </div>
-    <div class="kpi-card">
-      <div class="label">Reports Generated</div>
-      <div class="value">43</div>
-      <div class="sub">All-time total</div>
-    </div>
-    <div class="kpi-card">
-      <div class="label">Market Regime</div>
-      <div class="value">Sideways</div>
-      <div class="sub">20d: +2.75% &middot; ATR 0.88%</div>
-    </div>
-  </div>
-
-  <!-- Strategy Reports -->
-  <section class="section">
-    <h2 class="section-title">Top Signals <span class="count">(latest scan)</span></h2>
-    <div class="strategy-grid">
-      <!-- Contrarian -->
-      <div class="strategy-card">
-        <div class="strategy-card-header">
-          <h3>Volatility Contrarian</h3>
-          <span class="tag tag-contrarian">Contrarian</span>
-        </div>
-        <div class="strategy-card-body" id="contrarian-body">
-          <div class="signal-empty"><span class="icon">&#9203;</span>Loading signals...</div>
-        </div>
-        <a class="report-link" id="contrarian-link" href="#" style="display:none">View full report &#8599;</a>
-      </div>
-      <!-- Momentum -->
-      <div class="strategy-card">
-        <div class="strategy-card-header">
-          <h3>12-Month Momentum</h3>
-          <span class="tag tag-momentum">Momentum</span>
-        </div>
-        <div class="strategy-card-body" id="momentum-body">
-          <div class="signal-empty"><span class="icon">&#9203;</span>Loading signals...</div>
-        </div>
-        <a class="report-link" id="momentum-link" href="#" style="display:none">View full report &#8599;</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Run Actions -->
-  <section class="section">
-    <h2 class="section-title">Trigger Scans <span class="count">(GitHub Actions)</span></h2>
-    <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 0.9rem;">
-      Click a button below to trigger a scan on GitHub Actions. Results appear in this dashboard after completion (~2&ndash;5 min).
-    </p>
-    <div class="actions-grid">
-      <a href="https://github.com/Danu28/quantitative-contrarian/actions/workflows/daily-scan.yml" target="_blank" class="action-card">
-        <div class="info">
-          <h4>Contrarian Scan</h4>
-          <p>Generates signal report &middot; ~2 min</p>
-        </div>
-        <span class="btn btn-primary">Run &#8599;</span>
-      </a>
-      <a href="https://github.com/Danu28/quantitative-contrarian/actions/workflows/daily-scan.yml" target="_blank" class="action-card">
-        <div class="info">
-          <h4>Momentum Scan</h4>
-          <p>Generates signal report &middot; ~2 min</p>
-        </div>
-        <span class="btn btn-primary">Run &#8599;</span>
-      </a>
-      <a href="https://github.com/Danu28/quantitative-contrarian/actions/workflows/daily-scan.yml" target="_blank" class="action-card">
-        <div class="info">
-          <h4>Forward Check</h4>
-          <p>Validate signals on past date</p>
-        </div>
-        <span class="btn btn-secondary">Configure &#8599;</span>
-      </a>
-      <a href="https://github.com/Danu28/quantitative-contrarian/actions" target="_blank" class="action-card">
-        <div class="info">
-          <h4>All Workflows</h4>
-          <p>View all runs &amp; history</p>
-        </div>
-        <span class="btn btn-secondary">View &#8599;</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- Performance Summary -->
-  <section class="section">
-    <h2 class="section-title">Backtest Summary <span class="count">(10yr, Nifty 50 + Midcap 150)</span></h2>
-    <div class="data-table-wrap">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Strategy</th>
-            <th class="num">CAGR</th>
-            <th class="num">Sharpe</th>
-            <th class="num">Max DD</th>
-            <th class="num">Win Rate</th>
-            <th class="num">Profit Factor</th>
-            <th>Outperformance</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>12-Month Momentum (Rs 1Cr)</td>
-            <td class="num pos">28.9%</td>
-            <td class="num pos">1.41</td>
-            <td class="num neg">-28.3%</td>
-            <td class="num">56.3%</td>
-            <td class="num">1.60</td>
-            <td class="bar-cell">
-              <span class="pos">+7.5%</span>
-              <div class="bar-track"><div class="bar-fill pos" style="width: 75%"></div></div>
-            </td>
-          </tr>
-          <tr>
-            <td>12-Month Momentum (Rs 1L)</td>
-            <td class="num pos">21.9%</td>
-            <td class="num pos">1.03</td>
-            <td class="num neg">-37.9%</td>
-            <td class="num">54.0%</td>
-            <td class="num">1.44</td>
-            <td class="bar-cell">
-              <span class="pos">+0.5%</span>
-              <div class="bar-track"><div class="bar-fill pos" style="width: 5%"></div></div>
-            </td>
-          </tr>
-          <tr>
-            <td>Volatility Contrarian (best horizon)</td>
-            <td class="num pos">8.7%</td>
-            <td class="num" style="color: var(--text-secondary);">0.22</td>
-            <td class="num neg">-13.4%</td>
-            <td class="num">&mdash;</td>
-            <td class="num">&mdash;</td>
-            <td class="bar-cell">
-              <span class="neg">-12.7%</span>
-              <div class="bar-track"><div class="bar-fill neg" style="width: 0%"></div></div>
-            </td>
-          </tr>
-          <tr style="color: var(--text-secondary);">
-            <td>Equal-Weight Market (benchmark)</td>
-            <td class="num">21.4%</td>
-            <td class="num">1.27</td>
-            <td class="num">-37.5%</td>
-            <td class="num">&mdash;</td>
-            <td class="num">&mdash;</td>
-            <td class="bar-cell"><span>&mdash;</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- Regime Reference -->
-  <section class="section">
-    <h2 class="section-title">Regime Reference</h2>
-    <p style="color: var(--text-secondary); margin-bottom: 12px; font-size: 0.9rem;">
-      The market regime determines which strategy to deploy. Current regime: <strong style="color: var(--sage);">Sideways</strong>.
-    </p>
-    <div class="data-table-wrap">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Regime</th>
-            <th class="num">20d Return</th>
-            <th class="num">% of Time</th>
-            <th>Momentum</th>
-            <th>Contrarian</th>
-            <th>Recommendation</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Strong Bull</td>
-            <td class="num pos">&gt; +8%</td>
-            <td class="num">8%</td>
-            <td class="pos">&#10003;</td>
-            <td class="neg">&#10007;</td>
-            <td>Momentum: full deploy</td>
-          </tr>
-          <tr>
-            <td>Bull</td>
-            <td class="num pos">+3% to +8%</td>
-            <td class="num">34%</td>
-            <td class="pos">&#10003;</td>
-            <td class="neg">&#10007;</td>
-            <td>Momentum: full deploy</td>
-          </tr>
-          <tr style="background: rgba(46, 111, 64, 0.05);">
-            <td><strong>Sideways</strong> <span style="font-size: 0.7rem; color: var(--sage);">&#9679; NOW</span></td>
-            <td class="num">-3% to +3%</td>
-            <td class="num">43%</td>
-            <td class="pos">&#10003;</td>
-            <td class="pos">&#10003;</td>
-            <td style="color: var(--sage); font-weight: 600;">Both: full deploy</td>
-          </tr>
-          <tr>
-            <td>Bear</td>
-            <td class="num neg">-8% to -3%</td>
-            <td class="num">11%</td>
-            <td class="pos">&#10003;</td>
-            <td class="pos">&#10003;</td>
-            <td>Both active, reduce size</td>
-          </tr>
-          <tr>
-            <td>Crash</td>
-            <td class="num neg">&lt; -8%</td>
-            <td class="num">3%</td>
-            <td class="neg">&#10007;</td>
-            <td class="pos">&#10003;</td>
-            <td>Momentum: HOLD CASH</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <span>Quant Scanner &middot; <a href="https://github.com/Danu28/quantitative-contrarian" target="_blank">github.com/Danu28/quantitative-contrarian</a></span>
-    <span>Built with Python &middot; Hosted on GitHub Pages</span>
-  </footer>
+<header><div><h1>Factor Scan</h1><div class="meta">Scan: 2026-07-13 · NIFTY 50 · Run: 2026-07-13 14:26</div>
+<div class="meta" style="color:var(--amber);font-size:13px;margin-top:4px">
+63-feature IC-weighted factor model. Buy top pick at open, hold 10 trading days.
 
 </div>
+</div></header>
 
-<script>
-function toggleTheme() {
-  const html = document.documentElement;
-  const current = html.getAttribute('data-theme');
-  html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
-  localStorage.setItem('theme', current === 'dark' ? 'light' : 'dark');
-}
-const saved = localStorage.getItem('theme');
-if (saved) document.documentElement.setAttribute('data-theme', saved);
+<div style="background:var(--surface);border:2px solid var(--sage);border-radius:12px;padding:16px 20px;margin-bottom:20px;box-shadow:var(--shadow)">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+    <div>
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Regime</span>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text)">Sideways (+2.55%)</div>
+    </div>
+    <div style="text-align:right">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Recommendation</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--sage)">Full deploy</div>
+    </div>
+    <div style="text-align:right">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Max Positions</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--text)">1</div>
+    </div>
+    <div style="text-align:right">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Enter Today</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--text)">1</div>
+    </div>
+  </div>
+  <div style="font-size:13px;color:var(--text-secondary);margin-top:8px">Core regime. 59% of market. · Index ATR 0.82%</div>
+  </div>
 
-function escapeH(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+<div class="exec-summary">
+  <div class="context-card">
+    <h3>Market Context</h3>
+    <div class="stat-row">
+      <div class="stat"><span class="label">Index</span><span class="value">^NSEI @ 24,224</span></div>
+      <div class="stat"><span class="label">Trend 20d</span><span class="value sideways">Sideways (+2.55%)</span></div>
+      <div class="stat"><span class="label">Volatility</span><span class="value">ATR 0.82%</span></div>
+    </div>
+    <div class="trend-bar">
+      <span class="label">Momentum</span>
+      <div class="track"><div class="fill sideways" style="width:63%"></div></div>
+    </div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi-card"><span class="kpi-label">Signals</span><span class="kpi-value">48</span><span class="kpi-sub">top 1 to enter</span></div>
+    <div class="kpi-card"><span class="kpi-label">Hold Days</span><span class="kpi-value" style="font-size:16px">10</span><span class="kpi-sub">trading days then exit</span></div>
+  </div>
+</div>
 
-function renderContrarianSignals(data, bodyEl, linkEl) {
-  const sigs = data.signals || [];
-  const r = data.regime || {};
-  const trend = r.trend_20d || 0;
-  const trendCls = trend > 3 ? 'pos' : trend < -3 ? 'neg' : '';
-  if (sigs.length === 0) {
-    bodyEl.innerHTML = '<div class="signal-empty"><span class="icon">&#9679;</span>No contrarian signals today<div class="sub">Market: ' + escapeH(r.trend_label || 'Unknown') + ' (' + (trend > 0 ? '+' : '') + trend.toFixed(2) + '%)</div></div>';
-    return;
-  }
-  const top = sigs.slice(0, 10);
-  let h = '<table class="signal-table"><thead><tr><th>Symbol</th><th>Entry</th><th>T1</th><th>Stop</th><th>Trail</th><th>Conv</th></tr></thead><tbody>';
-  for (const r of top) {
-    const pct = Math.min(r.conviction * 100, 100);
-    h += '<tr><td>' + escapeH(r.symbol) + '<span class="sec"> ' + escapeH(r.sector || '') + '</span></td>'
-      + '<td>' + r.entry.toFixed(2) + '</td>'
-      + '<td class="pos">' + r.target1.toFixed(2) + '</td>'
-      + '<td class="neg">' + r.hard_stop.toFixed(2) + '</td>'
-      + '<td>' + r.trail_stop.toFixed(2) + '</td>'
-      + '<td><div class="cbar"><div class="track"><div class="fill" style="width:' + pct + '%"></div></div><span class="val">' + pct.toFixed(0) + '%</span></div></td>'
-      + '</tr>';
-  }
-  h += '</tbody></table>';
-  bodyEl.innerHTML = h;
-  linkEl.style.display = 'block';
-  linkEl.href = 'contrarian-scan-' + data.date + '.html';
-}
+<section><h2>Factor Model Picks</h2>
+<div class="data-table-wrap">
+<table class="data-table">
+<thead><tr>
+  <th scope="col">Rank</th><th scope="col">Symbol</th><th scope="col">Entry Price</th><th scope="col">Conviction</th><th scope="col">Score</th>
+</tr></thead>
+<tbody><tr>
+          <td class="mono">1</td>
+          <td style="font-weight:600">INFY.NS</td>
+          <td class="mono">1106.90</td>
+          <td class="mono">0.4179</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:71%"></div></div></td>
+        </tr><tr>
+          <td class="mono">2</td>
+          <td style="font-weight:600">TCS.NS</td>
+          <td class="mono">2184.60</td>
+          <td class="mono">0.4013</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:70%"></div></div></td>
+        </tr><tr>
+          <td class="mono">3</td>
+          <td style="font-weight:600">HCLTECH.NS</td>
+          <td class="mono">1220.60</td>
+          <td class="mono">0.3816</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:69%"></div></div></td>
+        </tr><tr>
+          <td class="mono">4</td>
+          <td style="font-weight:600">TECHM.NS</td>
+          <td class="mono">1516.40</td>
+          <td class="mono">0.3345</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:67%"></div></div></td>
+        </tr><tr>
+          <td class="mono">5</td>
+          <td style="font-weight:600">TRENT.NS</td>
+          <td class="mono">2905.50</td>
+          <td class="mono">0.2980</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:65%"></div></div></td>
+        </tr><tr>
+          <td class="mono">6</td>
+          <td style="font-weight:600">ADANIENT.NS</td>
+          <td class="mono">3184.10</td>
+          <td class="mono">0.2917</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:65%"></div></div></td>
+        </tr><tr>
+          <td class="mono">7</td>
+          <td style="font-weight:600">HINDALCO.NS</td>
+          <td class="mono">959.55</td>
+          <td class="mono">0.2731</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:64%"></div></div></td>
+        </tr><tr>
+          <td class="mono">8</td>
+          <td style="font-weight:600">WIPRO.NS</td>
+          <td class="mono">178.70</td>
+          <td class="mono">0.2650</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:63%"></div></div></td>
+        </tr><tr>
+          <td class="mono">9</td>
+          <td style="font-weight:600">BPCL.NS</td>
+          <td class="mono">306.00</td>
+          <td class="mono">0.2441</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:62%"></div></div></td>
+        </tr><tr>
+          <td class="mono">10</td>
+          <td style="font-weight:600">DRREDDY.NS</td>
+          <td class="mono">1228.50</td>
+          <td class="mono">0.2395</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:62%"></div></div></td>
+        </tr><tr>
+          <td class="mono">11</td>
+          <td style="font-weight:600">MARUTI.NS</td>
+          <td class="mono">13688.00</td>
+          <td class="mono">0.2021</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:60%"></div></div></td>
+        </tr><tr>
+          <td class="mono">12</td>
+          <td style="font-weight:600">HDFCLIFE.NS</td>
+          <td class="mono">571.85</td>
+          <td class="mono">0.1832</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:59%"></div></div></td>
+        </tr><tr>
+          <td class="mono">13</td>
+          <td style="font-weight:600">INDUSINDBK.NS</td>
+          <td class="mono">1015.50</td>
+          <td class="mono">0.1772</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:59%"></div></div></td>
+        </tr><tr>
+          <td class="mono">14</td>
+          <td style="font-weight:600">M&M.NS</td>
+          <td class="mono">3139.80</td>
+          <td class="mono">0.1756</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:59%"></div></div></td>
+        </tr><tr>
+          <td class="mono">15</td>
+          <td style="font-weight:600">KOTAKBANK.NS</td>
+          <td class="mono">380.25</td>
+          <td class="mono">0.1647</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:58%"></div></div></td>
+        </tr><tr>
+          <td class="mono">16</td>
+          <td style="font-weight:600">TATASTEEL.NS</td>
+          <td class="mono">187.22</td>
+          <td class="mono">0.1589</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:58%"></div></div></td>
+        </tr><tr>
+          <td class="mono">17</td>
+          <td style="font-weight:600">ONGC.NS</td>
+          <td class="mono">247.46</td>
+          <td class="mono">0.1541</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:58%"></div></div></td>
+        </tr><tr>
+          <td class="mono">18</td>
+          <td style="font-weight:600">BAJFINANCE.NS</td>
+          <td class="mono">1018.20</td>
+          <td class="mono">0.1404</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:57%"></div></div></td>
+        </tr><tr>
+          <td class="mono">19</td>
+          <td style="font-weight:600">BEL.NS</td>
+          <td class="mono">410.05</td>
+          <td class="mono">0.1399</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:57%"></div></div></td>
+        </tr><tr>
+          <td class="mono">20</td>
+          <td style="font-weight:600">NTPC.NS</td>
+          <td class="mono">350.20</td>
+          <td class="mono">0.1219</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:56%"></div></div></td>
+        </tr><tr>
+          <td class="mono">21</td>
+          <td style="font-weight:600">TITAN.NS</td>
+          <td class="mono">4604.40</td>
+          <td class="mono">0.1147</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:56%"></div></div></td>
+        </tr><tr>
+          <td class="mono">22</td>
+          <td style="font-weight:600">ADANIPORTS.NS</td>
+          <td class="mono">1816.80</td>
+          <td class="mono">0.1039</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:55%"></div></div></td>
+        </tr><tr>
+          <td class="mono">23</td>
+          <td style="font-weight:600">BAJAJFINSV.NS</td>
+          <td class="mono">1895.80</td>
+          <td class="mono">0.1009</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:55%"></div></div></td>
+        </tr><tr>
+          <td class="mono">24</td>
+          <td style="font-weight:600">BAJAJ-AUTO.NS</td>
+          <td class="mono">10266.50</td>
+          <td class="mono">0.1009</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:55%"></div></div></td>
+        </tr><tr>
+          <td class="mono">25</td>
+          <td style="font-weight:600">EICHERMOT.NS</td>
+          <td class="mono">7295.50</td>
+          <td class="mono">0.0979</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:55%"></div></div></td>
+        </tr><tr>
+          <td class="mono">26</td>
+          <td style="font-weight:600">SBILIFE.NS</td>
+          <td class="mono">1850.90</td>
+          <td class="mono">0.0899</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:54%"></div></div></td>
+        </tr><tr>
+          <td class="mono">27</td>
+          <td style="font-weight:600">NESTLEIND.NS</td>
+          <td class="mono">1428.80</td>
+          <td class="mono">0.0885</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:54%"></div></div></td>
+        </tr><tr>
+          <td class="mono">28</td>
+          <td style="font-weight:600">HINDUNILVR.NS</td>
+          <td class="mono">2125.00</td>
+          <td class="mono">0.0648</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:53%"></div></div></td>
+        </tr><tr>
+          <td class="mono">29</td>
+          <td style="font-weight:600">CIPLA.NS</td>
+          <td class="mono">1428.30</td>
+          <td class="mono">0.0598</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:53%"></div></div></td>
+        </tr><tr>
+          <td class="mono">30</td>
+          <td style="font-weight:600">BRITANNIA.NS</td>
+          <td class="mono">5351.50</td>
+          <td class="mono">0.0473</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:52%"></div></div></td>
+        </tr><tr>
+          <td class="mono">31</td>
+          <td style="font-weight:600">BHARTIARTL.NS</td>
+          <td class="mono">1905.20</td>
+          <td class="mono">0.0355</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:52%"></div></div></td>
+        </tr><tr>
+          <td class="mono">32</td>
+          <td style="font-weight:600">DIVISLAB.NS</td>
+          <td class="mono">6866.00</td>
+          <td class="mono">0.0316</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:52%"></div></div></td>
+        </tr><tr>
+          <td class="mono">33</td>
+          <td style="font-weight:600">COALINDIA.NS</td>
+          <td class="mono">428.80</td>
+          <td class="mono">0.0303</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:52%"></div></div></td>
+        </tr><tr>
+          <td class="mono">34</td>
+          <td style="font-weight:600">SBIN.NS</td>
+          <td class="mono">1037.20</td>
+          <td class="mono">0.0120</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:51%"></div></div></td>
+        </tr><tr>
+          <td class="mono">35</td>
+          <td style="font-weight:600">HDFCBANK.NS</td>
+          <td class="mono">818.25</td>
+          <td class="mono">0.0088</td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:50%"></div></div></td>
+        </tr><tr>
+          <td class="mono">36</td>
+          <td style="font-weight:600">HEROMOTOCO.NS</td>
+          <td class="mono">4926.70</td>
+          <td class="mono">-0.0070</td>
+          <td><div class="micro-bar"><div class="fill negative" style="width:50%"></div></div></td>
+        </tr><tr>
+          <td class="mono">37</td>
+          <td style="font-weight:600">JSWSTEEL.NS</td>
+          <td class="mono">1232.00</td>
+          <td class="mono">-0.0132</td>
+          <td><div class="micro-bar"><div class="fill negative" style="width:49%"></div></div></td>
+        </tr><tr>
+          <td class="mono">38</td>
+          <td style="font-weight:600">AXISBANK.NS</td>
+          <td class="mono">1317.30</td>
+          <td class="mono">-0.0160</td>
+          <td><div class="micro-bar"><div class="fill negative" style="width:49%"></div></div></td>
+        </tr><tr>
+          <td class="mono">39</td>
+          <td style="font-weight:600">RELIANCE.NS</td>
+          <td class="mono">1297.30</td>
+          <td class="mono">-0.0196</td>
+          <td><div class="micro-bar"><div class="fill negative" style="width:49%"></div></div></td>
+        </tr><tr>
+          <td class="mono">40</td>
+          <td style="font-weight:600">ASIANPAINT.NS</td>
+          <td class="mono">2653.70</td>
+          <td class="mono">-0.0280</td>
+          <td><div class="micro-bar"><div class="fill negative" style="width:49%"></div></div></td>
+        </tr><tr>
+          <td class="mono">41</td>
+          <td style="font-weight:600">LT.NS</td>
+          <td class="mono">3932.50</td>
+          <td class="mono">-0.0398</td>
+          <td><div class="micro-bar"><div class="fill negative" style="width:48%"></div></div></td>
+        </tr><tr>
+          <td class="mono">42</td>
+          <td style="font-weight:600">POWERGRID.NS</td>
+          <td class="mono">285.00</td>
+          <td class="mono">-0.0631</td>
+          <td><div class="micro-bar"><div class="fill negative" style="width:47%"></div></div></td>
+        </tr><tr>
+          <td class="mono">43</td>
+          <td style="font-weight:600">ULTRACEMCO.NS</td>
+          <td class="mono">11609.00</td>
+          <td class="mono">-0.0708</td>
+          <td><div class="micro-bar"><div class="fill negative" style="width:46%"></div></div></td>
+        </tr><tr>
+          <td class="mono">44</td>
+          <td style="font-weight:600">ITC.NS</td>
+          <td class="mono">279.85</td>
+          <td class="mono">-0.0798</td>
+          <td><div class="micro-bar"><div class="fill negative" style="width:46%"></div></div></td>
+        </tr><tr>
+          <td class="mono">45</td>
+          <td style="font-weight:600">GRASIM.NS</td>
+          <td class="mono">3142.80</td>
+          <td class="mono">-0.0948</td>
+          <td><div class="micro-bar"><div class="fill negative" style="width:45%"></div></div></td>
+        </tr><tr>
+          <td class="mono">46</td>
+          <td style="font-weight:600">SUNPHARMA.NS</td>
+          <td class="mono">1926.30</td>
+          <td class="mono">-0.1118</td>
+          <td><div class="micro-bar"><div class="fill negative" style="width:44%"></div></div></td>
+        </tr><tr>
+          <td class="mono">47</td>
+          <td style="font-weight:600">APOLLOHOSP.NS</td>
+          <td class="mono">8779.50</td>
+          <td class="mono">-0.1523</td>
+          <td><div class="micro-bar"><div class="fill negative" style="width:42%"></div></div></td>
+        </tr><tr>
+          <td class="mono">48</td>
+          <td style="font-weight:600">ICICIBANK.NS</td>
+          <td class="mono">1404.20</td>
+          <td class="mono">nan</td>
+          <td><div class="micro-bar"><div class="fill negative" style="width:nan%"></div></div></td>
+        </tr></tbody>
+</table></div>
+<div class="legend">
+<strong>How it works:</strong>
+63 features → IC-weighted composite → rank Nifty 50 stocks → buy top 1 at open.
+Hold for <strong>10 trading days</strong> (next Friday), then exit regardless of price.
+Skip Bear regime (Nifty 20d return &lt; -3%).
+All prices include slippage (0.1%) + brokerage (0.05%).
+</div>
+</section>
 
-function renderMomentumSignals(data, bodyEl, linkEl) {
-  const sigs = data.signals || [];
-  const r = data.regime || {};
-  const trend = r.trend_20d || 0;
-  if (sigs.length === 0) {
-    bodyEl.innerHTML = '<div class="signal-empty"><span class="icon">&#9679;</span>No momentum signals today<div class="sub">Market: ' + escapeH(r.trend_label || 'Unknown') + ' (' + (trend > 0 ? '+' : '') + trend.toFixed(2) + '%)</div></div>';
-    return;
-  }
-  const top = sigs.slice(0, 10);
-  let h = '<table class="signal-table"><thead><tr><th>Symbol</th><th>Close</th><th>Momentum</th><th>Entry</th><th>Stop</th></tr></thead><tbody>';
-  for (const r of top) {
-    const mCls = r.momentum_pct > 0 ? 'pos' : 'neg';
-    const mag = Math.min(Math.abs(r.momentum_pct) / 60 * 100, 100);
-    h += '<tr><td>' + escapeH(r.symbol) + '<span class="sec"> ' + escapeH(r.sector || '') + '</span></td>'
-      + '<td>' + r.close.toFixed(2) + '</td>'
-      + '<td class="' + mCls + '"><div class="mbar"><span>' + (r.momentum_pct > 0 ? '+' : '') + r.momentum_pct.toFixed(1) + '%</span><div class="track"><div class="fill ' + mCls + '" style="width:' + mag + '%"></div></div></div></td>'
-      + '<td>' + r.entry.toFixed(2) + '</td>'
-      + '<td class="neg">' + r.hard_stop.toFixed(2) + '</td>'
-      + '</tr>';
-  }
-  h += '</tbody></table>';
-  bodyEl.innerHTML = h;
-  linkEl.style.display = 'block';
-  linkEl.href = 'momentum-scan-' + data.date + '.html';
-}
-
-async function loadSignals() {
-  const cBody = document.getElementById('contrarian-body');
-  const mBody = document.getElementById('momentum-body');
-  const cLink = document.getElementById('contrarian-link');
-  const mLink = document.getElementById('momentum-link');
-  const lastScanEl = document.getElementById('last-scan-date');
-  let latestDate = '';
-  let cMisses = 0;
-  let mMisses = 0;
-
-  for (let i = 0; i < 45; i++) {
-    const d = new Date();
-    d.setDate(d.getDate() - i);
-    const ds = d.toISOString().slice(0, 10);
-    const cPaths = ['contrarian-scan-' + ds + '.json', '../reports/contrarian-scan-' + ds + '.json'];
-    const mPaths = ['momentum-scan-' + ds + '.json', '../reports/momentum-scan-' + ds + '.json'];
-    const [cJson, mJson] = await Promise.all([
-      fetch(cPaths[0]).then(r => r.ok ? r.json() : fetch(cPaths[1]).then(r => r.ok ? r.json() : null)).catch(() => null),
-      fetch(mPaths[0]).then(r => r.ok ? r.json() : fetch(mPaths[1]).then(r => r.ok ? r.json() : null)).catch(() => null),
-    ]);
-    if (cJson && cBody.dataset.loaded !== '1') {
-      renderContrarianSignals(cJson, cBody, cLink);
-      cBody.dataset.loaded = '1';
-      if (ds > latestDate) latestDate = ds;
-    }
-    if (mJson && mBody.dataset.loaded !== '1') {
-      renderMomentumSignals(mJson, mBody, mLink);
-      mBody.dataset.loaded = '1';
-      if (ds > latestDate) latestDate = ds;
-    }
-    if (!cJson && cBody.dataset.loaded !== '1') cMisses++;
-    if (!mJson && mBody.dataset.loaded !== '1') mMisses++;
-    if (cBody.dataset.loaded === '1' && mBody.dataset.loaded === '1') break;
-    if (cMisses >= 3 && mMisses >= 3) break;
-  }
-  if (latestDate) lastScanEl.textContent = latestDate;
-  if (cBody.dataset.loaded !== '1') cBody.innerHTML = '<div class="signal-empty"><span class="icon">&#9679;</span>No scan data found<div class="sub">Run a contrarian scan first, or wait for the daily workflow</div></div>';
-  if (mBody.dataset.loaded !== '1') mBody.innerHTML = '<div class="signal-empty"><span class="icon">&#9679;</span>No scan data found<div class="sub">Run a momentum scan first, or wait for the daily workflow</div></div>';
-}
-loadSignals();
-</script>
-
-</body>
-</html>
+<footer>Factor Scan Report · AI Quantitative Researcher</footer>
+</div></body></html>
