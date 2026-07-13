@@ -101,8 +101,47 @@ jobs:
             reports/momentum-scan-*.json
           retention-days: 7
 
+  factor-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create reports directory
+        run: mkdir -p reports
+
+      - name: Run factor scan
+        id: factor
+        run: |
+          TODAY=$(date +%Y-%m-%d)
+          if [ -n "${{ inputs.date }}" ]; then TODAY=${{ inputs.date }}; fi
+          FILENAME="factor-scan-${TODAY}.html"
+          JSONNAME="factor-scan-${TODAY}.json"
+          ARGS="--strategy factor --universe nifty50 --output reports/${FILENAME} --json-output reports/${JSONNAME}"
+          [ -n "${{ inputs.date }}" ] && ARGS="$ARGS --date ${TODAY}"
+          python daily_scan.py $ARGS || echo "Factor scan had no signals"
+          echo "factor_path=reports/${FILENAME}" >> $GITHUB_OUTPUT
+
+      - name: Upload factor report
+        uses: actions/upload-artifact@v4
+        with:
+          name: factor-report
+          path: |
+            reports/factor-scan-*.html
+            reports/factor-scan-*.json
+          retention-days: 7
+
   deploy:
-    needs: [contrarian-scan, momentum-scan]
+    needs: [contrarian-scan, momentum-scan, factor-scan]
     runs-on: ubuntu-latest
     if: always()
 
@@ -115,11 +154,17 @@ jobs:
           path: ./reports
           merge-multiple: true
 
-      - name: Copy dashboard to reports
+      - name: Copy factor report as index
         run: |
-          # Copy committed dashboard into reports/ for deployment
-          cp docs/index.html reports/index.html
-          echo "Dashboard copied. Files in reports/:"
+          # Use the latest factor scan HTML as the landing page
+          LATEST=$(ls -t reports/factor-scan-*.html 2>/dev/null | head -1)
+          if [ -n "$LATEST" ]; then
+            cp "$LATEST" reports/index.html
+            echo "Index set to: $LATEST"
+          else
+            echo "No factor scan found, keeping existing index"
+          fi
+          echo "Files in reports/:"
           ls -la reports/
 
       - name: Deploy to GitHub Pages

@@ -10,32 +10,9 @@
       "build":     { "status": "completed", "skill": "dev-loop" }
     }
   },
-  "project": "quantitative-contrarian",
-  "findings": {
-    "edge": "Mean reversion in high-volatility stocks near low, ranked by research-weighted conviction",
-    "win_rate": "55.8% (342 trades)",
-    "profit_factor": "1.64 (gate: 1.5)",
-    "best_gate_result": "5/5 passed",
-    "regime_best": "Strong Bull (PF 4.83, 8 trades), Crash (PF 3.46, 14 trades)",
-    "regime_worst": "Bear (PF 0.96, 40 trades)",
-    "research_findings": [
-      "Within AND-gate universe, 9/21 features are significant predictors (Cohen's d up to 0.19)",
-      "gap_frequency, avg_true_range_pct, avg_up_day are strongest positive predictors",
-      "price_vs_ma10, ma_slope_5, price_vs_high are strongest negative predictors",
-      "Weighted ranking produces 70.5% rank-1 WR but collapses rank-2+ WR to 45.5%",
-      "Rank-1 only + loose entry (ENTRY_DRAWDOWN=-0.05) + weighted ranking reaches PF 1.64"
-    ],
-    "limitation": "Bear regime (PF 0.96) loses money; consider regime-based skip for Bear",
-    "next_steps": [
-      "Deploy to paper trading",
-      "Add Bear regime override to skip trading when ret_20d < -3%",
-      "Monitor live performance vs backtest expectations"
-    ],
-    "changes": [
-      "ENTRY_DRAWDOWN: -0.08 → -0.05 (looser entry brings more candidates for ranking)",
-      "conviction: equal_weight → weighted_ranking (research-significant features)",
-      "MAX_POSITIONS: 10 → 1 (rank-1 only avoids rank-2+ collapse)",
-      "all regimes: max_positions=1 (single-position strategy)"
-    ]
+  "project": "nifty50-factor-model",
+  "summary": {
+    "status": "completed",
+    "conclusion": "Edge validated but modest. Factor model adds systematic, evidence-based feature selection to the existing contrarian framework. Walk-forward backtest: CAGR 5.57%, Sharpe 1.05, PF 1.24, MaxDD -20.31%. Recommended for paper trading, not full deployment."
   }
 }

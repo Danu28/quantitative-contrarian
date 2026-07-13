@@ -705,3 +705,118 @@ def forward_check_html(
 
 <footer>Forward Return Check · AI Quantitative Researcher</footer>
 </div></body></html>"""
+
+
+def factor_scan_html(
+    date_str: str,
+    signals: pd.DataFrame,
+    regime: dict,
+    universe_name: str,
+    hold_days: int = 10,
+) -> str:
+    now = pd.Timestamp.now().strftime("%Y-%m-%d %H:%M")
+    trend_cls = regime.get("trend_label", "sideways").lower()
+    signal_count = len(signals)
+    regime_action = regime.get("action", "Full deploy")
+    regime_label = regime.get("trend_label", "Unknown")
+    max_pos = regime.get("max_positions", 5)
+
+    action_cls = "positive" if "Full" in regime_action else "negative"
+    bear_mode = regime.get("trend_label", "") == "Bear"
+
+    signal_rows = ""
+    for _, r in signals.iterrows():
+        conv = r.get("conviction", 0)
+        conv_pct = min(max((conv + 1) * 50, 0), 100)
+        rank = r.get("rank", _ + 1)
+        signal_rows += f"""<tr>
+          <td class="mono">{rank}</td>
+          <td style="font-weight:600">{r['symbol']}</td>
+          <td class="mono">{r['close']:.2f}</td>
+          <td class="mono">{r.get('conviction', 0):.4f}</td>
+          <td><div class="micro-bar"><div class="fill {'positive' if conv > 0 else 'negative'}" style="width:{conv_pct:.0f}%"></div></div></td>
+        </tr>"""
+
+    entries_today = min(signal_count, max_pos)
+    action_note = regime.get("regime_note", "")
+    index_price = regime.get("index_price", 0)
+    atr_pct = regime.get("atr_pct", 0)
+    trend_20d = regime.get("trend_20d", 0)
+
+    return f"""<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Factor Scan — {date_str}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>{TEMPLATE_CSS}</style>
+</head><body>
+<button class="theme-toggle" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Toggle Theme</button>
+<div class="container">
+<header><div><h1>Factor Scan</h1><div class="meta">Scan: {date_str} · {universe_name} · Run: {now}</div>
+<div class="meta" style="color:var(--amber);font-size:13px;margin-top:4px">
+63-feature IC-weighted factor model. Buy top pick at open, hold {hold_days} trading days.
+{' Skip if Bear regime (Nifty 20d < -3%).' if bear_mode else ''}
+</div>
+</div></header>
+
+<div style="background:var(--surface);border:2px solid var(--{'sage' if not bear_mode else 'negative'});border-radius:12px;padding:16px 20px;margin-bottom:20px;box-shadow:var(--shadow)">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+    <div>
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Regime</span>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text)">{regime_label} ({trend_20d:+.2f}%)</div>
+    </div>
+    <div style="text-align:right">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Recommendation</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--{'sage' if not bear_mode else 'negative'})">{'HOLD CASH' if bear_mode else regime_action}</div>
+    </div>
+    <div style="text-align:right">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Max Positions</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--text)">{max_pos}</div>
+    </div>
+    <div style="text-align:right">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted)">Enter Today</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--text)">{0 if bear_mode else entries_today}</div>
+    </div>
+  </div>
+  <div style="font-size:13px;color:var(--text-secondary);margin-top:8px">{action_note} · Index ATR {atr_pct}%{' · Bear regime SKIP active' if bear_mode else ''}</div>
+  </div>
+
+<div class="exec-summary">
+  <div class="context-card">
+    <h3>Market Context</h3>
+    <div class="stat-row">
+      <div class="stat"><span class="label">Index</span><span class="value">^NSEI @ {index_price:,.0f}</span></div>
+      <div class="stat"><span class="label">Trend 20d</span><span class="value {trend_cls}">{regime_label} ({trend_20d:+.2f}%)</span></div>
+      <div class="stat"><span class="label">Volatility</span><span class="value">ATR {atr_pct}%</span></div>
+    </div>
+    <div class="trend-bar">
+      <span class="label">Momentum</span>
+      <div class="track"><div class="fill {trend_cls}" style="width:{min(max((trend_20d+10)/20*100,0),100):.0f}%"></div></div>
+    </div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi-card"><span class="kpi-label">Signals</span><span class="kpi-value">{signal_count}</span><span class="kpi-sub">top {entries_today} to enter</span></div>
+    <div class="kpi-card"><span class="kpi-label">Hold Days</span><span class="kpi-value" style="font-size:16px">{hold_days}</span><span class="kpi-sub">trading days then exit</span></div>
+  </div>
+</div>
+
+<section><h2>Factor Model Picks</h2>
+<div class="data-table-wrap">
+<table class="data-table">
+<thead><tr>
+  <th scope="col">Rank</th><th scope="col">Symbol</th><th scope="col">Entry Price</th><th scope="col">Conviction</th><th scope="col">Score</th>
+</tr></thead>
+<tbody>{signal_rows}</tbody>
+</table></div>
+<div class="legend">
+<strong>How it works:</strong>
+63 features → IC-weighted composite → rank Nifty 50 stocks → buy top {max_pos} at open.
+Hold for <strong>{hold_days} trading days</strong> (next Friday), then exit regardless of price.
+{'No entry during Bear regime (Nifty 20d return &lt; -3%).' if bear_mode else 'Skip Bear regime (Nifty 20d return &lt; -3%).'}
+All prices include slippage (0.1%) + brokerage (0.05%).
+</div>
+</section>
+
+<footer>Factor Scan Report · AI Quantitative Researcher</footer>
+</div></body></html>"""

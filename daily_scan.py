@@ -14,6 +14,7 @@ import os
 import sys
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import yfinance as yf
 
@@ -29,7 +30,13 @@ import json
 
 from src.db import load_symbol_data, load_universe, get_sector_map
 from src.features import precompute_all_characteristics
-from src.reporting import _classify_regime, daily_scan_html, momentum_scan_html
+from src.factors import (
+    compute_cross_sectional_factors, train_factor_weights,
+    generate_factor_signals, extract_factor_snapshot,
+)
+from src.reporting import (
+    _classify_regime, daily_scan_html, momentum_scan_html, factor_scan_html,
+)
 
 NIFTY_INDEX_TICKER = "^NSEI"
 
@@ -43,6 +50,9 @@ EXIT_COST_MULT = 1 - SLIPPAGE - BROKERAGE
 def _save_json(json_path: str | None, scan_date, strategy, sig, targets, regime, sector_map):
     if not json_path:
         return
+    out_dir = os.path.dirname(json_path)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
     signals_json = []
     for _, r in sig.head(50).iterrows():
         sym = r["symbol"]
@@ -74,7 +84,6 @@ def _save_json(json_path: str | None, scan_date, strategy, sig, targets, regime,
         },
         "signals": signals_json,
     }
-    os.makedirs(os.path.dirname(json_path), exist_ok=True)
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2)
     print(f"  JSON data saved: {json_path}")
@@ -159,6 +168,64 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
         if crash_mode:
             print(f"  *** CRASH REGIME: Do NOT enter. Wait for 20d return > -3%. ***")
 
+    elif strategy == "factor":
+        print(f"  Computing factor features (63 features)...")
+        factor_data = compute_cross_sectional_factors(data)
+
+        available = sorted(set(d for s in factor_data for d in factor_data[s].index))
+        if scan_date not in available:
+            closest = [d for d in available if d >= scan_date]
+            if not closest:
+                print(f"  No trading data on or after {scan_date.date()}")
+                sys.exit(1)
+            scan_date = closest[0]
+            print(f"  Adjusted to nearest trading day: {scan_date.date()}")
+
+        print(f"  Training factor weights...")
+        all_rows = []
+        for sym, df in data.items():
+            close = df["close"]
+            fwd = close.shift(-10) / close - 1
+            temp = pd.DataFrame({"symbol": sym, "date": df.index.values, "fwd_return": fwd.values})
+            all_rows.append(temp)
+        combined = pd.concat(all_rows).dropna(subset=["fwd_return"])
+        combined = combined[combined["date"] <= scan_date]
+        factor_df = extract_factor_snapshot(factor_data, combined)
+        for col in factor_df.select_dtypes(include=[np.number]).columns:
+            factor_df[col] = factor_df[col].replace([np.inf, -np.inf], np.nan)
+
+        weights, selected = train_factor_weights(factor_df)
+        print(f"  Using {len(selected)} features")
+
+        sig = generate_factor_signals(data, factor_data, scan_date, weights)
+        if sig.empty:
+            print(f"\n  No factor signals on {scan_date.date()}.")
+            _save_json(json_output, scan_date, strategy, sig, {}, regime, get_sector_map(universe_slug_or_path))
+            sys.exit(1)
+
+        bear_skip = regime.get("trend_label", "") == "Bear"
+        if bear_skip:
+            print(f"  *** Bear regime: skip entry. Hold cash. ***")
+
+        targets = {}
+        for _, r in sig.iterrows():
+            targets[r["symbol"]] = {
+                "entry": round(r["close"], 2),
+            }
+
+        print(f"\n  Factor Signals: {len(sig)}")
+        print(f"  {'Rank':<5} {'Symbol':<18} {'Conviction':>10} {'Price':>9}")
+        print(f"  {'-'*4:<5} {'-'*17:<18} {'-'*9:>10} {'-'*8:>9}")
+        for _, r in sig.iterrows():
+            print(f"  {r['rank']:<5} {r['symbol']:<18} {r['conviction']:>10.4f} {r['close']:>8.2f}")
+
+        max_pos = 3
+        entries_today = 0 if bear_skip else min(len(sig), max_pos)
+        print(f"  Max positions: {max_pos}  |  Entering: {entries_today}")
+        print(f"  Hold: 10 trading days  |  Exit: next Friday")
+        if bear_skip:
+            print(f"  *** BEAR REGIME: Skip entry. Wait for 20d return > -3%. ***")
+
     else:
         print(f"  Computing characteristics...")
         char_data = precompute_all_characteristics(data, window=20)
@@ -207,7 +274,9 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
     print(f"  *Entry price includes slippage ({SLIPPAGE:.1%}) + brokerage ({BROKERAGE:.2%})")
     print(f"{'='*70}\n")
     if output:
-        os.makedirs(os.path.dirname(output), exist_ok=True)
+        out_dir = os.path.dirname(output)
+        if out_dir:
+            os.makedirs(out_dir, exist_ok=True)
         date_str = scan_date.strftime("%Y-%m-%d")
         if strategy == "momentum":
             html = momentum_scan_html(
@@ -215,6 +284,8 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
                 mom_stop_loss=MOM_STOP_LOSS, mom_trail_activate=MOM_TRAIL_ACTIVATE,
                 mom_trail_distance=MOM_TRAIL_DISTANCE, max_positions=MOM_MAX_POSITIONS,
             )
+        elif strategy == "factor":
+            html = factor_scan_html(date_str, sig, regime, universe_name)
         else:
             html = daily_scan_html(
                 date_str, sig, regime, targets, universe_name,
@@ -230,6 +301,14 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
     if json_path:
         _save_json(json_path, scan_date, strategy, sig, targets, regime, get_sector_map(universe_slug_or_path))
 
+    if strategy == "factor" and json_path:
+        import json as _json
+        _dir = os.path.dirname(os.path.abspath(json_path)) if json_path else "."
+        _latest = os.path.join(_dir, "latest.json")
+        with open(_latest, "w", encoding="utf-8") as f:
+            _json.dump({"date": scan_date.strftime("%Y-%m-%d")}, f)
+        print(f"  latest.json saved: {_latest}")
+
 
 def main():
     parser = argparse.ArgumentParser(description="Daily scan for actionable signals")
@@ -241,7 +320,7 @@ def main():
                         help="Save HTML report to file")
     parser.add_argument("--json-output", default=None,
                         help="Save JSON signal data to file (default: derived from --output)")
-    parser.add_argument("--strategy", "-s", default="contrarian", choices=["contrarian", "momentum"],
+    parser.add_argument("--strategy", "-s", default="contrarian", choices=["contrarian", "momentum", "factor"],
                         help="Strategy to scan for (default: contrarian)")
     args = parser.parse_args()
     scan(args.universe, args.date, args.output, args.strategy, args.json_output)
