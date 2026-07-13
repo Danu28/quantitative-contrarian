@@ -518,7 +518,8 @@ def generate_factor_signals(
     if not feature_names:
         return pd.DataFrame()
     common = [f for f in feature_names if all(f in factor_data[s].columns for s in factor_data if date in factor_data[s].index)]
-    if not common:
+    filtered_weights = {f: w for f, w in weights.items() if f in common}
+    if not common or not filtered_weights:
         return pd.DataFrame()
     rows = []
     for sym in factor_data:
@@ -532,7 +533,7 @@ def generate_factor_signals(
     feat_df = df[common].apply(pd.to_numeric, errors="coerce")
     feat_df = feat_df.replace([np.inf, -np.inf], np.nan)
     ranked = feat_df.rank(pct=True)
-    score = sum(ranked[feat] * w for feat, w in weights.items()) / sum(abs(w) for w in weights.values())
+    score = sum(ranked[feat] * w for feat, w in filtered_weights.items()) / sum(abs(w) for w in filtered_weights.values())
     result = pd.DataFrame({"symbol": score.index, "conviction": score.values,
                            "close": df.loc[score.index, "close"].values})
     result = result.sort_values("conviction", ascending=False).reset_index(drop=True)

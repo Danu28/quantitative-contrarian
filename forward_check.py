@@ -189,7 +189,7 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
 
 def main():
     parser = argparse.ArgumentParser(description="Check forward returns for any universe")
-    parser.add_argument("--universe", "-u", default="niftymidcap150",
+    parser.add_argument("--universe", "-u", default="nifty50",
                         help="Universe slug or path to JSON")
     parser.add_argument("--date", required=True, help="Historical date (YYYY-MM-DD)")
     parser.add_argument("--horizons", nargs="+", type=int, default=[5, 10, 20],
