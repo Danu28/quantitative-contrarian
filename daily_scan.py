@@ -203,8 +203,8 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
             _save_json(json_output, scan_date, strategy, sig, {}, regime, get_sector_map(universe_slug_or_path))
             sys.exit(1)
 
-        if top > 0:
-            sig = sig.head(top)
+        n_top = top if top > 0 else 3
+        sig = sig.head(n_top)
 
         bear_skip = regime.get("trend_label", "") == "Bear"
         if bear_skip:
@@ -222,9 +222,9 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
         for _, r in sig.iterrows():
             print(f"  {r['rank']:<5} {r['symbol']:<18} {r['conviction']:>10.4f} {r['close']:>8.2f}")
 
-        max_pos = 3
+        max_pos = n_top
         entries_today = 0 if bear_skip else min(len(sig), max_pos)
-        print(f"  Max positions: {max_pos}  |  Entering: {entries_today}")
+        print(f"  Max positions: {n_top}  |  Entering: {entries_today}")
         print(f"  Hold: 10 trading days  |  Exit: next Friday")
         if bear_skip:
             print(f"  *** BEAR REGIME: Skip entry. Wait for 20d return > -3%. ***")
