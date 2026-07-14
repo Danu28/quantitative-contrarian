@@ -5,16 +5,16 @@
   "max_positions": 10,
   "regime": {
     "trend_label": "Sideways",
-    "trend_20d": 0.9,
+    "trend_20d": 1.19,
     "action": "Full deploy"
   },
   "signals": [
     {
       "rank": 1,
       "symbol": "INFY.NS",
-      "close": 1102.6,
-      "entry": 1102.6,
-      "conviction": 0.3875,
+      "close": 1102.0,
+      "entry": 1102.0,
+      "conviction": 0.3964,
       "momentum_pct": 0.0,
       "target1": 0,
       "target2": 0,
@@ -26,9 +26,9 @@
     {
       "rank": 2,
       "symbol": "TCS.NS",
-      "close": 2181.5,
-      "entry": 2181.5,
-      "conviction": 0.3432,
+      "close": 2202.2,
+      "entry": 2202.2,
+      "conviction": 0.3604,
       "momentum_pct": 0.0,
       "target1": 0,
       "target2": 0,
@@ -40,9 +40,9 @@
     {
       "rank": 3,
       "symbol": "HCLTECH.NS",
-      "close": 1221.2,
-      "entry": 1221.2,
-      "conviction": 0.3033,
+      "close": 1185.6,
+      "entry": 1185.6,
+      "conviction": 0.3528,
       "momentum_pct": 0.0,
       "target1": 0,
       "target2": 0,
