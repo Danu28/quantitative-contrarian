@@ -203,7 +203,15 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
             _save_json(json_output, scan_date, strategy, sig, {}, regime, get_sector_map(universe_slug_or_path))
             sys.exit(1)
 
-        sig = sig.head(top)
+        # Sector diversification: take top 1 per sector, then top overall
+        sector_map = get_sector_map(universe_slug_or_path)
+        sig["sector"] = sig["symbol"].map(sector_map).fillna("Unknown")
+        pool_size = max(top * 5, 15)
+        top_pool = sig.head(pool_size)
+        diversified = top_pool.groupby("sector").head(1).reset_index(drop=True)
+        diversified = diversified.sort_values("conviction", ascending=False).head(top)
+        diversified["rank"] = range(1, len(diversified) + 1)
+        sig = diversified
 
         bear_skip = regime.get("trend_label", "") == "Bear"
         if bear_skip:

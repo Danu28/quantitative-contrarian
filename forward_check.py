@@ -9,7 +9,7 @@ import pandas as pd
 
 import numpy as np
 from src.backtest import generate_signals, generate_momentum_signals, compute_momentum_stops, find_trading_dates, build_horizon_results
-from src.db import load_symbol_data, load_universe
+from src.db import load_symbol_data, load_universe, get_sector_map
 from src.features import precompute_all_characteristics
 from src.factors import (
     compute_cross_sectional_factors, train_factor_weights,
@@ -90,8 +90,19 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
         print(f"\n  No signals generated on {entry_date.date()}.")
         sys.exit(1)
 
-    sig = sig.head(top)
-    print(f"  Limited to top {top} signals")
+    # Sector diversification for factor strategy
+    if strategy == "factor":
+        sector_map = get_sector_map(universe_slug_or_path)
+        sig["sector"] = sig["symbol"].map(sector_map).fillna("Unknown")
+        pool_size = max(top * 5, 15)
+        top_pool = sig.head(pool_size)
+        diversified = top_pool.groupby("sector").head(1).reset_index(drop=True)
+        diversified = diversified.sort_values("conviction", ascending=False).head(top)
+        diversified["rank"] = range(1, len(diversified) + 1)
+        sig = diversified
+
+    sig = sig.head(top) if strategy != "factor" else sig
+    print(f"  Limited to top {len(sig)} signals")
 
     # Compute regime at entry date
     if strategy == "momentum":
