@@ -1,0 +1,55 @@
+{
+  "date": "2026-07-15",
+  "strategy": "factor",
+  "signal_count": 3,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": 1.34,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "INFY.NS",
+      "close": 1076.2,
+      "entry": 1076.2,
+      "conviction": 0.4053,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Information Technology"
+    },
+    {
+      "rank": 2,
+      "symbol": "TCS.NS",
+      "close": 2182.7,
+      "entry": 2182.7,
+      "conviction": 0.3674,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Information Technology"
+    },
+    {
+      "rank": 3,
+      "symbol": "HCLTECH.NS",
+      "close": 1168.4,
+      "entry": 1168.4,
+      "conviction": 0.3502,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Information Technology"
+    }
+  ]
+}
