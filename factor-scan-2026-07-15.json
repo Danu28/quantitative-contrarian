@@ -1,34 +1,34 @@
 {
   "date": "2026-07-15",
   "strategy": "factor",
-  "signal_count": 3,
+  "signal_count": 5,
   "max_positions": 10,
   "regime": {
     "trend_label": "Sideways",
-    "trend_20d": 1.34,
+    "trend_20d": 0.83,
     "action": "Full deploy"
   },
   "signals": [
     {
       "rank": 1,
-      "symbol": "INFY.NS",
-      "close": 1076.2,
-      "entry": 1076.2,
-      "conviction": 0.4053,
+      "symbol": "RELIANCE.NS",
+      "close": NaN,
+      "entry": NaN,
+      "conviction": NaN,
       "momentum_pct": 0.0,
       "target1": 0,
       "target2": 0,
       "hard_stop": 0,
       "trail_trigger": 0,
       "trail_stop": 0,
-      "sector": "Information Technology"
+      "sector": "Energy"
     },
     {
       "rank": 2,
       "symbol": "TCS.NS",
-      "close": 2182.7,
-      "entry": 2182.7,
-      "conviction": 0.3674,
+      "close": NaN,
+      "entry": NaN,
+      "conviction": NaN,
       "momentum_pct": 0.0,
       "target1": 0,
       "target2": 0,
@@ -39,17 +39,45 @@
     },
     {
       "rank": 3,
-      "symbol": "HCLTECH.NS",
-      "close": 1168.4,
-      "entry": 1168.4,
-      "conviction": 0.3502,
+      "symbol": "HDFCBANK.NS",
+      "close": NaN,
+      "entry": NaN,
+      "conviction": NaN,
       "momentum_pct": 0.0,
       "target1": 0,
       "target2": 0,
       "hard_stop": 0,
       "trail_trigger": 0,
       "trail_stop": 0,
-      "sector": "Information Technology"
+      "sector": "Financial Services"
+    },
+    {
+      "rank": 4,
+      "symbol": "HINDUNILVR.NS",
+      "close": NaN,
+      "entry": NaN,
+      "conviction": NaN,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Fast Moving Consumer Goods"
+    },
+    {
+      "rank": 5,
+      "symbol": "BHARTIARTL.NS",
+      "close": NaN,
+      "entry": NaN,
+      "conviction": NaN,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Telecommunication"
     }
   ]
 }
