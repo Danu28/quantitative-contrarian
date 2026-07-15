@@ -365,24 +365,17 @@ def extract_factor_snapshot(
     all_factor_data: dict[str, pd.DataFrame],
     observations: pd.DataFrame,
 ) -> pd.DataFrame:
-    rows = []
-    for _, row in observations.iterrows():
-        sym = row["symbol"]
-        date = row["date"]
-        if sym not in all_factor_data:
-            continue
-        fd = all_factor_data[sym]
-        try:
-            vals = fd.loc[date].to_dict()
-        except KeyError:
-            continue
-        if pd.isna(vals.get("volatility")):
-            continue
-        vals["symbol"] = sym
-        vals["date"] = date
-        vals["fwd_return"] = row.get("fwd_return", np.nan)
-        rows.append(vals)
-    return pd.DataFrame(rows)
+    dfs = []
+    for sym, fd in all_factor_data.items():
+        fd = fd.copy()
+        fd["symbol"] = sym
+        fd["date"] = fd.index
+        dfs.append(fd)
+    stacked = pd.concat(dfs, ignore_index=True)
+    merged = observations[["symbol", "date", "fwd_return"]].merge(
+        stacked, on=["symbol", "date"], how="inner"
+    )
+    return merged.dropna(subset=["volatility"])
 
 
 def run_factor_research(
