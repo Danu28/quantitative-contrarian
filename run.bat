@@ -19,26 +19,65 @@ echo %DIV%
 echo %BOLD%%WHITE%   AI QUANTITATIVE RESEARCHER - MASTER CONTROL%RESET%
 echo %DIV%
 echo.
-echo  %CYAN%[1]%RESET%  Contrarian Scan   - Find today's contrarian signals
-echo  %CYAN%[2]%RESET%  Momentum Scan     - Find today's momentum signals
-echo  %CYAN%[3]%RESET%  Forward Check     - Check forward returns for a date
-echo  %CYAN%[4]%RESET%  Backtest          - Run full backtest with gates
-echo  %CYAN%[5]%RESET%  Run All           - Scan + Forward Check + Backtest
-echo  %CYAN%[6]%RESET%  Open Last Report  - Open most recent HTML report
-echo  %CYAN%[7]%RESET%  Validate Forward  - Walk-forward accuracy check
+echo  %CYAN%[1]%RESET%  Factor Scan       - 63-feature IC factor model (default)
+echo  %CYAN%[2]%RESET%  Contrarian Scan   - Find today's contrarian signals
+echo  %CYAN%[3]%RESET%  Momentum Scan     - Find today's momentum signals
+echo  %CYAN%[4]%RESET%  Forward Check     - Check forward returns for a date
+echo  %CYAN%[5]%RESET%  Backtest          - Run full backtest with gates
+echo  %CYAN%[6]%RESET%  Run All           - Scan + Forward Check + Backtest
+echo  %CYAN%[7]%RESET%  Open Last Report  - Open most recent HTML report
+echo  %CYAN%[8]%RESET%  Validate Forward  - Walk-forward accuracy check
 echo  %CYAN%[0]%RESET%  Exit
 echo.
-set /p choice="%BOLD%%YELLOW%Enter your choice [0-7]: %RESET%"
+set /p choice="%BOLD%%YELLOW%Enter your choice [0-8]: %RESET%"
 
-if "%choice%"=="1" goto contrarian_scan
-if "%choice%"=="2" goto momentum_scan
-if "%choice%"=="3" goto forward_check
-if "%choice%"=="4" goto backtest
-if "%choice%"=="5" goto run_all
-if "%choice%"=="6" goto open_report
-if "%choice%"=="7" goto validate_fwd
+if "%choice%"=="1" goto factor_scan
+if "%choice%"=="2" goto contrarian_scan
+if "%choice%"=="3" goto momentum_scan
+if "%choice%"=="4" goto forward_check
+if "%choice%"=="5" goto backtest
+if "%choice%"=="6" goto run_all
+if "%choice%"=="7" goto open_report
+if "%choice%"=="8" goto validate_fwd
 if "%choice%"=="0" goto end
 echo %RED%Invalid choice. Try again.%RESET%
+pause
+goto menu
+
+:: ─── Factor Scan ───
+:factor_scan
+cls
+echo %BOLD%%WHITE%FACTOR SCAN%RESET%
+echo %DIV%
+echo.
+set /p fs_date="Date (YYYY-MM-DD) [today]: "
+
+if "%fs_date%"=="" (
+    for /f %%a in ('powershell -Command "Get-Date -Format 'yyyy-MM-dd'"') do set fs_filedate=%%a
+) else (
+    set fs_filedate=%fs_date%
+)
+set fs_output=reports\factor-scan-%fs_filedate%.html
+set fs_json=reports\factor-scan-%fs_filedate%.json
+
+echo.
+echo %YELLOW%Running factor scan...%RESET%
+if "%fs_date%"=="" (
+    python daily_scan.py --strategy factor --universe nifty50 --output "%fs_output%" --json-output "%fs_json%"
+) else (
+    python daily_scan.py --strategy factor --universe nifty50 --date "%fs_date%" --output "%fs_output%" --json-output "%fs_json%"
+)
+if %ERRORLEVEL% neq 0 (
+    echo %RED%Factor scan failed!%RESET%
+    pause
+    goto menu
+)
+echo %GREEN%Done! Report: %fs_output%%RESET%
+if exist "%fs_output%" (
+    start "" "%fs_output%"
+) else (
+    echo %YELLOW%File not found: %fs_output%%RESET%
+)
 pause
 goto menu
 
@@ -124,11 +163,10 @@ cls
 echo %BOLD%%WHITE%FORWARD CHECK%RESET%
 echo %DIV%
 echo.
-set /p fc_strategy="Strategy [contrarian/momentum] [contrarian]: "
-if "%fc_strategy%"=="" set fc_strategy=contrarian
-set /p fc_universe="Universe [niftymidcap150]: "
-if "%fc_universe%"=="" set fc_universe=niftymidcap150
-rem No override — both strategies use niftymidcap150
+set /p fc_strategy="Strategy [factor/contrarian/momentum] [factor]: "
+if "%fc_strategy%"=="" set fc_strategy=factor
+set /p fc_universe="Universe [nifty50]: "
+if "%fc_universe%"=="" set fc_universe=nifty50
 set /p fc_date="Date (YYYY-MM-DD) [REQUIRED]: "
 set /p fc_horizons="Horizons in trading days [5 10 20]: "
 if "%fc_horizons%"=="" set fc_horizons=5 10 20
@@ -195,10 +233,6 @@ cls
 echo %BOLD%%WHITE%RUN ALL - FULL PIPELINE%RESET%
 echo %DIV%
 echo.
-set /p ra_universe="Contrarian universe [niftymidcap150]: "
-if "%ra_universe%"=="" set ra_universe=niftymidcap150
-set /p ra_mom_universe="Momentum universe [niftymidcap150]: "
-if "%ra_mom_universe%"=="" set ra_mom_universe=niftymidcap150
 set /p ra_date="Date (YYYY-MM-DD) [today]: "
 set /p ra_years="Backtest years [3]: "
 if "%ra_years%"=="" set ra_years=3
@@ -210,42 +244,31 @@ if "%ra_date%"=="" (
 )
 
 echo.
-echo %BOLD%%YELLOW%Phase 1/4: Contrarian Scan%RESET%
+echo %BOLD%%YELLOW%Phase 1/3: Factor Scan%RESET%
 if "%ra_date%"=="" (
-    python daily_scan.py --strategy contrarian --universe "%ra_universe%" --output "reports\contrarian-scan-%ra_filedate%.html"
+    python daily_scan.py --strategy factor --universe nifty50 --output "reports\factor-scan-%ra_filedate%.html" --json-output "reports\factor-scan-%ra_filedate%.json"
 ) else (
-    python daily_scan.py --strategy contrarian --universe "%ra_universe%" --date "%ra_date%" --output "reports\contrarian-scan-%ra_filedate%.html"
+    python daily_scan.py --strategy factor --universe nifty50 --date "%ra_date%" --output "reports\factor-scan-%ra_filedate%.html" --json-output "reports\factor-scan-%ra_filedate%.json"
 )
 if %ERRORLEVEL% neq 0 (
-    echo %RED%Contrarian scan failed but continuing...%RESET%
+    echo %RED%Factor scan failed but continuing...%RESET%
 )
 
 echo.
-echo %BOLD%%YELLOW%Phase 2/4: Momentum Scan%RESET%
-if "%ra_date%"=="" (
-    python daily_scan.py --strategy momentum --universe "%ra_mom_universe%" --output "reports\momentum-scan-%ra_filedate%.html"
-) else (
-    python daily_scan.py --strategy momentum --universe "%ra_mom_universe%" --date "%ra_date%" --output "reports\momentum-scan-%ra_filedate%.html"
-)
-if %ERRORLEVEL% neq 0 (
-    echo %RED%Momentum scan failed but continuing...%RESET%
-)
-
-echo.
-echo %BOLD%%YELLOW%Phase 3/4: Forward Check%RESET%
+echo %BOLD%%YELLOW%Phase 2/3: Forward Check%RESET%
 if "%ra_date%"=="" (
     for /f %%a in ('powershell -Command "Get-Date -Format 'yyyy-MM-dd'"') do set "today=%%a"
 ) else (
     set "today=%ra_date%"
 )
-python forward_check.py --universe "%ra_universe%" --date "%today%" --output reports\fwd_report.html
+python forward_check.py --strategy factor --universe nifty50 --date "%today%" --output reports\fwd_report.html
 if %ERRORLEVEL% neq 0 (
     echo %RED%Forward check failed but continuing...%RESET%
 )
 
 echo.
-echo %BOLD%%YELLOW%Phase 4/4: Backtest%RESET%
-python -m src.backtest --universe "%ra_universe%" --years %ra_years%
+echo %BOLD%%YELLOW%Phase 3/3: Backtest%RESET%
+python -m src.backtest --universe nifty50 --years %ra_years%
 if %ERRORLEVEL% neq 0 (
     echo %RED%Backtest failed.%RESET%
     pause
@@ -255,8 +278,7 @@ if %ERRORLEVEL% neq 0 (
 echo.
 echo %BOLD%%GREEN%All phases complete!%RESET%
 for /f %%a in ('powershell -Command "Get-Date -Format 'yyyy-MM-dd'"') do set today=%%a
-if exist "reports\contrarian-scan-%today%.html" ( echo %GREEN%Contrarian: reports\contrarian-scan-%today%.html%RESET% )
-if exist "reports\momentum-scan-%today%.html" ( echo %GREEN%Momentum: reports\momentum-scan-%today%.html%RESET% )
+if exist "reports\factor-scan-%today%.html" ( echo %GREEN%Factor: reports\factor-scan-%today%.html%RESET% )
 if exist "reports\fwd_report.html" ( start "" "reports\fwd_report.html" )
 pause
 goto menu
@@ -268,34 +290,31 @@ echo %BOLD%%WHITE%OPEN HTML REPORT%RESET%
 echo %DIV%
 echo.
 echo Select report to open:
-echo  %CYAN%[1]%RESET%  Contrarian scan (latest)
-echo  %CYAN%[2]%RESET%  Momentum scan (latest)
-echo  %CYAN%[3]%RESET%  reports\fwd_report.html
-echo  %CYAN%[4]%RESET%  reports\validation_report.html
-echo  %CYAN%[5]%RESET%  reports\report_signal_scarcity.html
-echo  %CYAN%[6]%RESET%  reports\report_signal_timing.html
+echo  %CYAN%[1]%RESET%  Factor scan (latest)
+echo  %CYAN%[2]%RESET%  Contrarian scan (latest)
+echo  %CYAN%[3]%RESET%  Momentum scan (latest)
+echo  %CYAN%[4]%RESET%  reports\fwd_report.html
+echo  %CYAN%[5]%RESET%  reports\validation_report.html
 echo  %CYAN%[0]%RESET%  Back
 echo.
-set /p rp_choice="%BOLD%%YELLOW%Choice [0-6]: %RESET%"
+set /p rp_choice="%BOLD%%YELLOW%Choice [0-5]: %RESET%"
 if "%rp_choice%"=="1" (
     for /f %%a in ('powershell -Command "Get-Date -Format 'yyyy-MM-dd'"') do set today=%%a
-    if exist "reports\contrarian-scan-%today%.html" ( start "" "reports\contrarian-scan-%today%.html" ) else echo %RED%No report for %today%%RESET%
+    if exist "reports\factor-scan-%today%.html" ( start "" "reports\factor-scan-%today%.html" ) else echo %RED%No factor report for %today%%RESET%
 )
 if "%rp_choice%"=="2" (
     for /f %%a in ('powershell -Command "Get-Date -Format 'yyyy-MM-dd'"') do set today=%%a
-    if exist "reports\momentum-scan-%today%.html" ( start "" "reports\momentum-scan-%today%.html" ) else echo %RED%No report for %today%%RESET%
+    if exist "reports\contrarian-scan-%today%.html" ( start "" "reports\contrarian-scan-%today%.html" ) else echo %RED%No report for %today%%RESET%
 )
 if "%rp_choice%"=="3" (
-    if exist "reports\fwd_report.html" ( start "" "reports\fwd_report.html" ) else echo %RED%File not found%RESET%
+    for /f %%a in ('powershell -Command "Get-Date -Format 'yyyy-MM-dd'"') do set today=%%a
+    if exist "reports\momentum-scan-%today%.html" ( start "" "reports\momentum-scan-%today%.html" ) else echo %RED%No report for %today%%RESET%
 )
 if "%rp_choice%"=="4" (
-    if exist "reports\validation_report.html" ( start "" "reports\validation_report.html" ) else echo %RED%File not found%RESET%
+    if exist "reports\fwd_report.html" ( start "" "reports\fwd_report.html" ) else echo %RED%File not found%RESET%
 )
 if "%rp_choice%"=="5" (
-    if exist "reports\report_signal_scarcity.html" ( start "" "reports\report_signal_scarcity.html" ) else echo %RED%File not found%RESET%
-)
-if "%rp_choice%"=="6" (
-    if exist "reports\report_signal_timing.html" ( start "" "reports\report_signal_timing.html" ) else echo %RED%File not found%RESET%
+    if exist "reports\validation_report.html" ( start "" "reports\validation_report.html" ) else echo %RED%File not found%RESET%
 )
 if not "%rp_choice%"=="0" pause
 goto menu
