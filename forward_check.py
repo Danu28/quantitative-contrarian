@@ -209,7 +209,7 @@ def main():
                         help="Starting capital (default: 10,000,000)")
     parser.add_argument("--strategy", "-s", default="contrarian", choices=["contrarian", "momentum", "factor"],
                         help="Strategy to check (default: contrarian)")
-    parser.add_argument("--top", type=int, default=3,
+    parser.add_argument("--top", type=int, default=5,
                         help="Only trade top N ranked stocks (default: 3)")
     parser.add_argument("--output", default=None, help="Save HTML report to file")
     args = parser.parse_args()

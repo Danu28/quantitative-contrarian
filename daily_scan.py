@@ -332,7 +332,7 @@ def main():
                         help="Save JSON signal data to file (default: derived from --output)")
     parser.add_argument("--strategy", "-s", default="contrarian", choices=["contrarian", "momentum", "factor"],
                         help="Strategy to scan for (default: contrarian)")
-    parser.add_argument("--top", type=int, default=3,
+    parser.add_argument("--top", type=int, default=5,
                         help="Only show top N ranked stocks (default: 3)")
     args = parser.parse_args()
     scan(args.universe, args.date, args.output, args.strategy, args.json_output, top=args.top)
