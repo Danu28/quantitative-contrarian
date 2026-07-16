@@ -117,6 +117,13 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
                 if r.get("min_intra_pct") is not None and r["min_intra_pct"] <= -3.0 and r.get("return_pct") is not None:
                     r["return_pct"] = max(r["return_pct"], -3.0)
                     r["exit_price"] = round(r["entry_price"] * 0.97, 2)
+                    r["status"] = "stopped"
+                    # find stop trigger date
+                    for d in hd.get("dates", [])[1:]:
+                        if r["symbol"] in data and d in data[r["symbol"]].index:
+                            if data[r["symbol"]].loc[d, "close"] / r["entry_price"] - 1 <= -0.03:
+                                r["exit_date"] = d
+                                break
             if "df" in hd and not hd["df"].empty:
                 hd["df"]["return_pct"] = [r.get("return_pct") for r in hd["results"]]
                 hd["df"]["exit_price"] = [r.get("exit_price") for r in hd["results"]]
@@ -141,7 +148,7 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
                 continue
             ret = r["return_pct"]
             min_s = f"{r['min_intra_pct']:+.2f}%" if r["min_intra_pct"] is not None else "N/A"
-            status = "WIN" if ret > 0 else "LOSS"
+            status = "STOPPED" if r.get("status") == "stopped" else ("WIN" if ret > 0 else "LOSS")
             if ret > 0:
                 winners += 1
             print(f"  {r['symbol']:<18} {r['entry_price']:>9.2f} {r['exit_price']:>9.2f} {ret:>+8.2f}% {min_s:>9} {status:<10}")
