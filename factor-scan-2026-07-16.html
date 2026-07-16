@@ -145,6 +145,8 @@ table.data-table tbody tr:hover { background: rgba(46,111,64,0.04); }
 table.data-table tbody td.mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
 table.data-table td.positive { color: var(--positive); font-weight: 600; }
 table.data-table td.negative { color: var(--negative); font-weight: 600; }
+table.data-table td.stopped  { color: var(--amber); font-weight: 600; }
+tr.stopped-row { background: rgba(217,119,6,0.06); }
 .micro-bar {
   display: inline-block; height: 6px; border-radius: 3px;
   background: var(--border); width: 60px; vertical-align: middle;
@@ -230,9 +232,9 @@ footer {
 </head><body>
 <button class="theme-toggle" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Toggle Theme</button>
 <div class="container">
-<header><div><h1>Factor Scan</h1><div class="meta">Scan: 2026-07-16 · NIFTY 50 · Run: 2026-07-16 16:48</div>
+<header><div><h1>Factor Scan</h1><div class="meta">Scan: 2026-07-16 · NIFTY 50 · Run: 2026-07-16 17:29</div>
 <div class="meta" style="color:var(--amber);font-size:13px;margin-top:4px">
-63-feature IC-weighted factor model. Buy top pick at open, hold 10 trading days.
+ 63-feature IC-weighted factor model. Hard Stop: -3% from entry. Hold 10 trading days.
 
 </div>
 </div></header>
@@ -282,38 +284,43 @@ footer {
 <div class="data-table-wrap">
 <table class="data-table">
 <thead><tr>
-  <th scope="col">Rank</th><th scope="col">Symbol</th><th scope="col">Entry Price</th><th scope="col">Conviction</th><th scope="col">Score</th>
+  <th scope="col">Rank</th><th scope="col">Symbol</th><th scope="col">Entry Price</th><th scope="col">Stop (-3%)</th><th scope="col">Conviction</th><th scope="col">Score</th>
 </tr></thead>
 <tbody><tr>
           <td class="mono">1</td>
           <td style="font-weight:600">TITAN.NS</td>
           <td class="mono">4625.80</td>
+          <td class="mono" style="color:var(--red)">4487.03</td>
           <td class="mono">2.8241</td>
           <td><div class="micro-bar"><div class="fill positive" style="width:100%"></div></div></td>
         </tr><tr>
           <td class="mono">2</td>
           <td style="font-weight:600">SUNPHARMA.NS</td>
           <td class="mono">1950.10</td>
+          <td class="mono" style="color:var(--red)">1891.60</td>
           <td class="mono">2.7403</td>
-          <td><div class="micro-bar"><div class="fill positive" style="width:100%"></div></div></td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:97%"></div></div></td>
         </tr><tr>
           <td class="mono">3</td>
           <td style="font-weight:600">APOLLOHOSP.NS</td>
           <td class="mono">8888.00</td>
+          <td class="mono" style="color:var(--red)">8621.36</td>
           <td class="mono">2.6984</td>
-          <td><div class="micro-bar"><div class="fill positive" style="width:100%"></div></div></td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:96%"></div></div></td>
         </tr><tr>
           <td class="mono">4</td>
           <td style="font-weight:600">ICICIBANK.NS</td>
           <td class="mono">1418.20</td>
+          <td class="mono" style="color:var(--red)">1375.65</td>
           <td class="mono">2.5224</td>
-          <td><div class="micro-bar"><div class="fill positive" style="width:100%"></div></div></td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:89%"></div></div></td>
         </tr><tr>
           <td class="mono">5</td>
           <td style="font-weight:600">ULTRACEMCO.NS</td>
           <td class="mono">11771.00</td>
+          <td class="mono" style="color:var(--red)">11417.87</td>
           <td class="mono">2.3883</td>
-          <td><div class="micro-bar"><div class="fill positive" style="width:100%"></div></div></td>
+          <td><div class="micro-bar"><div class="fill positive" style="width:85%"></div></div></td>
         </tr></tbody>
 </table></div>
 <div class="legend">
