@@ -59,7 +59,7 @@ After dev-loop tasks complete, delete `.devloop/` directory.
 - Run `python -m pytest tests/ -q` — all tests must pass
 - Run 15-date forward batch via `python batch_fwd_15.py`
 - Run 1-year validation via `python batch_fwd_1yr.py` for accepted hypotheses
-- Compare against current best: **~75% win, ~+2.0% avg 10d return**
+- Compare against current best: **~75% win, ~+2.4% avg 10d return**
 - If performance degrades → reject hypothesis, revert to previous state, document why
 
 ### Hypothesis Lifecycle
