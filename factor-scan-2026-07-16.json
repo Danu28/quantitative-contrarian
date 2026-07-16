@@ -1,83 +1,12 @@
 {
   "date": "2026-07-16",
   "strategy": "factor",
-  "signal_count": 5,
+  "signal_count": 0,
   "max_positions": 10,
   "regime": {
     "trend_label": "Sideways",
-    "trend_20d": -0.05,
+    "trend_20d": 0.37,
     "action": "Full deploy"
   },
-  "signals": [
-    {
-      "rank": 1,
-      "symbol": "TITAN.NS",
-      "close": 4625.8,
-      "entry": 4625.8,
-      "conviction": 2.8241,
-      "momentum_pct": 0.0,
-      "target1": 0,
-      "target2": 0,
-      "hard_stop": 0,
-      "trail_trigger": 0,
-      "trail_stop": 0,
-      "sector": "Consumer Goods"
-    },
-    {
-      "rank": 2,
-      "symbol": "SUNPHARMA.NS",
-      "close": 1950.1,
-      "entry": 1950.1,
-      "conviction": 2.7403,
-      "momentum_pct": 0.0,
-      "target1": 0,
-      "target2": 0,
-      "hard_stop": 0,
-      "trail_trigger": 0,
-      "trail_stop": 0,
-      "sector": "Healthcare"
-    },
-    {
-      "rank": 3,
-      "symbol": "APOLLOHOSP.NS",
-      "close": 8888.0,
-      "entry": 8888.0,
-      "conviction": 2.6984,
-      "momentum_pct": 0.0,
-      "target1": 0,
-      "target2": 0,
-      "hard_stop": 0,
-      "trail_trigger": 0,
-      "trail_stop": 0,
-      "sector": "Healthcare Services"
-    },
-    {
-      "rank": 4,
-      "symbol": "ICICIBANK.NS",
-      "close": 1418.2,
-      "entry": 1418.2,
-      "conviction": 2.5224,
-      "momentum_pct": 0.0,
-      "target1": 0,
-      "target2": 0,
-      "hard_stop": 0,
-      "trail_trigger": 0,
-      "trail_stop": 0,
-      "sector": "Financial Services"
-    },
-    {
-      "rank": 5,
-      "symbol": "ULTRACEMCO.NS",
-      "close": 11771.0,
-      "entry": 11771.0,
-      "conviction": 2.3883,
-      "momentum_pct": 0.0,
-      "target1": 0,
-      "target2": 0,
-      "hard_stop": 0,
-      "trail_trigger": 0,
-      "trail_stop": 0,
-      "sector": "Construction Materials"
-    }
-  ]
+  "signals": []
 }
