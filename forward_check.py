@@ -116,8 +116,10 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
             for r in hd.get("results", []):
                 if r.get("min_intra_pct") is not None and r["min_intra_pct"] <= -3.0 and r.get("return_pct") is not None:
                     r["return_pct"] = max(r["return_pct"], -3.0)
+                    r["exit_price"] = round(r["entry_price"] * 0.97, 2)
             if "df" in hd and not hd["df"].empty:
                 hd["df"]["return_pct"] = [r.get("return_pct") for r in hd["results"]]
+                hd["df"]["exit_price"] = [r.get("exit_price") for r in hd["results"]]
 
     for h in horizons:
         hd = horizon_data.get(h, {})
