@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -167,17 +166,6 @@ def print_comparison(
             ret_str = f"{ret:+.2f}%" if not np.isnan(ret) else "N/A"
             print(f"  {name:<15}: {best['symbol']:<18} 10d return: {ret_str}")
     print(f"{sep}")
-
-
-def save_html_report(
-    factor: pd.DataFrame,
-    contrarian: pd.DataFrame,
-    fwd_ret: dict[str, pd.DataFrame],
-    date: pd.Timestamp,
-    regime: str,
-    path: Path,
-):
-    pass
 
 
 def main():

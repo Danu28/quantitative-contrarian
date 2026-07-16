@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -429,9 +428,6 @@ def compute_metrics(eq: pd.DataFrame, trades: pd.DataFrame, capital: float) -> d
     }
 
 
-def compute_regime_multiplier(date: pd.Timestamp, data: dict[str, pd.DataFrame], all_dates: list[pd.Timestamp]) -> float:
-    return REGIME_NORMAL
-
 
 def run_horizon(data: dict, char_data: dict, horizon: int, config: BacktestConfig, sector_map: dict[str, str] | None = None) -> HorizonResult:
     all_dates = sorted(set(d for s in char_data for d in char_data[s].index))
@@ -444,8 +440,7 @@ def run_horizon(data: dict, char_data: dict, horizon: int, config: BacktestConfi
     for date in all_dates:
         prices = {s: data[s].loc[date, "close"] for s in data if date in data[s].index}
         sig = generate_signals(data, char_data, date, horizon=horizon)
-        mult = compute_regime_multiplier(date, data, all_dates)
-        pf.process_day(sig, prices, date, regime_multiplier=mult)
+        pf.process_day(sig, prices, date)
 
     eq = pd.DataFrame(pf.equity_curve).set_index("date") if pf.equity_curve else pd.DataFrame()
     trades = pf.get_trades_summary()

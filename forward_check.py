@@ -3,7 +3,6 @@ from __future__ import annotations
 import argparse
 import os
 import sys
-from pathlib import Path
 
 import pandas as pd
 
@@ -11,7 +10,7 @@ import numpy as np
 from src.backtest import generate_signals, generate_momentum_signals, compute_momentum_stops, find_trading_dates, build_horizon_results
 from src.db import load_symbol_data, load_universe, get_sector_map
 from src.features import precompute_all_characteristics
-from src.factors import generate_factor_signals
+from src.factors import generate_factor_signals, diversify_factor_signals
 from src.reporting import forward_check_html, _classify_regime
 
 
@@ -74,24 +73,13 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
 
     # Sector diversification for factor strategy
     if strategy == "factor":
-        sig["sector"] = sig["symbol"].map(sector_map).fillna("Unknown")
-        pool_size = max(top * 5, 15)
-        top_pool = sig.head(pool_size)
-        diversified = top_pool.groupby("sector").head(1).reset_index(drop=True)
-        diversified = diversified.sort_values("conviction", ascending=False).head(top)
-        diversified["rank"] = range(1, len(diversified) + 1)
-        sig = diversified
+        sig = diversify_factor_signals(sig, sector_map, top)
 
     sig = sig.head(top) if strategy != "factor" else sig
     print(f"  Limited to top {len(sig)} signals")
 
     # Compute regime at entry date
     if strategy == "momentum":
-        all_dates_set = set()
-        for s in data:
-            for d in data[s].index:
-                all_dates_set.add(d)
-        all_dates_fwd = sorted(all_dates_set)
         regime = {"trend_label": "Unknown", "trend_20d": 0, "action": "Unknown", "max_positions": 10}
     else:
         all_dates_fwd = sorted(set(d for s in data for d in data[s].index))

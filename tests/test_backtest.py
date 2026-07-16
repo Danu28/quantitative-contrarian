@@ -9,7 +9,7 @@ from src.backtest import (
     TRAIL_ACTIVATE, TRAIL_DISTANCE, TIME_STOP_DAYS, MAX_POSITIONS,
     MAX_DRAWDOWN_DISABLE, CAPITAL, REGIME_NORMAL,
     weighted_conviction, generate_signals, Portfolio,
-    compute_regime_multiplier, compute_metrics, run_horizon,
+    compute_metrics, run_horizon,
     BacktestConfig, HorizonResult,
 )
 
@@ -449,19 +449,6 @@ class TestComputeMetrics:
         metrics = compute_metrics(eq, trades, 100_000)
         assert metrics["win_rate_pct"] == pytest.approx(60.0)
         assert metrics["total_trades"] == 5
-
-
-class TestRegimeMultiplier:
-    def test_bull_regime_returns_reduced(self, sample_data):
-        dates = list(sample_data["STOCK1.NS"].index)
-        mult = compute_regime_multiplier(dates[30], sample_data, dates)
-        # With random data, just check it returns something valid
-        assert 0 < mult <= 1.0
-
-    def test_early_dates_default_to_normal(self, sample_data):
-        dates = list(sample_data["STOCK1.NS"].index)
-        mult = compute_regime_multiplier(dates[5], sample_data, dates)
-        assert mult == REGIME_NORMAL
 
 
 class TestSurvivorshipBias:

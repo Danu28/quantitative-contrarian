@@ -22,15 +22,15 @@ from src.backtest import generate_signals, generate_momentum_signals, compute_mo
 from src.config import (
     HARD_STOP, PROFIT_TARGET_1, PROFIT_TARGET_2,
     SLIPPAGE, BROKERAGE, TRAIL_ACTIVATE, TRAIL_DISTANCE,
-    MOM_MAX_POSITIONS, MOM_MIN_POSITIONS,
+    MOM_MAX_POSITIONS,
     MOM_STOP_LOSS, MOM_TRAIL_ACTIVATE, MOM_TRAIL_DISTANCE,
-    MOM_MIN_VOLUME, MOM_SECTOR_MAX,
+    MOM_SECTOR_MAX,
 )
 import json
 
 from src.db import load_symbol_data, load_universe, get_sector_map
 from src.features import precompute_all_characteristics
-from src.factors import generate_factor_signals
+from src.factors import generate_factor_signals, diversify_factor_signals
 from src.reporting import (
     _classify_regime, daily_scan_html, momentum_scan_html, factor_scan_html,
 )
@@ -185,13 +185,7 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
             sys.exit(1)
 
         # Sector diversification: take top 1 per sector, then top overall
-        sig["sector"] = sig["symbol"].map(sector_map).fillna("Unknown")
-        pool_size = max(top * 5, 15)
-        top_pool = sig.head(pool_size)
-        diversified = top_pool.groupby("sector").head(1).reset_index(drop=True)
-        diversified = diversified.sort_values("conviction", ascending=False).head(top)
-        diversified["rank"] = range(1, len(diversified) + 1)
-        sig = diversified
+        sig = diversify_factor_signals(sig, sector_map, top)
 
         bear_skip = regime.get("trend_label", "") == "Bear"
         if bear_skip:
@@ -292,11 +286,10 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
         _save_json(json_path, scan_date, strategy, sig, targets, regime, get_sector_map(universe_slug_or_path))
 
     if strategy == "factor" and json_path:
-        import json as _json
         _dir = os.path.dirname(os.path.abspath(json_path)) if json_path else "."
         _latest = os.path.join(_dir, "latest.json")
         with open(_latest, "w", encoding="utf-8") as f:
-            _json.dump({"date": scan_date.strftime("%Y-%m-%d")}, f)
+            json.dump({"date": scan_date.strftime("%Y-%m-%d")}, f)
         print(f"  latest.json saved: {_latest}")
 
 

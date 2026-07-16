@@ -84,3 +84,14 @@ def generate_factor_signals(
     df = df.sort_values("conviction", ascending=False).reset_index(drop=True)
     df["rank"] = range(1, len(df) + 1)
     return df[["symbol", "conviction", "close", "rank"]]
+
+
+def diversify_factor_signals(sig: pd.DataFrame, sector_map: dict[str, str], top: int) -> pd.DataFrame:
+    sig = sig.copy()
+    sig["sector"] = sig["symbol"].map(sector_map).fillna("Unknown")
+    pool_size = max(top * 5, 15)
+    top_pool = sig.head(pool_size)
+    diversified = top_pool.groupby("sector").head(1).reset_index(drop=True)
+    diversified = diversified.sort_values("conviction", ascending=False).head(top)
+    diversified["rank"] = range(1, len(diversified) + 1)
+    return diversified
