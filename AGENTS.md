@@ -7,6 +7,20 @@
 - **No autopush** — never push without explicit user approval
 - **Branch convention**: all work on `feature/*` branches, named after the change
 
+## Behavioral Rules
+
+### 1. Think Before Coding
+State assumptions explicitly. If multiple interpretations exist, present them — don't pick silently. If something is unclear, stop and ask. Don't hide confusion.
+
+### 2. Simplicity First
+Minimum code that solves the problem. No speculative features, no abstractions for single-use code, no "flexibility" that wasn't requested. If you write 200 lines and it could be 50, rewrite it.
+
+### 3. Surgical Changes
+Touch only what you must. Don't "improve" adjacent code, comments, or formatting. Don't refactor things that aren't broken. Match existing style. Clean up only imports/variables that YOUR changes made unused — don't delete pre-existing dead code unless asked. The test: every changed line should trace directly to the user's request.
+
+### 4. Goal-Driven Execution
+Define success criteria before implementing. For multi-step tasks, state a brief plan with verification checkpoints. Loop until verified — don't claim completion without evidence.
+
 ## Skill Order (in this sequence — must follow strictly)
 
 1. **alpha-factor-discovery** — generate hypotheses with economic mechanisms, formulas, falsification tests
