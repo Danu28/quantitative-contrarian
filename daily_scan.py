@@ -30,10 +30,7 @@ import json
 
 from src.db import load_symbol_data, load_universe, get_sector_map
 from src.features import precompute_all_characteristics
-from src.factors import (
-    compute_cross_sectional_factors, train_factor_weights,
-    generate_factor_signals, extract_factor_snapshot,
-)
+from src.factors import generate_factor_signals
 from src.reporting import (
     _classify_regime, daily_scan_html, momentum_scan_html, factor_scan_html,
 )
@@ -169,10 +166,9 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
             print(f"  *** CRASH REGIME: Do NOT enter. Wait for 20d return > -3%. ***")
 
     elif strategy == "factor":
-        print(f"  Computing factor features (63 features)...")
-        factor_data = compute_cross_sectional_factors(data)
+        print(f"  Computing momentum and volatility for each stock...")
 
-        available = sorted(set(d for s in factor_data for d in factor_data[s].index))
+        available = sorted(set(d for s in data for d in data[s].index))
         if scan_date not in available:
             closest = [d for d in available if d >= scan_date]
             if not closest:
@@ -181,23 +177,7 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
             scan_date = closest[0]
             print(f"  Adjusted to nearest trading day: {scan_date.date()}")
 
-        print(f"  Training factor weights...")
-        all_rows = []
-        for sym, df in data.items():
-            close = df["close"]
-            fwd = close.shift(-10) / close - 1
-            temp = pd.DataFrame({"symbol": sym, "date": df.index.values, "fwd_return": fwd.values})
-            all_rows.append(temp)
-        combined = pd.concat(all_rows).dropna(subset=["fwd_return"])
-        combined = combined[combined["date"] <= scan_date]
-        factor_df = extract_factor_snapshot(factor_data, combined)
-        for col in factor_df.select_dtypes(include=[np.number]).columns:
-            factor_df[col] = factor_df[col].replace([np.inf, -np.inf], np.nan)
-
-        weights, selected = train_factor_weights(factor_df)
-        print(f"  Using {len(selected)} features")
-
-        sig = generate_factor_signals(data, factor_data, scan_date, weights)
+        sig = generate_factor_signals(data, scan_date)
         if sig.empty:
             print(f"\n  No factor signals on {scan_date.date()}.")
             _save_json(json_output, scan_date, strategy, sig, {}, regime, get_sector_map(universe_slug_or_path))

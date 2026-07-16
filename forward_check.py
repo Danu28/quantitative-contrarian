@@ -11,10 +11,7 @@ import numpy as np
 from src.backtest import generate_signals, generate_momentum_signals, compute_momentum_stops, find_trading_dates, build_horizon_results
 from src.db import load_symbol_data, load_universe, get_sector_map
 from src.features import precompute_all_characteristics
-from src.factors import (
-    compute_cross_sectional_factors, train_factor_weights,
-    generate_factor_signals, extract_factor_snapshot,
-)
+from src.factors import generate_factor_signals
 from src.reporting import forward_check_html, _classify_regime
 
 
@@ -42,10 +39,9 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
         sig = generate_momentum_signals(data, entry_date, avg_vol_series=avg_vol)
         print(f"  (no characteristics needed for momentum)")
     elif strategy == "factor":
-        print(f"  Computing factor features (63 features)...")
-        factor_data = compute_cross_sectional_factors(data)
+        print(f"  Computing momentum and volatility...")
 
-        available = sorted(set(d for s in factor_data for d in factor_data[s].index))
+        available = sorted(set(d for s in data for d in data[s].index))
         if entry_date not in available:
             closest = [d for d in available if d >= entry_date]
             if not closest:
@@ -54,22 +50,7 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
             entry_date = closest[0]
             print(f"  Adjusted to nearest trading day: {entry_date.date()}")
 
-        print(f"  Training factor weights...")
-        all_rows = []
-        for sym, df in data.items():
-            close = df["close"]
-            fwd = close.shift(-10) / close - 1
-            temp = pd.DataFrame({"symbol": sym, "date": df.index.values, "fwd_return": fwd.values})
-            all_rows.append(temp)
-        combined = pd.concat(all_rows).dropna(subset=["fwd_return"])
-        combined = combined[combined["date"] <= entry_date]
-        factor_df = extract_factor_snapshot(factor_data, combined)
-        for col in factor_df.select_dtypes(include=[np.number]).columns:
-            factor_df[col] = factor_df[col].replace([np.inf, -np.inf], np.nan)
-
-        weights, selected = train_factor_weights(factor_df)
-        print(f"  Using {len(selected)} features")
-        sig = generate_factor_signals(data, factor_data, entry_date, weights)
+        sig = generate_factor_signals(data, entry_date)
     else:
         print(f"  Pre-computing characteristics...")
         char_data = precompute_all_characteristics(data, window=20)

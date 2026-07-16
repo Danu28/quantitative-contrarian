@@ -15,10 +15,7 @@ def factor_picks(
     top_n: int = 3,
     years: int = 2,
 ) -> pd.DataFrame:
-    from src.factors import (
-        compute_cross_sectional_factors, train_factor_weights,
-        generate_factor_signals, extract_factor_snapshot,
-    )
+    from src.factors import generate_factor_signals
     from src.db import load_data, load_symbol_data
 
     df_all = load_data(universe, db_path=DB_PATH)
@@ -29,26 +26,12 @@ def factor_picks(
     if not data:
         return pd.DataFrame()
 
-    factor_data = compute_cross_sectional_factors(data)
-    available = sorted(set(d for s in factor_data for d in factor_data[s].index))
+    available = sorted(set(d for s in data for d in data[s].index))
     entry = min((d for d in available if d >= date), default=None)
     if entry is None:
         return pd.DataFrame()
 
-    all_rows = []
-    for sym, df in data.items():
-        close = df["close"]
-        fwd = close.shift(-10) / close - 1
-        temp = pd.DataFrame({"symbol": sym, "date": df.index.values, "fwd_return": fwd.values})
-        all_rows.append(temp)
-    combined = pd.concat(all_rows).dropna(subset=["fwd_return"])
-    combined = combined[combined["date"] <= entry]
-    factor_df = extract_factor_snapshot(factor_data, combined)
-    for col in factor_df.select_dtypes(include=[np.number]).columns:
-        factor_df[col] = factor_df[col].replace([np.inf, -np.inf], np.nan)
-
-    weights, _ = train_factor_weights(factor_df)
-    signals = generate_factor_signals(data, factor_data, entry, weights)
+    signals = generate_factor_signals(data, entry)
     if signals.empty:
         return pd.DataFrame()
     result = signals.head(top_n).copy()
