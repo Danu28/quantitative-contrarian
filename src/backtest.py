@@ -45,14 +45,13 @@ def generate_signals(
     date: pd.Timestamp,
     horizon: int = HORIZON,
 ) -> pd.DataFrame:
-    universe_atr = np.median([
-        char_data[s].loc[date, "avg_true_range_pct"]
-        for s in char_data if date in char_data[s].index
-    ])
-    universe_vol = np.median([
-        char_data[s].loc[date, "volatility"]
-        for s in char_data if date in char_data[s].index
-    ])
+    atr_vals = [char_data[s].loc[date, "avg_true_range_pct"]
+                for s in char_data if date in char_data[s].index]
+    universe_atr = np.median(atr_vals) if atr_vals else np.nan
+
+    vol_vals = [char_data[s].loc[date, "volatility"]
+                for s in char_data if date in char_data[s].index]
+    universe_vol = np.median(vol_vals) if vol_vals else np.nan
     if pd.isna(universe_atr):
         return pd.DataFrame()
 

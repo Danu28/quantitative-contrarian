@@ -1,9 +1,0 @@
-{
-  "metadata": { "total_tasks": 4, "created_at": "2026-07-16T00:00:00Z" },
-  "tasks": [
-    { "id": 1, "title": "P1: Consolidate vol into main signal", "description": "Rank(ret_20d × vol_ratio / vol_20d) instead of separate −Rank(vol)", "priority": "high", "dependencies": [], "status": "in_progress" },
-    { "id": 2, "title": "P2: Time since 20d high", "description": "Add Rank(−days_since_20d_high)", "priority": "high", "dependencies": [], "status": "pending" },
-    { "id": 3, "title": "P3: Entropy", "description": "Low entropy = trending", "priority": "high", "dependencies": [], "status": "pending" },
-    { "id": 4, "title": "P4: Alternative lookbacks", "description": "60d momentum, 10d vol", "priority": "high", "dependencies": [], "status": "pending" }
-  ]
-}

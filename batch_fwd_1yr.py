@@ -2,14 +2,17 @@ from __future__ import annotations
 import subprocess, sys
 from datetime import datetime, timedelta
 
-end = datetime(2026, 7, 10)
+import sys
+year_offset = int(sys.argv[1]) if len(sys.argv) > 1 else 0  # years back from 2026
+
+end = datetime(2026 - year_offset, 7, 10)
 all_fridays = []
 d = end
 while len(all_fridays) < 52:
     if d.weekday() == 4:
         all_fridays.append(d.strftime("%Y-%m-%d"))
     d -= timedelta(days=1)
-dates = all_fridays[::3]  # non-overlapping, every 3rd Friday
+dates = all_fridays[::3]
 
 results = []
 for d in dates:

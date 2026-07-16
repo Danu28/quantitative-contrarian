@@ -81,6 +81,9 @@ class TestGenerateFactorSignals:
         expected["freshness"] = -expected["dsh"]
         expected["fresh_r"] = expected["freshness"].rank(pct=True)
         expected["conv"] = expected["ret_vol_r"] + expected["rec_r"] + expected["fresh_r"]
+        market_ret = expected["ret"].median()
+        regime_mult = np.clip(1 + market_ret / 0.05, 0, 1)
+        expected["conv"] = expected["conv"] * regime_mult
         expected = expected.sort_values("conv", ascending=False).reset_index(drop=True)
         assert np.allclose(sig["conviction"].values, expected["conv"].values)
 

@@ -77,6 +77,10 @@ def generate_factor_signals(
     else:
         df["conviction"] = df["ret_vol_adj_rank"] + df["recovery_rank"] + df["freshness_rank"]
 
+    market_ret = df["ret_20d"].median()
+    regime_mult = np.clip(1 + market_ret / 0.05, 0, 1)
+    df["conviction"] = df["conviction"] * regime_mult
+
     df = df.sort_values("conviction", ascending=False).reset_index(drop=True)
     df["rank"] = range(1, len(df) + 1)
     return df[["symbol", "conviction", "close", "rank"]]
