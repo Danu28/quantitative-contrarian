@@ -50,7 +50,8 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
             entry_date = closest[0]
             print(f"  Adjusted to nearest trading day: {entry_date.date()}")
 
-        sig = generate_factor_signals(data, entry_date)
+        sector_map = get_sector_map(universe_slug_or_path)
+        sig = generate_factor_signals(data, entry_date, sector_map)
     else:
         print(f"  Pre-computing characteristics...")
         char_data = precompute_all_characteristics(data, window=20)
@@ -73,7 +74,6 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
 
     # Sector diversification for factor strategy
     if strategy == "factor":
-        sector_map = get_sector_map(universe_slug_or_path)
         sig["sector"] = sig["symbol"].map(sector_map).fillna("Unknown")
         pool_size = max(top * 5, 15)
         top_pool = sig.head(pool_size)

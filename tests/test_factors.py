@@ -6,17 +6,18 @@ import numpy as np
 from src.factors import get_factor_names, generate_factor_signals
 
 
-def make_data(n_stocks=5, n_dates=60):
+def make_data(n_stocks=5, n_dates=60, with_volume=False):
     dates = pd.date_range("2024-01-01", periods=n_dates, freq="B")
     data = {}
     for i in range(n_stocks):
         np.random.seed(42 + i)
         close = 100 + np.cumsum(np.random.randn(n_dates) * 0.5)
         close = np.abs(close) + 10
-        data[f"STOCK{i}.NS"] = pd.DataFrame({
-            "open": close * 0.99, "high": close * 1.02,
-            "low": close * 0.98, "close": close,
-        }, index=dates)
+        cols = {"open": close * 0.99, "high": close * 1.02,
+                "low": close * 0.98, "close": close}
+        if with_volume:
+            cols["volume"] = np.random.randint(100000, 10000000, n_dates)
+        data[f"STOCK{i}.NS"] = pd.DataFrame(cols, index=dates)
     return data
 
 
@@ -26,11 +27,13 @@ class TestGetFactorNames:
         assert isinstance(names, list)
         assert all(isinstance(n, str) for n in names)
 
-    def test_returns_two_names(self):
+    def test_returns_four_names(self):
         names = get_factor_names()
-        assert len(names) == 2
+        assert len(names) == 4
         assert "ret_20d" in names
         assert "volatility_20d" in names
+        assert "vol_ratio" in names
+        assert "sector_rel_ret" in names
 
 
 class TestGenerateFactorSignals:
@@ -54,7 +57,7 @@ class TestGenerateFactorSignals:
         sig = generate_factor_signals(data, pd.Timestamp("2024-03-01"))
         assert (sig["conviction"].diff().dropna() <= 0).all()
 
-    def test_conviction_is_rank_ret_minus_rank_vol(self):
+    def test_conviction_formula_without_volume(self):
         data = make_data(n_stocks=10, n_dates=60)
         date = pd.Timestamp("2024-03-01")
         sig = generate_factor_signals(data, date)
@@ -67,11 +70,29 @@ class TestGenerateFactorSignals:
             rets.append(r)
             vols.append(v)
         expected = pd.DataFrame({"ret": rets, "vol": vols}).dropna()
+        # No volume → vol_ratio=1.0 → ret×1.0=ret → ret_vol_rank = Rank(ret)
         expected["ret_r"] = expected["ret"].rank(pct=True)
         expected["vol_r"] = expected["vol"].rank(pct=True)
         expected["conv"] = expected["ret_r"] - expected["vol_r"]
         expected = expected.sort_values("conv", ascending=False).reset_index(drop=True)
         assert np.allclose(sig["conviction"].values, expected["conv"].values)
+
+    def test_conviction_with_volume_and_sector(self):
+        data = make_data(n_stocks=10, n_dates=120, with_volume=True)
+        date = pd.Timestamp("2024-05-01")
+        sector_map = {f"STOCK{i}.NS": "Tech" if i < 5 else "Finance" for i in range(10)}
+        sig = generate_factor_signals(data, date, sector_map)
+        assert not sig.empty
+        assert len(sig) == 10
+        # All stocks with volume data should have different conviction than baseline
+        assert not np.allclose(sig["conviction"], 0.5)
+
+    def test_sector_map_empty_falls_back(self):
+        data = make_data(n_stocks=5, n_dates=60)
+        date = pd.Timestamp("2024-03-01")
+        sig_with = generate_factor_signals(data, date, sector_map={})
+        sig_without = generate_factor_signals(data, date)
+        assert np.allclose(sig_with["conviction"].values, sig_without["conviction"].values)
 
     def test_returns_empty_for_insufficient_history(self):
         data = make_data(n_dates=15)  # only 15 days, not enough for 20d lookback

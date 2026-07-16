@@ -16,7 +16,7 @@ def factor_picks(
     years: int = 2,
 ) -> pd.DataFrame:
     from src.factors import generate_factor_signals
-    from src.db import load_data, load_symbol_data
+    from src.db import load_data, load_symbol_data, get_sector_map
 
     df_all = load_data(universe, db_path=DB_PATH)
     cutoff = date - pd.DateOffset(days=365 * years)
@@ -31,7 +31,8 @@ def factor_picks(
     if entry is None:
         return pd.DataFrame()
 
-    signals = generate_factor_signals(data, entry)
+    sector_map = get_sector_map(universe)
+    signals = generate_factor_signals(data, entry, sector_map)
     if signals.empty:
         return pd.DataFrame()
     result = signals.head(top_n).copy()

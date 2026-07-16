@@ -177,14 +177,14 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
             scan_date = closest[0]
             print(f"  Adjusted to nearest trading day: {scan_date.date()}")
 
-        sig = generate_factor_signals(data, scan_date)
+        sector_map = get_sector_map(universe_slug_or_path)
+        sig = generate_factor_signals(data, scan_date, sector_map)
         if sig.empty:
             print(f"\n  No factor signals on {scan_date.date()}.")
-            _save_json(json_output, scan_date, strategy, sig, {}, regime, get_sector_map(universe_slug_or_path))
+            _save_json(json_output, scan_date, strategy, sig, {}, regime, sector_map)
             sys.exit(1)
 
         # Sector diversification: take top 1 per sector, then top overall
-        sector_map = get_sector_map(universe_slug_or_path)
         sig["sector"] = sig["symbol"].map(sector_map).fillna("Unknown")
         pool_size = max(top * 5, 15)
         top_pool = sig.head(pool_size)
