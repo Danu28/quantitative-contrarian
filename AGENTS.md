@@ -3,6 +3,7 @@
 ## Global Defaults
 - **Ponytail mode** is always active — write minimal code, no over-engineering, delete before adding
 - **Surgical changes** — every edit should be as small as possible. One intent per change. No bulk rewrites.
+- **Auto-commit** — commit at logical stops (hypothesis accepted, bug fixed, dev-loop completed). Clean, descriptive, one intent per commit.
 - **No autopush** — never push without explicit user approval
 - **Branch convention**: all work on `feature/*` branches, named after the change
 
