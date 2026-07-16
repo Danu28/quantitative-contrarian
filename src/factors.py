@@ -57,9 +57,8 @@ def generate_factor_signals(
         return pd.DataFrame()
 
     df["vol_ratio"] = df["vol_ratio"].fillna(1.0)
-    df["ret_vol_interaction"] = df["ret_20d"] * df["vol_ratio"]
-    df["ret_vol_rank"] = df["ret_vol_interaction"].rank(pct=True)
-    df["vol_rank"] = df["volatility_20d"].rank(pct=True)
+    df["ret_vol_adj"] = df["ret_20d"] * df["vol_ratio"] / df["volatility_20d"]
+    df["ret_vol_adj_rank"] = df["ret_vol_adj"].rank(pct=True)
     df["recovery_vol_adj"] = df["recovery_ratio"] / df["volatility_20d"]
     df["recovery_rank"] = df["recovery_vol_adj"].rank(pct=True)
 
@@ -68,9 +67,9 @@ def generate_factor_signals(
         sector_medians = df.groupby("sector")["ret_20d"].transform("median")
         df["sector_rel_ret"] = df["ret_20d"] - sector_medians
         df["sector_rel_rank"] = df["sector_rel_ret"].rank(pct=True)
-        df["conviction"] = df["ret_vol_rank"] + df["sector_rel_rank"] + df["recovery_rank"] - df["vol_rank"]
+        df["conviction"] = df["ret_vol_adj_rank"] + df["sector_rel_rank"] + df["recovery_rank"]
     else:
-        df["conviction"] = df["ret_vol_rank"] + df["recovery_rank"] - df["vol_rank"]
+        df["conviction"] = df["ret_vol_adj_rank"] + df["recovery_rank"]
 
     df = df.sort_values("conviction", ascending=False).reset_index(drop=True)
     df["rank"] = range(1, len(df) + 1)

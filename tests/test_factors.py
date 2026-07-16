@@ -74,12 +74,12 @@ class TestGenerateFactorSignals:
             vols.append(v)
             recs.append(rec)
         expected = pd.DataFrame({"ret": rets, "vol": vols, "rec": recs}).dropna()
-        # No volume → vol_ratio=1.0 → ret×1.0=ret → ret_vol_rank = Rank(ret)
-        expected["ret_r"] = expected["ret"].rank(pct=True)
-        expected["vol_r"] = expected["vol"].rank(pct=True)
+        # No volume → vol_ratio=1.0 → ret_vol_adj = ret / vol
+        expected["ret_vol_adj"] = expected["ret"] / expected["vol"]
+        expected["ret_vol_r"] = expected["ret_vol_adj"].rank(pct=True)
         expected["rec_adj"] = expected["rec"] / expected["vol"]
         expected["rec_r"] = expected["rec_adj"].rank(pct=True)
-        expected["conv"] = expected["ret_r"] + expected["rec_r"] - expected["vol_r"]
+        expected["conv"] = expected["ret_vol_r"] + expected["rec_r"]
         expected = expected.sort_values("conv", ascending=False).reset_index(drop=True)
         assert np.allclose(sig["conviction"].values, expected["conv"].values)
 
