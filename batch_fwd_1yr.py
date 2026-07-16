@@ -1,10 +1,14 @@
 from __future__ import annotations
+import argparse
 import subprocess, sys
 from datetime import datetime, timedelta
 
-year_offset = int(sys.argv[1]) if len(sys.argv) > 1 else 0  # years back from 2026
+parser = argparse.ArgumentParser()
+parser.add_argument("--universe", "-u", default="nifty50", help="Universe slug (default: nifty50)")
+parser.add_argument("--year-offset", type=int, default=0, help="Years back from 2026 (default: 0)")
+args = parser.parse_args()
 
-end = datetime(2026 - year_offset, 7, 10)
+end = datetime(2026 - args.year_offset, 7, 10)
 all_fridays = []
 d = end
 while len(all_fridays) < 52:
@@ -15,7 +19,7 @@ dates = all_fridays[::3]
 
 results = []
 for d in dates:
-    r = subprocess.run([sys.executable, "forward_check.py", "--date", d, "--strategy", "factor", "--top", "5"],
+    r = subprocess.run([sys.executable, "forward_check.py", "--date", d, "--universe", args.universe, "--strategy", "factor", "--top", "5"],
                        capture_output=True, text=True, timeout=120)
     lines = r.stdout.splitlines()
     summary = "N/A"
