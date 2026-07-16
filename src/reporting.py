@@ -147,6 +147,8 @@ table.data-table tbody tr:hover { background: rgba(46,111,64,0.04); }
 table.data-table tbody td.mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
 table.data-table td.positive { color: var(--positive); font-weight: 600; }
 table.data-table td.negative { color: var(--negative); font-weight: 600; }
+table.data-table td.stopped  { color: var(--amber); font-weight: 600; }
+tr.stopped-row { background: rgba(217,119,6,0.06); }
 .micro-bar {
   display: inline-block; height: 6px; border-radius: 3px;
   background: var(--border); width: 60px; vertical-align: middle;
@@ -536,9 +538,10 @@ def forward_check_html(
     signal_count = len(sig)
 
     signal_rows = ""
+    max_conv = sig["conviction"].max() if not sig.empty and "conviction" in sig.columns else 4.0
     for _, r in sig.iterrows():
         conv = r.get("conviction", 0)
-        conv_pct = min(conv * 100, 100)
+        conv_pct = min((conv / max(max_conv, 0.1)) * 100, 100)
         signal_rows += f"""<tr>
           <td style="font-weight:600">{r['symbol']}</td>
           <td class="mono">{r['close']:.2f}</td>
@@ -570,16 +573,20 @@ def forward_check_html(
         trade_rows = ""
         for _, r in df.iterrows():
             ret = r["return_pct"]
-            cls = "positive" if ret is not None and ret > 0 else "negative" if ret is not None else ""
+            is_stopped = r.get("status", "") == "stopped"
+            cls = "stopped" if is_stopped else ("positive" if ret is not None and ret > 0 else "negative" if ret is not None else "")
             ret_s = f"{ret:+.2f}%" if ret is not None else "N/A"
             min_s = f"{r['min_intra_pct']:+.2f}%" if r["min_intra_pct"] is not None else "N/A"
-            trade_rows += f"""<tr>
+            status_s = "STOPPED" if is_stopped else ("WIN" if ret is not None and ret > 0 else "LOSS")
+            stop_price = r['entry_price'] * 0.97
+            trade_rows += f"""<tr class="{'stopped-row' if is_stopped else ''}">
               <td style="font-weight:600">{r['symbol']}</td>
               <td class="mono">{r['entry_price']:.2f}</td>
+              <td class="mono" style="color:var(--red)">{stop_price:.2f}</td>
               <td class="mono">{r['exit_price']:.2f}</td>
               <td class="mono {cls}">{ret_s}</td>
               <td class="mono">{min_s}</td>
-              <td><div class="micro-bar"><div class="fill {'positive' if ret and ret>0 else 'negative'}" style="width:{min(abs(ret or 0)/30*100,100):.0f}%"></div></div></td>
+              <td class="mono" style="font-weight:600;color:{'var(--amber)' if is_stopped else 'inherit'}">{status_s}</td>
             </tr>"""
 
         summary_bars = ""
@@ -600,7 +607,7 @@ def forward_check_html(
 </div>
 <div class="data-table-wrap">
 <table class="data-table">
-<thead><tr><th scope="col">Symbol</th><th scope="col">Entry</th><th scope="col">Exit</th><th scope="col">Return</th><th scope="col">Min Intra</th><th scope="col">Magnitude</th></tr></thead>
+<thead><tr><th scope="col">Symbol</th><th scope="col">Entry</th><th scope="col">Stop (-3%)</th><th scope="col">Exit</th><th scope="col">Return</th><th scope="col">Min Intra</th><th scope="col">Status</th></tr></thead>
 <tbody>{trade_rows}</tbody>
 </table></div>
 <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:10px;font-size:13px;color:var(--text-soft)">
@@ -726,9 +733,10 @@ def factor_scan_html(
     bear_mode = regime.get("trend_label", "") == "Bear"
 
     signal_rows = ""
+    max_c = signals["conviction"].max() if not signals.empty and "conviction" in signals.columns else 4.0
     for _, r in signals.iterrows():
         conv = r.get("conviction", 0)
-        conv_pct = min(max((conv + 1) * 50, 0), 100)
+        conv_pct = min((conv / max(max_c, 0.1)) * 100, 100)
         rank = r.get("rank", _ + 1)
         stop_price = r['close'] * 0.97
         signal_rows += f"""<tr>

@@ -127,6 +127,7 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
             if "df" in hd and not hd["df"].empty:
                 hd["df"]["return_pct"] = [r.get("return_pct") for r in hd["results"]]
                 hd["df"]["exit_price"] = [r.get("exit_price") for r in hd["results"]]
+                hd["df"]["status"] = [r.get("status", "ok") for r in hd["results"]]
 
     for h in horizons:
         hd = horizon_data.get(h, {})
