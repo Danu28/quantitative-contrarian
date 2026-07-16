@@ -688,7 +688,7 @@ def forward_check_html(
 <section><h2>Entry Signals</h2>
 <div class="data-table-wrap">
 <table class="data-table">
-<thead><tr><th scope="col">Symbol</th><th scope="col">Entry Price</th><th scope="col">Conviction</th><th scope="col">Score</th></tr></thead>
+<thead><tr><th scope="col">Symbol</th><th scope="col">Entry Price</th><th scope="col">Stop (-3%)</th><th scope="col">Conviction</th><th scope="col">Score</th></tr></thead>
 <tbody>{signal_rows}</tbody>
 </table></div>
 </section>
@@ -729,10 +729,12 @@ def factor_scan_html(
         conv = r.get("conviction", 0)
         conv_pct = min(max((conv + 1) * 50, 0), 100)
         rank = r.get("rank", _ + 1)
+        stop_price = r['close'] * 0.97
         signal_rows += f"""<tr>
           <td class="mono">{rank}</td>
           <td style="font-weight:600">{r['symbol']}</td>
           <td class="mono">{r['close']:.2f}</td>
+          <td class="mono" style="color:var(--red)">{stop_price:.2f}</td>
           <td class="mono">{r.get('conviction', 0):.4f}</td>
           <td><div class="micro-bar"><div class="fill {'positive' if conv > 0 else 'negative'}" style="width:{conv_pct:.0f}%"></div></div></td>
         </tr>"""
@@ -755,7 +757,7 @@ def factor_scan_html(
 <div class="container">
 <header><div><h1>Factor Scan</h1><div class="meta">Scan: {date_str} · {universe_name} · Run: {now}</div>
 <div class="meta" style="color:var(--amber);font-size:13px;margin-top:4px">
-63-feature IC-weighted factor model. Buy top pick at open, hold {hold_days} trading days.
+ 63-feature IC-weighted factor model. Hard Stop: -3% from entry. Hold {hold_days} trading days.
 {' Skip if Bear regime (Nifty 20d < -3%).' if bear_mode else ''}
 </div>
 </div></header>
@@ -805,7 +807,7 @@ def factor_scan_html(
 <div class="data-table-wrap">
 <table class="data-table">
 <thead><tr>
-  <th scope="col">Rank</th><th scope="col">Symbol</th><th scope="col">Entry Price</th><th scope="col">Conviction</th><th scope="col">Score</th>
+  <th scope="col">Rank</th><th scope="col">Symbol</th><th scope="col">Entry Price</th><th scope="col">Stop (-3%)</th><th scope="col">Conviction</th><th scope="col">Score</th>
 </tr></thead>
 <tbody>{signal_rows}</tbody>
 </table></div>

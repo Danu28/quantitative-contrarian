@@ -198,15 +198,16 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
             }
 
         print(f"\n  Factor Signals: {len(sig)}")
-        print(f"  {'Rank':<5} {'Symbol':<18} {'Conviction':>10} {'Price':>9}")
-        print(f"  {'-'*4:<5} {'-'*17:<18} {'-'*9:>10} {'-'*8:>9}")
+        print(f"  {'Rank':<5} {'Symbol':<18} {'Conviction':>10} {'Entry':>9} {'Stop (-3%)':>11}")
+        print(f"  {'-'*4:<5} {'-'*17:<18} {'-'*9:>10} {'-'*8:>9} {'-'*10:>11}")
         for _, r in sig.iterrows():
-            print(f"  {r['rank']:<5} {r['symbol']:<18} {r['conviction']:>10.4f} {r['close']:>8.2f}")
+            stop_price = r['close'] * 0.97
+            print(f"  {r['rank']:<5} {r['symbol']:<18} {r['conviction']:>10.4f} {r['close']:>8.2f} {stop_price:>10.2f}")
 
         max_pos = top
         entries_today = 0 if bear_skip else min(len(sig), max_pos)
         print(f"  Max positions: {top}  |  Entering: {entries_today}")
-        print(f"  Hold: 10 trading days  |  Exit: next Friday")
+        print(f"  Hold: 10 trading days  |  Exit: next Friday  |  Hard Stop: -3%")
         if bear_skip:
             print(f"  *** BEAR REGIME: Skip entry. Wait for 20d return > -3%. ***")
 
