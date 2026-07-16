@@ -2,6 +2,7 @@
 
 ## Global Defaults
 - **Ponytail mode** is always active — write minimal code, no over-engineering, delete before adding
+- **Surgical changes** — every edit should be as small as possible. One intent per change. No bulk rewrites.
 - **Branch convention**: all work on `feature/*` branches, named after the change
 
 ## Skill Order (in this sequence)
@@ -28,7 +29,7 @@ After dev-loop tasks complete, delete `.devloop/` directory.
 ### Validate
 - Run `python -m pytest tests/ -q` — all tests must pass
 - Run 15-date forward batch via `python batch_fwd_15.py`
-- Compare against current best: **~59–64% win, ~+0.7–1.0% avg 10d return**
+- Compare against current best: **~72% win, ~+2.1% avg 10d return**
 - If performance degrades → reject hypothesis, revert to previous state, document why
 
 ### Hypothesis Lifecycle
@@ -36,7 +37,7 @@ After dev-loop tasks complete, delete `.devloop/` directory.
 2. Implement minimal version via **dev-loop**
 3. Validate via forward batch against baseline
 4. **Accept** if performance holds or improves → commit
-5. **Reject** if performance degrades → `git checkout -- src/factors.py` and revert test changes, commit the rejection as documentation
+5. **Reject** if performance degrades → `git checkout -- src/factors.py` and revert test changes
 6. Move to next hypothesis
 
 ### Commit
