@@ -27,13 +27,14 @@ class TestGetFactorNames:
         assert isinstance(names, list)
         assert all(isinstance(n, str) for n in names)
 
-    def test_returns_four_names(self):
+    def test_returns_five_names(self):
         names = get_factor_names()
-        assert len(names) == 4
+        assert len(names) == 5
         assert "ret_20d" in names
         assert "volatility_20d" in names
         assert "vol_ratio" in names
         assert "sector_rel_ret" in names
+        assert "recovery_ratio" in names
 
 
 class TestGenerateFactorSignals:
@@ -61,19 +62,24 @@ class TestGenerateFactorSignals:
         data = make_data(n_stocks=10, n_dates=60)
         date = pd.Timestamp("2024-03-01")
         sig = generate_factor_signals(data, date)
-        rets, vols = [], []
+        rets, vols, recs = [], [], []
         for sym, df in data.items():
             idx = df.index.get_loc(date)
             r = df["close"].iloc[idx] / df["close"].iloc[idx - 20] - 1
             dr = df["close"].pct_change()
             v = dr.iloc[idx - 19:idx + 1].std()
+            low_5d = df["low"].iloc[max(0, idx - 4):idx + 1].min()
+            rec = df["close"].iloc[idx] / low_5d if low_5d > 0 else 1.0
             rets.append(r)
             vols.append(v)
-        expected = pd.DataFrame({"ret": rets, "vol": vols}).dropna()
+            recs.append(rec)
+        expected = pd.DataFrame({"ret": rets, "vol": vols, "rec": recs}).dropna()
         # No volume → vol_ratio=1.0 → ret×1.0=ret → ret_vol_rank = Rank(ret)
         expected["ret_r"] = expected["ret"].rank(pct=True)
         expected["vol_r"] = expected["vol"].rank(pct=True)
-        expected["conv"] = expected["ret_r"] - expected["vol_r"]
+        expected["rec_adj"] = expected["rec"] / expected["vol"]
+        expected["rec_r"] = expected["rec_adj"].rank(pct=True)
+        expected["conv"] = expected["ret_r"] + expected["rec_r"] - expected["vol_r"]
         expected = expected.sort_values("conv", ascending=False).reset_index(drop=True)
         assert np.allclose(sig["conviction"].values, expected["conv"].values)
 

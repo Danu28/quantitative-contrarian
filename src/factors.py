@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-_FEATURE_NAMES = ["ret_20d", "volatility_20d", "vol_ratio", "sector_rel_ret"]
+_FEATURE_NAMES = ["ret_20d", "volatility_20d", "vol_ratio", "sector_rel_ret", "recovery_ratio"]
 
 
 def get_factor_names() -> list[str]:
@@ -36,12 +36,16 @@ def generate_factor_signals(
             if vol_60 > 0:
                 vol_ratio = vol_20 / vol_60
 
+        low_5d = df["low"].iloc[max(0, idx - 4):idx + 1].min()
+        recovery_ratio = close.iloc[idx] / low_5d if low_5d > 0 else 1.0
+
         rows.append({
             "symbol": sym,
             "close": close.iloc[idx],
             "ret_20d": ret_20d,
             "volatility_20d": vol_20d,
             "vol_ratio": vol_ratio,
+            "recovery_ratio": recovery_ratio,
         })
 
     if not rows:
@@ -56,15 +60,17 @@ def generate_factor_signals(
     df["ret_vol_interaction"] = df["ret_20d"] * df["vol_ratio"]
     df["ret_vol_rank"] = df["ret_vol_interaction"].rank(pct=True)
     df["vol_rank"] = df["volatility_20d"].rank(pct=True)
+    df["recovery_vol_adj"] = df["recovery_ratio"] / df["volatility_20d"]
+    df["recovery_rank"] = df["recovery_vol_adj"].rank(pct=True)
 
     if sector_map:
         df["sector"] = df["symbol"].map(sector_map).fillna("Unknown")
         sector_medians = df.groupby("sector")["ret_20d"].transform("median")
         df["sector_rel_ret"] = df["ret_20d"] - sector_medians
         df["sector_rel_rank"] = df["sector_rel_ret"].rank(pct=True)
-        df["conviction"] = df["ret_vol_rank"] + df["sector_rel_rank"] - df["vol_rank"]
+        df["conviction"] = df["ret_vol_rank"] + df["sector_rel_rank"] + df["recovery_rank"] - df["vol_rank"]
     else:
-        df["conviction"] = df["ret_vol_rank"] - df["vol_rank"]
+        df["conviction"] = df["ret_vol_rank"] + df["recovery_rank"] - df["vol_rank"]
 
     df = df.sort_values("conviction", ascending=False).reset_index(drop=True)
     df["rank"] = range(1, len(df) + 1)
