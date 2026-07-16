@@ -39,6 +39,9 @@ def generate_factor_signals(
         low_5d = df["low"].iloc[max(0, idx - 4):idx + 1].min()
         recovery_ratio = close.iloc[idx] / low_5d if low_5d > 0 else 1.0
 
+        window_20d = close.iloc[max(0, idx - 19):idx + 1]
+        days_since_high = len(window_20d) - 1 - window_20d.values.argmax()
+
         rows.append({
             "symbol": sym,
             "close": close.iloc[idx],
@@ -46,6 +49,7 @@ def generate_factor_signals(
             "volatility_20d": vol_20d,
             "vol_ratio": vol_ratio,
             "recovery_ratio": recovery_ratio,
+            "days_since_high": days_since_high,
         })
 
     if not rows:
@@ -61,15 +65,17 @@ def generate_factor_signals(
     df["ret_vol_adj_rank"] = df["ret_vol_adj"].rank(pct=True)
     df["recovery_vol_adj"] = df["recovery_ratio"] / df["volatility_20d"]
     df["recovery_rank"] = df["recovery_vol_adj"].rank(pct=True)
+    df["freshness"] = -df["days_since_high"]
+    df["freshness_rank"] = df["freshness"].rank(pct=True)
 
     if sector_map:
         df["sector"] = df["symbol"].map(sector_map).fillna("Unknown")
         sector_medians = df.groupby("sector")["ret_20d"].transform("median")
         df["sector_rel_ret"] = df["ret_20d"] - sector_medians
         df["sector_rel_rank"] = df["sector_rel_ret"].rank(pct=True)
-        df["conviction"] = df["ret_vol_adj_rank"] + df["sector_rel_rank"] + df["recovery_rank"]
+        df["conviction"] = df["ret_vol_adj_rank"] + df["sector_rel_rank"] + df["recovery_rank"] + df["freshness_rank"]
     else:
-        df["conviction"] = df["ret_vol_adj_rank"] + df["recovery_rank"]
+        df["conviction"] = df["ret_vol_adj_rank"] + df["recovery_rank"] + df["freshness_rank"]
 
     df = df.sort_values("conviction", ascending=False).reset_index(drop=True)
     df["rank"] = range(1, len(df) + 1)

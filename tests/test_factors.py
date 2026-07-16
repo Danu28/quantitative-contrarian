@@ -62,7 +62,7 @@ class TestGenerateFactorSignals:
         data = make_data(n_stocks=10, n_dates=60)
         date = pd.Timestamp("2024-03-01")
         sig = generate_factor_signals(data, date)
-        rets, vols, recs = [], [], []
+        rets, vols, recs, dshs = [], [], [], []
         for sym, df in data.items():
             idx = df.index.get_loc(date)
             r = df["close"].iloc[idx] / df["close"].iloc[idx - 20] - 1
@@ -70,16 +70,17 @@ class TestGenerateFactorSignals:
             v = dr.iloc[idx - 19:idx + 1].std()
             low_5d = df["low"].iloc[max(0, idx - 4):idx + 1].min()
             rec = df["close"].iloc[idx] / low_5d if low_5d > 0 else 1.0
-            rets.append(r)
-            vols.append(v)
-            recs.append(rec)
-        expected = pd.DataFrame({"ret": rets, "vol": vols, "rec": recs}).dropna()
-        # No volume → vol_ratio=1.0 → ret_vol_adj = ret / vol
+            window = df["close"].iloc[max(0, idx - 19):idx + 1]
+            dsh = len(window) - 1 - window.values.argmax()
+            rets.append(r); vols.append(v); recs.append(rec); dshs.append(dsh)
+        expected = pd.DataFrame({"ret": rets, "vol": vols, "rec": recs, "dsh": dshs}).dropna()
         expected["ret_vol_adj"] = expected["ret"] / expected["vol"]
         expected["ret_vol_r"] = expected["ret_vol_adj"].rank(pct=True)
         expected["rec_adj"] = expected["rec"] / expected["vol"]
         expected["rec_r"] = expected["rec_adj"].rank(pct=True)
-        expected["conv"] = expected["ret_vol_r"] + expected["rec_r"]
+        expected["freshness"] = -expected["dsh"]
+        expected["fresh_r"] = expected["freshness"].rank(pct=True)
+        expected["conv"] = expected["ret_vol_r"] + expected["rec_r"] + expected["fresh_r"]
         expected = expected.sort_values("conv", ascending=False).reset_index(drop=True)
         assert np.allclose(sig["conviction"].values, expected["conv"].values)
 
