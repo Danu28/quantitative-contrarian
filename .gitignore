@@ -5,3 +5,5 @@ __pycache__/
 data/*.db
 reports/
 docs/
+_precheck_*.py
+latest.json
