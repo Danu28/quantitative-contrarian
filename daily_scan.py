@@ -6,6 +6,7 @@ Usage:
     python daily_scan.py --strategy momentum                      # Momentum strategy
     python daily_scan.py --strategy momentum --universe niftymidcap150  # Momentum on Midcap150
     python daily_scan.py --date 2026-06-01 --output report.html
+    python daily_scan.py --strategy hybrid                      # Regime-gated: contrarian in Bear/Crash, factor otherwise
 """
 from __future__ import annotations
 
@@ -140,6 +141,15 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
         all_vol = pd.concat({s: df["volume"] for s, df in data.items() if "volume" in df.columns}, axis=1)
         avg_vol = all_vol.mean() if not all_vol.empty else None
 
+        available = sorted(set(d for s in data for d in data[s].index))
+        if scan_date not in available:
+            closest = [d for d in available if d >= scan_date]
+            if not closest:
+                print(f"  No trading data on or after {scan_date.date()}")
+                sys.exit(1)
+            scan_date = closest[0]
+            print(f"  Adjusted to nearest trading day: {scan_date.date()}")
+
         sig = generate_momentum_signals(data, scan_date, avg_vol_series=avg_vol)
         if sig.empty:
             print(f"\n  No momentum signals on {scan_date.date()}.")
@@ -211,6 +221,77 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
         if bear_skip:
             print(f"  *** BEAR REGIME: Skip entry. Wait for 20d return > -3%. ***")
 
+    elif strategy == "hybrid":
+        print(f"  Regime-gated: contrarian in Bear/Crash, factor otherwise")
+        regime_label = regime.get("trend_label", "")
+        use_contrarian = regime_label in ("Bear", "Crash")
+        print(f"  Regime: {regime_label} -> {'CONTRARIAN' if use_contrarian else 'FACTOR'}")
+
+        available = sorted(set(d for s in data for d in data[s].index))
+        if scan_date not in available:
+            closest = [d for d in available if d >= scan_date]
+            if not closest:
+                print(f"  No trading data on or after {scan_date.date()}")
+                sys.exit(1)
+            scan_date = closest[0]
+            print(f"  Adjusted to nearest trading day: {scan_date.date()}")
+
+        regime["bear_contrarian"] = use_contrarian
+
+        if use_contrarian:
+            char_data = precompute_all_characteristics(data, window=20)
+            sig = generate_signals(data, char_data, scan_date)
+            if sig.empty:
+                print(f"\n  No contrarian signals on {scan_date.date()}.")
+                sys.exit(1)
+            sig = sig.sort_values("conviction", ascending=False).head(top)
+
+            targets = {}
+            for _, r in sig.iterrows():
+                raw_entry = r["close"]
+                entry_price = raw_entry * ENTRY_COST_MULT
+                targets[r["symbol"]] = {
+                    "entry": round(entry_price, 2),
+                    "target1": round(entry_price * (1 + PROFIT_TARGET_1) * EXIT_COST_MULT, 2),
+                    "target2": round(entry_price * (1 + PROFIT_TARGET_2) * EXIT_COST_MULT, 2),
+                    "hard_stop": round(entry_price * (1 + HARD_STOP) * EXIT_COST_MULT, 2),
+                    "trail_trigger": round(entry_price * (1 + TRAIL_ACTIVATE), 2),
+                    "trail_stop": round(entry_price * (1 + TRAIL_ACTIVATE) * (1 - TRAIL_DISTANCE) * EXIT_COST_MULT, 2),
+                }
+
+            print(f"\n  Contrarian Signals: {len(sig)}")
+            print(f"  {'Rank':<5} {'Symbol':<18} {'Entry*':>9} {'Target1':>9} {'Target2':>9} {'Stop':>9} {'Trail@':>9} {'Conv':>10}")
+            print(f"  {'-'*4:<5} {'-'*17:<18} {'-'*8:>9} {'-'*8:>9} {'-'*8:>9} {'-'*8:>9} {'-'*8:>9} {'-'*9:>10}")
+            for _, r in sig.iterrows():
+                t = targets[r["symbol"]]
+                print(f"  {r['rank']:<5} {r['symbol']:<18} {t['entry']:>9.2f} {t['target1']:>9.2f} {t['target2']:>9.2f} {t['hard_stop']:>9.2f} {t['trail_trigger']:>9.2f} {r['conviction']:>10.4f}")
+
+            max_pos = regime["max_positions"]
+            entries_today = min(len(sig), max_pos)
+            print(f"  Max positions today: {max_pos} ({regime['action']})")
+        else:
+            sector_map = get_sector_map(universe_slug_or_path)
+            sig = generate_factor_signals(data, scan_date, sector_map)
+            if sig.empty:
+                print(f"\n  No factor signals on {scan_date.date()}.")
+                sys.exit(1)
+            sig = diversify_factor_signals(sig, sector_map, top)
+
+            targets = {}
+            for _, r in sig.iterrows():
+                targets[r["symbol"]] = {"entry": round(r["close"], 2)}
+
+            print(f"\n  Factor Signals: {len(sig)}")
+            print(f"  {'Rank':<5} {'Symbol':<18} {'Conviction':>10} {'Entry':>9} {'Stop (-3%)':>11}")
+            print(f"  {'-'*4:<5} {'-'*17:<18} {'-'*9:>10} {'-'*8:>9} {'-'*10:>11}")
+            for _, r in sig.iterrows():
+                stop_price = r['close'] * 0.97
+                print(f"  {r['rank']:<5} {r['symbol']:<18} {r['conviction']:>10.4f} {r['close']:>8.2f} {stop_price:>10.2f}")
+
+            entries_today = min(len(sig), top)
+            print(f"  Max positions: {top}  |  Entering: {entries_today}")
+            print(f"  Hold: 10 trading days  |  Exit: next Friday  |  Hard Stop: -3%")
+
     else:
         print(f"  Computing characteristics...")
         char_data = precompute_all_characteristics(data, window=20)
@@ -271,6 +352,8 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
             )
         elif strategy == "factor":
             html = factor_scan_html(date_str, sig, regime, universe_name)
+        elif strategy == "hybrid" and not regime.get("bear_contrarian", False):
+            html = factor_scan_html(date_str, sig, regime, universe_name)
         else:
             html = daily_scan_html(
                 date_str, sig, regime, targets, universe_name,
@@ -286,7 +369,8 @@ def scan(universe_slug_or_path: str, date_str: str | None = None, output: str | 
     if json_path:
         _save_json(json_path, scan_date, strategy, sig, targets, regime, get_sector_map(universe_slug_or_path))
 
-    if strategy == "factor" and json_path:
+    is_factor_like = strategy == "factor" or (strategy == "hybrid" and not regime.get("bear_contrarian", False))
+    if is_factor_like and json_path:
         _dir = os.path.dirname(os.path.abspath(json_path)) if json_path else "."
         _latest = os.path.join(_dir, "latest.json")
         with open(_latest, "w", encoding="utf-8") as f:
@@ -304,7 +388,7 @@ def main():
                         help="Save HTML report to file")
     parser.add_argument("--json-output", default=None,
                         help="Save JSON signal data to file (default: derived from --output)")
-    parser.add_argument("--strategy", "-s", default="contrarian", choices=["contrarian", "momentum", "factor"],
+    parser.add_argument("--strategy", "-s", default="contrarian", choices=["contrarian", "momentum", "factor", "hybrid"],
                         help="Strategy to scan for (default: contrarian)")
     parser.add_argument("--top", type=int, default=5,
                         help="Only show top N ranked stocks (default: 5)")

@@ -4,15 +4,19 @@ import subprocess, sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--universe", "-u", default="nifty50", help="Universe slug (default: nifty50)")
+parser.add_argument("--strategy", "-s", default="factor", choices=["factor", "hybrid"],
+                    help="Strategy (default: factor)")
 args = parser.parse_args()
 
 DATES = ["2026-07-09","2026-07-02","2026-06-18","2026-06-11","2026-06-04",
          "2026-05-28","2026-05-21","2026-05-14","2026-05-07","2026-04-30",
          "2026-04-23","2026-04-16","2026-04-09","2026-04-02","2026-03-26"]
 
+strategy = getattr(args, "strategy", "factor")
+
 results = []
 for d in DATES:
-    r = subprocess.run([sys.executable, "forward_check.py", "--date", d, "--universe", args.universe, "--strategy", "factor", "--top", "5"],
+    r = subprocess.run([sys.executable, "forward_check.py", "--date", d, "--universe", args.universe, "--strategy", strategy, "--top", "5"],
                        capture_output=True, text=True, timeout=120)
     lines = r.stdout.splitlines()
     capture = False
@@ -24,7 +28,7 @@ for d in DATES:
     results.append((d, summary))
     print(f"{d}: {summary}")
 
-print("\n\nAGGREGATE:")
+print(f"\n\nAGGREGATE ({strategy.upper()}):")
 tw, tt, tr = 0, 0, []
 for d, s in results:
     parts = s.split()

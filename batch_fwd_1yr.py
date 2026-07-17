@@ -6,6 +6,8 @@ from datetime import datetime, timedelta
 parser = argparse.ArgumentParser()
 parser.add_argument("--universe", "-u", default="nifty50", help="Universe slug (default: nifty50)")
 parser.add_argument("--year-offset", type=int, default=0, help="Years back from 2026 (default: 0)")
+parser.add_argument("--strategy", "-s", default="factor", choices=["factor", "hybrid"],
+                    help="Strategy (default: factor)")
 args = parser.parse_args()
 
 end = datetime(2026 - args.year_offset, 7, 10)
@@ -19,7 +21,7 @@ dates = all_fridays[::3]
 
 results = []
 for d in dates:
-    r = subprocess.run([sys.executable, "forward_check.py", "--date", d, "--universe", args.universe, "--strategy", "factor", "--top", "5"],
+    r = subprocess.run([sys.executable, "forward_check.py", "--date", d, "--universe", args.universe, "--strategy", args.strategy, "--top", "5"],
                        capture_output=True, text=True, timeout=120)
     lines = r.stdout.splitlines()
     summary = "N/A"

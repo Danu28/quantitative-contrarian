@@ -2,6 +2,8 @@
 
 Quantitative multi-strategy trading system for Indian equities (NIFTY universe).
 
+📊 [**Daily Factor Scan Report**](https://danu28.github.io/quantitative-contrarian/) — updated weekdays at 5 PM IST.
+
 ## Strategy: Factor Model (primary)
 
 4-factor conviction + regime filter for 10-day holding periods:

@@ -14,11 +14,30 @@ from src.factors import generate_factor_signals, diversify_factor_signals
 from src.reporting import forward_check_html, _classify_regime
 
 
+def _compute_regime(data: dict, entry_date: pd.Timestamp) -> dict:
+    """Compute market regime from median stock return over 20d."""
+    all_dates = sorted(set(d for s in data for d in data[s].index))
+    if entry_date not in all_dates:
+        return {"trend_label": "Unknown", "trend_20d": 0, "action": "Unknown", "max_positions": 10}
+    prices = [data[s].loc[entry_date, "close"] for s in data if entry_date in data[s].index]
+    if not prices or len(prices) < 5:
+        return {"trend_label": "Unknown", "trend_20d": 0, "action": "Unknown", "max_positions": 10}
+    idx = all_dates.index(entry_date)
+    if idx >= 20:
+        past = all_dates[idx - 20]
+        past_p = [data[s].loc[past, "close"] for s in data if past in data[s].index]
+        ret_20d = (np.mean(prices) / np.mean(past_p) - 1) * 100 if past_p else 0
+    else:
+        ret_20d = 0
+    return _classify_regime(ret_20d)
+
+
 def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20), capital=10_000_000, output=None, strategy="contrarian", top=0):
     config = load_universe(universe_slug_or_path)
     universe_name = config.get("name", universe_slug_or_path)
     symbols = config["symbols"]
     entry_date = pd.Timestamp(date_str)
+    using_factor = False
 
     print(f"\n{'='*70}")
     print(f"  FORWARD RETURN CHECK")
@@ -32,12 +51,39 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
     data = load_symbol_data(universe_slug_or_path)
     print(f"  Loaded {len(data)} stocks")
 
-    if strategy == "momentum":
+    if strategy == "hybrid":
+        available = sorted(set(d for s in data for d in data[s].index))
+        if entry_date not in available:
+            closest = [d for d in available if d >= entry_date]
+            if not closest:
+                print(f"  No trading data found on or after {entry_date.date()}")
+                sys.exit(1)
+            entry_date = closest[0]
+            print(f"  Adjusted to nearest trading day: {entry_date.date()}")
+
+        regime = _compute_regime(data, entry_date)
+        regime_label = regime["trend_label"]
+        use_contrarian = regime_label in ("Bear", "Crash")
+        print(f"  Regime: {regime_label} -> {'CONTRARIAN' if use_contrarian else 'FACTOR'}")
+
+        if use_contrarian:
+            using_factor = False
+            print(f"  Pre-computing characteristics...")
+            char_data = precompute_all_characteristics(data, window=20)
+            sig = generate_signals(data, char_data, entry_date)
+        else:
+            using_factor = True
+            sector_map = get_sector_map(universe_slug_or_path)
+            sig = generate_factor_signals(data, entry_date, sector_map)
+            sig = diversify_factor_signals(sig, sector_map, top)
+        sig = sig.head(top)
+    elif strategy == "momentum":
         all_vol = pd.concat({s: df["volume"] for s, df in data.items() if "volume" in df.columns}, axis=1)
         avg_vol = all_vol.mean() if not all_vol.empty else None
         sig = generate_momentum_signals(data, entry_date, avg_vol_series=avg_vol)
         print(f"  (no characteristics needed for momentum)")
     elif strategy == "factor":
+        using_factor = True
         print(f"  Computing momentum and volatility...")
 
         available = sorted(set(d for s in data for d in data[s].index))
@@ -51,6 +97,7 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
 
         sector_map = get_sector_map(universe_slug_or_path)
         sig = generate_factor_signals(data, entry_date, sector_map)
+        sig = diversify_factor_signals(sig, sector_map, top)
     else:
         print(f"  Pre-computing characteristics...")
         char_data = precompute_all_characteristics(data, window=20)
@@ -71,27 +118,16 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
         print(f"\n  No signals generated on {entry_date.date()}.")
         sys.exit(1)
 
-    # Sector diversification for factor strategy
-    if strategy == "factor":
-        sig = diversify_factor_signals(sig, sector_map, top)
-
-    sig = sig.head(top) if strategy != "factor" else sig
+    sig = sig.head(top)
     print(f"  Limited to top {len(sig)} signals")
 
-    # Compute regime at entry date
+    # Compute regime at entry date (for display)
     if strategy == "momentum":
         regime = {"trend_label": "Unknown", "trend_20d": 0, "action": "Unknown", "max_positions": 10}
+    elif strategy == "hybrid":
+        pass  # already computed above
     else:
-        all_dates_fwd = sorted(set(d for s in data for d in data[s].index))
-        all_prices = [data[s].loc[entry_date, "close"] for s in data if entry_date in data[s].index]
-        idx_fwd = all_dates_fwd.index(entry_date) if entry_date in all_dates_fwd else -1
-        if idx_fwd >= 20 and all_prices:
-            past_date = all_dates_fwd[idx_fwd - 20]
-            past_prices = [data[s].loc[past_date, "close"] for s in data if past_date in data[s].index]
-            ret_20d = (np.mean(all_prices) / np.mean(past_prices) - 1) * 100 if past_prices else 0
-        else:
-            ret_20d = 0
-        regime = _classify_regime(ret_20d)
+        regime = _compute_regime(data, entry_date)
 
     print(f"\n  Signals generated: {len(sig)}")
     print(f"  Regime: {regime.get('trend_label', 'N/A')} | {regime.get('action', 'N/A')}")
@@ -110,7 +146,7 @@ def check_forward(universe_slug_or_path: str, date_str: str, horizons=(5, 10, 20
 
     horizon_data = build_horizon_results(data, sig, entry_date, horizons)
 
-    if strategy == "factor":
+    if using_factor or strategy == "factor":
         for h in horizons:
             hd = horizon_data.get(h, {})
             for r in hd.get("results", []):
@@ -195,7 +231,7 @@ def main():
                         help="Forward horizons in trading days (default: 5 10 20)")
     parser.add_argument("--capital", type=float, default=10_000_000,
                         help="Starting capital (default: 10,000,000)")
-    parser.add_argument("--strategy", "-s", default="contrarian", choices=["contrarian", "momentum", "factor"],
+    parser.add_argument("--strategy", "-s", default="contrarian", choices=["contrarian", "momentum", "factor", "hybrid"],
                         help="Strategy to check (default: contrarian)")
     parser.add_argument("--top", type=int, default=5,
                         help="Only trade top N ranked stocks (default: 3)")
