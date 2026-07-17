@@ -231,8 +231,8 @@ def main():
                         help="Forward horizons in trading days (default: 5 10 20)")
     parser.add_argument("--capital", type=float, default=10_000_000,
                         help="Starting capital (default: 10,000,000)")
-    parser.add_argument("--strategy", "-s", default="contrarian", choices=["contrarian", "momentum", "factor", "hybrid"],
-                        help="Strategy to check (default: contrarian)")
+    parser.add_argument("--strategy", "-s", default="hybrid", choices=["contrarian", "momentum", "factor", "hybrid"],
+                        help="Strategy to check (default: hybrid)")
     parser.add_argument("--top", type=int, default=5,
                         help="Only trade top N ranked stocks (default: 3)")
     parser.add_argument("--output", default=None, help="Save HTML report to file")

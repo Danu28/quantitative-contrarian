@@ -388,8 +388,8 @@ def main():
                         help="Save HTML report to file")
     parser.add_argument("--json-output", default=None,
                         help="Save JSON signal data to file (default: derived from --output)")
-    parser.add_argument("--strategy", "-s", default="contrarian", choices=["contrarian", "momentum", "factor", "hybrid"],
-                        help="Strategy to scan for (default: contrarian)")
+    parser.add_argument("--strategy", "-s", default="hybrid", choices=["contrarian", "momentum", "factor", "hybrid"],
+                        help="Strategy to scan for (default: hybrid)")
     parser.add_argument("--top", type=int, default=5,
                         help="Only show top N ranked stocks (default: 5)")
     args = parser.parse_args()
