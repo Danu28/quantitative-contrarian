@@ -5,16 +5,16 @@
   "max_positions": 10,
   "regime": {
     "trend_label": "Sideways",
-    "trend_20d": 0.87,
+    "trend_20d": 0.94,
     "action": "Full deploy"
   },
   "signals": [
     {
       "rank": 1,
       "symbol": "ICICIBANK.NS",
-      "close": 1459.0,
-      "entry": 1459.0,
-      "conviction": 3.5729,
+      "close": 1460.2,
+      "entry": 1460.2,
+      "conviction": 3.4688,
       "momentum_pct": 0.0,
       "target1": 0,
       "target2": 0,
@@ -25,24 +25,10 @@
     },
     {
       "rank": 2,
-      "symbol": "TITAN.NS",
-      "close": 4655.4,
-      "entry": 4655.4,
-      "conviction": 3.3854,
-      "momentum_pct": 0.0,
-      "target1": 0,
-      "target2": 0,
-      "hard_stop": 0,
-      "trail_trigger": 0,
-      "trail_stop": 0,
-      "sector": "Consumer Goods"
-    },
-    {
-      "rank": 3,
-      "symbol": "DIVISLAB.NS",
-      "close": 7329.0,
-      "entry": 7329.0,
-      "conviction": 3.3438,
+      "symbol": "SUNPHARMA.NS",
+      "close": 1956.4,
+      "entry": 1956.4,
+      "conviction": 3.2812,
       "momentum_pct": 0.0,
       "target1": 0,
       "target2": 0,
@@ -52,11 +38,25 @@
       "sector": "Healthcare"
     },
     {
+      "rank": 3,
+      "symbol": "TITAN.NS",
+      "close": 4643.4,
+      "entry": 4643.4,
+      "conviction": 3.2396,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
       "rank": 4,
       "symbol": "APOLLOHOSP.NS",
-      "close": 8863.0,
-      "entry": 8863.0,
-      "conviction": 3.1042,
+      "close": 8905.0,
+      "entry": 8905.0,
+      "conviction": 3.0208,
       "momentum_pct": 0.0,
       "target1": 0,
       "target2": 0,
@@ -67,17 +67,17 @@
     },
     {
       "rank": 5,
-      "symbol": "TECHM.NS",
-      "close": 1587.7,
-      "entry": 1587.7,
-      "conviction": 2.9688,
+      "symbol": "BRITANNIA.NS",
+      "close": 5470.0,
+      "entry": 5470.0,
+      "conviction": 3.0104,
       "momentum_pct": 0.0,
       "target1": 0,
       "target2": 0,
       "hard_stop": 0,
       "trail_trigger": 0,
       "trail_stop": 0,
-      "sector": "Information Technology"
+      "sector": "Fast Moving Consumer Goods"
     }
   ]
 }
