@@ -1,0 +1,83 @@
+{
+  "date": "2026-07-20",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": 0.87,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "ICICIBANK.NS",
+      "close": 1459.0,
+      "entry": 1459.0,
+      "conviction": 3.5729,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Financial Services"
+    },
+    {
+      "rank": 2,
+      "symbol": "TITAN.NS",
+      "close": 4655.4,
+      "entry": 4655.4,
+      "conviction": 3.3854,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 3,
+      "symbol": "DIVISLAB.NS",
+      "close": 7329.0,
+      "entry": 7329.0,
+      "conviction": 3.3438,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Healthcare"
+    },
+    {
+      "rank": 4,
+      "symbol": "APOLLOHOSP.NS",
+      "close": 8863.0,
+      "entry": 8863.0,
+      "conviction": 3.1042,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Healthcare Services"
+    },
+    {
+      "rank": 5,
+      "symbol": "TECHM.NS",
+      "close": 1587.7,
+      "entry": 1587.7,
+      "conviction": 2.9688,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Information Technology"
+    }
+  ]
+}
