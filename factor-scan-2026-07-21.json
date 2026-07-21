@@ -1,0 +1,83 @@
+{
+  "date": "2026-07-21",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": 0.35,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "TITAN.NS",
+      "close": 4688.7,
+      "entry": 4688.7,
+      "conviction": 3.4896,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 2,
+      "symbol": "ICICIBANK.NS",
+      "close": 1463.1,
+      "entry": 1463.1,
+      "conviction": 3.4062,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Financial Services"
+    },
+    {
+      "rank": 3,
+      "symbol": "SUNPHARMA.NS",
+      "close": 1961.9,
+      "entry": 1961.9,
+      "conviction": 3.3021,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Healthcare"
+    },
+    {
+      "rank": 4,
+      "symbol": "JSWSTEEL.NS",
+      "close": 1267.4,
+      "entry": 1267.4,
+      "conviction": 3.1562,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Metals & Mining"
+    },
+    {
+      "rank": 5,
+      "symbol": "ULTRACEMCO.NS",
+      "close": 12094.0,
+      "entry": 12094.0,
+      "conviction": 2.8854,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Construction Materials"
+    }
+  ]
+}
