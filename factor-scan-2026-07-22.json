@@ -1,0 +1,83 @@
+{
+  "date": "2026-07-22",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": 0.72,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "TITAN.NS",
+      "close": 4711.6,
+      "entry": 4711.6,
+      "conviction": 3.4688,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 2,
+      "symbol": "ONGC.NS",
+      "close": 251.9,
+      "entry": 251.9,
+      "conviction": 3.3229,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Energy"
+    },
+    {
+      "rank": 3,
+      "symbol": "NESTLEIND.NS",
+      "close": 1493.6,
+      "entry": 1493.6,
+      "conviction": 3.3229,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Fast Moving Consumer Goods"
+    },
+    {
+      "rank": 4,
+      "symbol": "DIVISLAB.NS",
+      "close": 7386.5,
+      "entry": 7386.5,
+      "conviction": 3.3229,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Healthcare"
+    },
+    {
+      "rank": 5,
+      "symbol": "INDUSINDBK.NS",
+      "close": 1069.3,
+      "entry": 1069.3,
+      "conviction": 3.2604,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Financial Services"
+    }
+  ]
+}
