@@ -1,0 +1,83 @@
+{
+  "date": "2026-07-24",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": -1.2,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "ONGC.NS",
+      "close": 248.76,
+      "entry": 248.76,
+      "conviction": 3.7396,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Energy"
+    },
+    {
+      "rank": 2,
+      "symbol": "TITAN.NS",
+      "close": 4677.0,
+      "entry": 4677.0,
+      "conviction": 3.4375,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 3,
+      "symbol": "DIVISLAB.NS",
+      "close": 7248.5,
+      "entry": 7248.5,
+      "conviction": 3.1875,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Healthcare"
+    },
+    {
+      "rank": 4,
+      "symbol": "BAJAJ-AUTO.NS",
+      "close": 11130.0,
+      "entry": 11130.0,
+      "conviction": 3.1562,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Automobile"
+    },
+    {
+      "rank": 5,
+      "symbol": "POWERGRID.NS",
+      "close": 288.2,
+      "entry": 288.2,
+      "conviction": 3.1354,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Power"
+    }
+  ]
+}
