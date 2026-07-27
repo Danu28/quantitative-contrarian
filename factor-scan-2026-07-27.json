@@ -1,0 +1,83 @@
+{
+  "date": "2026-07-27",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": 0.21,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "DIVISLAB.NS",
+      "close": 7414.0,
+      "entry": 7414.0,
+      "conviction": 3.5521,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Healthcare"
+    },
+    {
+      "rank": 2,
+      "symbol": "TITAN.NS",
+      "close": 4740.1,
+      "entry": 4740.1,
+      "conviction": 3.5312,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 3,
+      "symbol": "BAJAJ-AUTO.NS",
+      "close": 11183.5,
+      "entry": 11183.5,
+      "conviction": 3.0208,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Automobile"
+    },
+    {
+      "rank": 4,
+      "symbol": "SBILIFE.NS",
+      "close": 1866.8,
+      "entry": 1866.8,
+      "conviction": 2.9896,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Financial Services"
+    },
+    {
+      "rank": 5,
+      "symbol": "HCLTECH.NS",
+      "close": 1295.9,
+      "entry": 1295.9,
+      "conviction": 2.8438,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Information Technology"
+    }
+  ]
+}
