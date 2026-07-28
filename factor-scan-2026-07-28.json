@@ -1,0 +1,83 @@
+{
+  "date": "2026-07-28",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": 0.16,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "TITAN.NS",
+      "close": 4849.7,
+      "entry": 4849.7,
+      "conviction": 3.5208,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 2,
+      "symbol": "DIVISLAB.NS",
+      "close": 7425.0,
+      "entry": 7425.0,
+      "conviction": 3.5,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Healthcare"
+    },
+    {
+      "rank": 3,
+      "symbol": "EICHERMOT.NS",
+      "close": 7836.0,
+      "entry": 7836.0,
+      "conviction": 3.1667,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Automobile"
+    },
+    {
+      "rank": 4,
+      "symbol": "BAJAJFINSV.NS",
+      "close": 1927.9,
+      "entry": 1927.9,
+      "conviction": 3.0625,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Financial Services"
+    },
+    {
+      "rank": 5,
+      "symbol": "BPCL.NS",
+      "close": 320.05,
+      "entry": 320.05,
+      "conviction": 2.8333,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Energy"
+    }
+  ]
+}
