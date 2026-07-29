@@ -1,0 +1,83 @@
+{
+  "date": "2026-07-29",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": 1.02,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "TITAN.NS",
+      "close": 4850.2,
+      "entry": 4850.2,
+      "conviction": 3.5625,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 2,
+      "symbol": "SUNPHARMA.NS",
+      "close": 1989.9,
+      "entry": 1989.9,
+      "conviction": 3.3542,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Healthcare"
+    },
+    {
+      "rank": 3,
+      "symbol": "JSWSTEEL.NS",
+      "close": 1276.6,
+      "entry": 1276.6,
+      "conviction": 3.125,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Metals & Mining"
+    },
+    {
+      "rank": 4,
+      "symbol": "BRITANNIA.NS",
+      "close": 5517.5,
+      "entry": 5517.5,
+      "conviction": 3.0208,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Fast Moving Consumer Goods"
+    },
+    {
+      "rank": 5,
+      "symbol": "SBILIFE.NS",
+      "close": 1894.9,
+      "entry": 1894.9,
+      "conviction": 2.9375,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Financial Services"
+    }
+  ]
+}
