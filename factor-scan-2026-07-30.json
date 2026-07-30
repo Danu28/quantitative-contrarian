@@ -1,0 +1,83 @@
+{
+  "date": "2026-07-30",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": 0.59,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "SUNPHARMA.NS",
+      "close": 2001.1,
+      "entry": 2001.1,
+      "conviction": 3.4583,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Healthcare"
+    },
+    {
+      "rank": 2,
+      "symbol": "TITAN.NS",
+      "close": 4850.0,
+      "entry": 4850.0,
+      "conviction": 3.4167,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 3,
+      "symbol": "APOLLOHOSP.NS",
+      "close": 8988.0,
+      "entry": 8988.0,
+      "conviction": 3.0312,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Healthcare Services"
+    },
+    {
+      "rank": 4,
+      "symbol": "NESTLEIND.NS",
+      "close": 1520.7,
+      "entry": 1520.7,
+      "conviction": 3.0,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Fast Moving Consumer Goods"
+    },
+    {
+      "rank": 5,
+      "symbol": "EICHERMOT.NS",
+      "close": 7912.5,
+      "entry": 7912.5,
+      "conviction": 2.9688,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Automobile"
+    }
+  ]
+}
