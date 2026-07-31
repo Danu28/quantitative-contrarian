@@ -1,0 +1,83 @@
+{
+  "date": "2026-07-31",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": 0.46,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "TITAN.NS",
+      "close": 4875.2,
+      "entry": 4875.2,
+      "conviction": 3.6667,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 2,
+      "symbol": "DIVISLAB.NS",
+      "close": 8056.0,
+      "entry": 8056.0,
+      "conviction": 3.3542,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Healthcare"
+    },
+    {
+      "rank": 3,
+      "symbol": "BAJAJ-AUTO.NS",
+      "close": 11520.5,
+      "entry": 11520.5,
+      "conviction": 3.0833,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Automobile"
+    },
+    {
+      "rank": 4,
+      "symbol": "ULTRACEMCO.NS",
+      "close": 11903.0,
+      "entry": 11903.0,
+      "conviction": 2.875,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Construction Materials"
+    },
+    {
+      "rank": 5,
+      "symbol": "BRITANNIA.NS",
+      "close": 5416.5,
+      "entry": 5416.5,
+      "conviction": 2.8333,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Fast Moving Consumer Goods"
+    }
+  ]
+}
