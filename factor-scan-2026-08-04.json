@@ -1,0 +1,83 @@
+{
+  "date": "2026-08-04",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": 0.89,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "TITAN.NS",
+      "close": 4935.0,
+      "entry": 4935.0,
+      "conviction": 3.7604,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 2,
+      "symbol": "DIVISLAB.NS",
+      "close": 8378.0,
+      "entry": 8378.0,
+      "conviction": 3.2396,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Healthcare"
+    },
+    {
+      "rank": 3,
+      "symbol": "HEROMOTOCO.NS",
+      "close": 5548.0,
+      "entry": 5548.0,
+      "conviction": 3.1771,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Automobile"
+    },
+    {
+      "rank": 4,
+      "symbol": "JSWSTEEL.NS",
+      "close": 1300.0,
+      "entry": 1300.0,
+      "conviction": 3.0104,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Metals & Mining"
+    },
+    {
+      "rank": 5,
+      "symbol": "SBILIFE.NS",
+      "close": 1899.0,
+      "entry": 1899.0,
+      "conviction": 2.9688,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Financial Services"
+    }
+  ]
+}
