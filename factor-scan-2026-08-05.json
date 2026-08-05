@@ -1,0 +1,83 @@
+{
+  "date": "2026-08-05",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Bull",
+    "trend_20d": 3.11,
+    "action": "Skip or 1"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "JSWSTEEL.NS",
+      "close": 1330.0,
+      "entry": 1330.0,
+      "conviction": 3.4479,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Metals & Mining"
+    },
+    {
+      "rank": 2,
+      "symbol": "HEROMOTOCO.NS",
+      "close": 5690.0,
+      "entry": 5690.0,
+      "conviction": 3.2604,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Automobile"
+    },
+    {
+      "rank": 3,
+      "symbol": "TITAN.NS",
+      "close": 4912.4,
+      "entry": 4912.4,
+      "conviction": 3.1562,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 4,
+      "symbol": "ICICIBANK.NS",
+      "close": 1450.1,
+      "entry": 1450.1,
+      "conviction": 3.0104,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Financial Services"
+    },
+    {
+      "rank": 5,
+      "symbol": "BHARTIARTL.NS",
+      "close": 1978.0,
+      "entry": 1978.0,
+      "conviction": 2.9792,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Telecommunication"
+    }
+  ]
+}
