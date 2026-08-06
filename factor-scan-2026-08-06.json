@@ -1,0 +1,83 @@
+{
+  "date": "2026-08-06",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": 2.78,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "ULTRACEMCO.NS",
+      "close": 12075.0,
+      "entry": 12075.0,
+      "conviction": 3.2604,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Construction Materials"
+    },
+    {
+      "rank": 2,
+      "symbol": "TITAN.NS",
+      "close": 4998.0,
+      "entry": 4998.0,
+      "conviction": 3.2083,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 3,
+      "symbol": "JSWSTEEL.NS",
+      "close": 1307.9,
+      "entry": 1307.9,
+      "conviction": 3.1146,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Metals & Mining"
+    },
+    {
+      "rank": 4,
+      "symbol": "HEROMOTOCO.NS",
+      "close": 5611.0,
+      "entry": 5611.0,
+      "conviction": 3.0938,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Automobile"
+    },
+    {
+      "rank": 5,
+      "symbol": "ICICIBANK.NS",
+      "close": 1457.5,
+      "entry": 1457.5,
+      "conviction": 3.0417,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Financial Services"
+    }
+  ]
+}
