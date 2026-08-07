@@ -1,0 +1,83 @@
+{
+  "date": "2026-08-07",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": 1.5,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "SBIN.NS",
+      "close": 1097.2,
+      "entry": 1097.2,
+      "conviction": 3.125,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Financial Services"
+    },
+    {
+      "rank": 2,
+      "symbol": "HEROMOTOCO.NS",
+      "close": 5725.0,
+      "entry": 5725.0,
+      "conviction": 3.1042,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Automobile"
+    },
+    {
+      "rank": 3,
+      "symbol": "HINDALCO.NS",
+      "close": 1059.6,
+      "entry": 1059.6,
+      "conviction": 3.1042,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Metals & Mining"
+    },
+    {
+      "rank": 4,
+      "symbol": "ULTRACEMCO.NS",
+      "close": 12105.0,
+      "entry": 12105.0,
+      "conviction": 3.0833,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Construction Materials"
+    },
+    {
+      "rank": 5,
+      "symbol": "TITAN.NS",
+      "close": 4941.0,
+      "entry": 4941.0,
+      "conviction": 3.0208,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    }
+  ]
+}
