@@ -1,0 +1,83 @@
+{
+  "date": "2026-08-14",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": 0.13,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "BRITANNIA.NS",
+      "close": 5558.0,
+      "entry": 5558.0,
+      "conviction": 3.3021,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Fast Moving Consumer Goods"
+    },
+    {
+      "rank": 2,
+      "symbol": "TITAN.NS",
+      "close": 5056.2,
+      "entry": 5056.2,
+      "conviction": 3.2188,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 3,
+      "symbol": "EICHERMOT.NS",
+      "close": 8066.5,
+      "entry": 8066.5,
+      "conviction": 3.1458,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Automobile"
+    },
+    {
+      "rank": 4,
+      "symbol": "BHARTIARTL.NS",
+      "close": 1992.1,
+      "entry": 1992.1,
+      "conviction": 3.125,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Telecommunication"
+    },
+    {
+      "rank": 5,
+      "symbol": "LT.NS",
+      "close": 4057.0,
+      "entry": 4057.0,
+      "conviction": 3.0833,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Construction"
+    }
+  ]
+}
