@@ -1,0 +1,83 @@
+{
+  "date": "2026-08-17",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": 0.2,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "LT.NS",
+      "close": 4086.7,
+      "entry": 4086.7,
+      "conviction": 3.3125,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Construction"
+    },
+    {
+      "rank": 2,
+      "symbol": "TITAN.NS",
+      "close": 5068.5,
+      "entry": 5068.5,
+      "conviction": 3.2396,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 3,
+      "symbol": "EICHERMOT.NS",
+      "close": 8050.0,
+      "entry": 8050.0,
+      "conviction": 3.1667,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Automobile"
+    },
+    {
+      "rank": 4,
+      "symbol": "KOTAKBANK.NS",
+      "close": 392.7,
+      "entry": 392.7,
+      "conviction": 3.1562,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Financial Services"
+    },
+    {
+      "rank": 5,
+      "symbol": "BRITANNIA.NS",
+      "close": 5521.0,
+      "entry": 5521.0,
+      "conviction": 3.0625,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Fast Moving Consumer Goods"
+    }
+  ]
+}
