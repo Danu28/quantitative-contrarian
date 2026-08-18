@@ -1,0 +1,83 @@
+{
+  "date": "2026-08-18",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": 0.32,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "LT.NS",
+      "close": 4064.3,
+      "entry": 4064.3,
+      "conviction": 3.3333,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Construction"
+    },
+    {
+      "rank": 2,
+      "symbol": "TITAN.NS",
+      "close": 5048.6,
+      "entry": 5048.6,
+      "conviction": 3.2708,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 3,
+      "symbol": "BRITANNIA.NS",
+      "close": 5495.0,
+      "entry": 5495.0,
+      "conviction": 3.1771,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Fast Moving Consumer Goods"
+    },
+    {
+      "rank": 4,
+      "symbol": "HEROMOTOCO.NS",
+      "close": 5745.5,
+      "entry": 5745.5,
+      "conviction": 3.1354,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Automobile"
+    },
+    {
+      "rank": 5,
+      "symbol": "DIVISLAB.NS",
+      "close": 8588.0,
+      "entry": 8588.0,
+      "conviction": 2.9688,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Healthcare"
+    }
+  ]
+}
