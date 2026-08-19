@@ -1,0 +1,83 @@
+{
+  "date": "2026-08-19",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": -1.05,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "TITAN.NS",
+      "close": 5068.0,
+      "entry": 5068.0,
+      "conviction": 3.2292,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 2,
+      "symbol": "LT.NS",
+      "close": 4041.3,
+      "entry": 4041.3,
+      "conviction": 3.1875,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Construction"
+    },
+    {
+      "rank": 3,
+      "symbol": "BRITANNIA.NS",
+      "close": 5453.0,
+      "entry": 5453.0,
+      "conviction": 3.1146,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Fast Moving Consumer Goods"
+    },
+    {
+      "rank": 4,
+      "symbol": "HEROMOTOCO.NS",
+      "close": 5709.5,
+      "entry": 5709.5,
+      "conviction": 3.1042,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Automobile"
+    },
+    {
+      "rank": 5,
+      "symbol": "KOTAKBANK.NS",
+      "close": 390.25,
+      "entry": 390.25,
+      "conviction": 3.0208,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Financial Services"
+    }
+  ]
+}
