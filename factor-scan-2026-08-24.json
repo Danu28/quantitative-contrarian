@@ -1,0 +1,83 @@
+{
+  "date": "2026-08-24",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": 0.93,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "KOTAKBANK.NS",
+      "close": 401.45,
+      "entry": 401.45,
+      "conviction": 3.5417,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Financial Services"
+    },
+    {
+      "rank": 2,
+      "symbol": "LT.NS",
+      "close": 4090.0,
+      "entry": 4090.0,
+      "conviction": 3.2396,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Construction"
+    },
+    {
+      "rank": 3,
+      "symbol": "TITAN.NS",
+      "close": 5079.0,
+      "entry": 5079.0,
+      "conviction": 3.1979,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 4,
+      "symbol": "EICHERMOT.NS",
+      "close": 8047.0,
+      "entry": 8047.0,
+      "conviction": 3.0104,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Automobile"
+    },
+    {
+      "rank": 5,
+      "symbol": "HINDALCO.NS",
+      "close": 1058.5,
+      "entry": 1058.5,
+      "conviction": 2.9062,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Metals & Mining"
+    }
+  ]
+}
