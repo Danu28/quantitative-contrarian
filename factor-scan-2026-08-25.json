@@ -1,0 +1,83 @@
+{
+  "date": "2026-08-25",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": 1.46,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "KOTAKBANK.NS",
+      "close": 401.6,
+      "entry": 401.6,
+      "conviction": 3.4167,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Financial Services"
+    },
+    {
+      "rank": 2,
+      "symbol": "BEL.NS",
+      "close": 413.25,
+      "entry": 413.25,
+      "conviction": 3.2812,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Industrials"
+    },
+    {
+      "rank": 3,
+      "symbol": "TITAN.NS",
+      "close": 5124.8,
+      "entry": 5124.8,
+      "conviction": 3.1875,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 4,
+      "symbol": "LT.NS",
+      "close": 4119.0,
+      "entry": 4119.0,
+      "conviction": 3.1667,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Construction"
+    },
+    {
+      "rank": 5,
+      "symbol": "DIVISLAB.NS",
+      "close": 8744.5,
+      "entry": 8744.5,
+      "conviction": 3.0104,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Healthcare"
+    }
+  ]
+}
