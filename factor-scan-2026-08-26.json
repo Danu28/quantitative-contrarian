@@ -1,0 +1,83 @@
+{
+  "date": "2026-08-26",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Unknown",
+    "trend_20d": 0,
+    "action": "Unknown"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "KOTAKBANK.NS",
+      "close": 416.7,
+      "entry": 416.7,
+      "conviction": 3.0049,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Financial Services"
+    },
+    {
+      "rank": 2,
+      "symbol": "TITAN.NS",
+      "close": 5100.0,
+      "entry": 5100.0,
+      "conviction": 2.799,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 3,
+      "symbol": "BEL.NS",
+      "close": 406.9,
+      "entry": 406.9,
+      "conviction": 2.7896,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Industrials"
+    },
+    {
+      "rank": 4,
+      "symbol": "JSWSTEEL.NS",
+      "close": 1341.0,
+      "entry": 1341.0,
+      "conviction": 2.7241,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Metals & Mining"
+    },
+    {
+      "rank": 5,
+      "symbol": "DIVISLAB.NS",
+      "close": 9025.0,
+      "entry": 9025.0,
+      "conviction": 2.7054,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Healthcare"
+    }
+  ]
+}
