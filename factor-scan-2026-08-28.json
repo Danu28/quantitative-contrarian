@@ -1,0 +1,12 @@
+{
+  "date": "2026-08-28",
+  "strategy": "factor",
+  "signal_count": 0,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": -0.93,
+    "action": "Full deploy"
+  },
+  "signals": []
+}
