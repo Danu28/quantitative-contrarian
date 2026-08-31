@@ -1,0 +1,83 @@
+{
+  "date": "2026-08-31",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": -2.8,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "AXISBANK.NS",
+      "close": 1300.0,
+      "entry": 1300.0,
+      "conviction": 1.2773,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Financial Services"
+    },
+    {
+      "rank": 2,
+      "symbol": "TITAN.NS",
+      "close": 5102.4,
+      "entry": 5102.4,
+      "conviction": 1.2614,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 3,
+      "symbol": "BAJAJ-AUTO.NS",
+      "close": 12130.0,
+      "entry": 12130.0,
+      "conviction": 1.2376,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Automobile"
+    },
+    {
+      "rank": 4,
+      "symbol": "BEL.NS",
+      "close": 414.45,
+      "entry": 414.45,
+      "conviction": 1.2337,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Industrials"
+    },
+    {
+      "rank": 5,
+      "symbol": "DIVISLAB.NS",
+      "close": 9467.0,
+      "entry": 9467.0,
+      "conviction": 1.198,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Healthcare"
+    }
+  ]
+}
