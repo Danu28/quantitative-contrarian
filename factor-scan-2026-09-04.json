@@ -1,0 +1,83 @@
+{
+  "date": "2026-09-04",
+  "strategy": "factor",
+  "signal_count": 5,
+  "max_positions": 10,
+  "regime": {
+    "trend_label": "Sideways",
+    "trend_20d": -2.74,
+    "action": "Full deploy"
+  },
+  "signals": [
+    {
+      "rank": 1,
+      "symbol": "TITAN.NS",
+      "close": 5020.0,
+      "entry": 5020.0,
+      "conviction": 1.8124,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Consumer Goods"
+    },
+    {
+      "rank": 2,
+      "symbol": "KOTAKBANK.NS",
+      "close": 424.5,
+      "entry": 424.5,
+      "conviction": 1.7959,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Financial Services"
+    },
+    {
+      "rank": 3,
+      "symbol": "BAJAJ-AUTO.NS",
+      "close": 11919.0,
+      "entry": 11919.0,
+      "conviction": 1.7406,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Automobile"
+    },
+    {
+      "rank": 4,
+      "symbol": "COALINDIA.NS",
+      "close": 415.35,
+      "entry": 415.35,
+      "conviction": 1.724,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Energy"
+    },
+    {
+      "rank": 5,
+      "symbol": "BEL.NS",
+      "close": 405.35,
+      "entry": 405.35,
+      "conviction": 1.6577,
+      "momentum_pct": 0.0,
+      "target1": 0,
+      "target2": 0,
+      "hard_stop": 0,
+      "trail_trigger": 0,
+      "trail_stop": 0,
+      "sector": "Industrials"
+    }
+  ]
+}
